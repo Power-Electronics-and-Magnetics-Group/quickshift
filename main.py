@@ -40,14 +40,23 @@ for x in serieslist:
         break
 
 
-for x in range(1,N):
+for x in range(1,N+1):
+     z = N
      A[j][x-1] = -1
-     f = j
-     A[j][int((x*3)-2)]=2
-     A[j][int((x*3)-1)]=2
+     A[j][z+2*(x-1)]=2 # A[j][z+2*x-2]
+     A[j][z+2*(x-1)+1]=2 #A[j][z+2*x-1]
      j=j+1
 
-    
+
+A[j][N] = 1
+j=j+1
+
+for x in range(0,N-1):
+    A[j][N+2*x+1]=1
+    A[j][N+2*x+2]=1
+    j=j+1
+A[j][3*N-1]=1
+
 # test at the end 
 #print(A)
 
