@@ -26,9 +26,15 @@ while 1:
         print("Out of bounds with range, layer not counted; please enter another value")
     else:
         serieslist.append(x)
-print(serieslist)
+#print(serieslist)
 serieslist.sort()
 
+parallelList = list(range(1,N+1))
+for i in serieslist:
+	if i in parallelList:
+		parallelList.remove(i)
+
+#print(parallelList)
 S = len(serieslist)
 P = N - S
 # series identities == all equal to I_p
@@ -56,15 +62,21 @@ for x in range(0,N-1):
     A[j][N+2*x+2]=1
     j=j+1
 A[j][3*N-1]=1
+j=j+1
 
-# test at the end 
-#print(A)
+for x in range(0,P-1):
+	for k in range(0,parallelList[x]):
+		A[j][k] = k + 1
+	A[j][N + 2*parallelList[x] - 1] = 5
+	A[j][N + 2*parallelList[x+1] - 2] = 5
+	j=j+1
+
 
 df = pd.DataFrame (A)
 
 ## save to xlsx file
 
-filepath = 'table.xlsx'
+filepath = 'table.csv'
 
-df.to_excel(filepath, index=False)
+df.to_csv(filepath, index=False)
 
