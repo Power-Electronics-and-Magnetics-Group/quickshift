@@ -10,12 +10,13 @@ np.set_printoptions(threshold=np.inf)
 # S = series layers
 # P = parallel layers
 # x = iteration variable 
-
+b,d,f=sp.symbols("b,d,f")
 x=1
 N = int(input('Enter the amount of TOTAL LAYERS your transformer has: '))
 if(N==0):
     quit()
 A=np.zeros((int(3*N),int(3*N)))
+SM=sp.Matrix(A)
 serieslist = []
 
 while 1:
@@ -30,9 +31,9 @@ while 1:
 #print(serieslist)
 serieslist.sort()
 
-b = float(input('Layer width in cm:'))/100; 
-f = float(input('Operating frequency in MHz:'))/1000000
-d = 2/((2*math.pi*f)*(4*math.pi*math.pow(10,-7))*(1.68*math.pow(10,-8)));
+#b = float(input('Layer width in cm:'))/100; 
+#f = float(input('Operating frequency in MHz:'))/1000000
+#d = 2/((2*math.pi*f)*(4*math.pi*math.pow(10,-7))*(1.68*math.pow(10,-8)));
 
 parallelList = list(range(1,N+1))
 for i in serieslist:
@@ -45,7 +46,7 @@ P = N - S
 # series identities == all equal to I_p
 j = 0
 for x in serieslist:
-    A[j][x] = 1
+    SM[j,x] = 1
     j=j+1
     if j > S: 
         break
@@ -53,35 +54,41 @@ for x in serieslist:
 
 for x in range(1,N+1):
      z = N
-     A[j][x-1] = -1
-     A[j][z+2*(x-1)]=b # A[j][z+2*x-2]
-     A[j][z+2*(x-1)+1]=b #A[j][z+2*x-1]
+     SM[j,x-1] = -1
+     SM[j,z+2*(x-1)]=b # A[j][z+2*x-2]
+     SM[j,z+2*(x-1)+1]=b #A[j][z+2*x-1]
      j=j+1
 
 
-A[j][N] = 1
+SM[j,N] = 1
 j=j+1
 
 for x in range(0,N-1):
-    A[j][N+2*x+1]=1
-    A[j][N+2*x+2]=1
+    SM[j,N+2*x+1]=1
+    SM[j,N+2*x+2]=1
     j=j+1
-A[j][3*N-1]=1
+SM[j,3*N-1]=1
 j=j+1
 
 for x in range(0,P-1):
     for k in range(0,parallelList[x]):
-        A[j][k] = k + 1
-    A[j][N + 2*parallelList[x] - 1] = d/2
-    A[j][N + 2*parallelList[x+1] - 2] = -d/2
+        SM[j,k] = k + 1
+    SM[j,N + 2*parallelList[x] - 1] = d/2
+    SM[j,N + 2*parallelList[x+1] - 2] = -d/2
     j=j+1
 
+var_b = float(input('Layer width in cm:'))/100; 
+var_f = float(input('Operating frequency in MHz:'))*1000000
+var_d = 2/((2*math.pi*f)*(4*math.pi*math.pow(10,-7))*(1.68*math.pow(10,-8)))
 
-df = pd.DataFrame (A)
+SM.subs(b, var_b)
+SM.subs(d, var_d)
+sp.pprint(SM)
+
+#df = pd.DataFrame (A)
 
 ## save to xlsx file
 
-filepath = 'table.csv'
+#filepath = 'table.csv'
 
-df.to_csv(filepath, index=False)
-
+#df.to_csv(filepath, index=False)
