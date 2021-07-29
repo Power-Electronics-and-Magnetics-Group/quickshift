@@ -27,7 +27,7 @@ R_distances = [0] * numR #empty list in case you want to solve symbolic
 #	R_distances[j] = int(input('Enter the distance between layers %d and %d (in mm):' % (j+1, j+2)))
 
 serieslist = []
-
+"""
 B=sp.zeros(int(3*N),int(1))
 I = sp.symbols('I1:%d'%(N+1))
 Kt = sp.symbols('Kt1:%d'%(N+1))
@@ -45,7 +45,7 @@ x=z
 for t in Kb:
     B[x,0] = t
     x+=2
-
+"""
 while 1:
 	x = int(input('Enter, one by one, a series of layer #\'s that are in series: (sentinel is 0)'))
 	if(x==0): break
@@ -119,12 +119,16 @@ C = sp.zeros(int(3*N),1)
 for x in parallelList:
     C[z,0] = Ip
     z+=1
-sp.pprint(SM)
-sp.pprint(B)
+#sp.pprint(SM)
+#sp.pprint(B)
 
-SM.subs(b, var_b)
-SM.subs(d, var_d)
+#SM.subs(b, var_b)
+#SM.subs(d, var_d)
 
+
+M=sp.linsolve((SM,C))
+X=sp.simplify(M.subs(d,0))
+print(X)
 #df = pd.DataFrame (A)
 
 ## save to xlsx file
