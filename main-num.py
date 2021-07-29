@@ -30,9 +30,9 @@ while 1:
 		print("Out of bounds with range, layer not counted; please enter another value")
 	else:
 		serieslist.append(x)
-
+"""
 B=np.zeros((int(3*N),int(1)))
-
+"""
 
 b = float(input('Layer width in cm:'))/100
 f = float(input('Operating frequency in MHz:'))*1000000
@@ -96,14 +96,17 @@ for x in range(0,P-1):
 	A[j,N + 2*parallelList[x+1] - 2] = -d/2
 	j=j+1
 
-Ip = sp.symbols('Ip')
-
-C = sp.zeros(int(3*N),1)
+Ip = float(input("Enter the parallel current, in A: "))
+z=0
+C = np.zeros((int(3*N),1))
 for x in parallelList:
     C[z,0] = Ip
     z+=1
 
-print(A)
+#print(A)
+#print(C)
+M = np.linalg.solve(np.matrix(A),np.matrix(C))
+print(M)
 df = pd.DataFrame (A)
 
 # save to xlsx file

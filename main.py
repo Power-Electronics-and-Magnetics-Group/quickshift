@@ -20,6 +20,7 @@ if(N==0):
 SM=sp.zeros(int(3*N),int(3*N))
 serieslist = []
 
+"""
 B=sp.zeros(int(3*N),int(1))
 I = sp.symbols('I1:%d'%(N+1))
 Kt = sp.symbols('Kt1:%d'%(N+1))
@@ -37,6 +38,7 @@ x=z
 for t in Kb:
     B[x,0] = t
     x+=2
+"""
 
 while 1:
 	x = int(input('Enter, one by one, a series of layer #\'s that are in series: (sentinel is 0)'))
@@ -114,11 +116,15 @@ for x in parallelList:
     C[z,0] = Ip
     z+=1
 sp.pprint(SM)
-sp.pprint(B)
+#sp.pprint(B)
+sp.pprint(C)
+
+M = sp.linsolve((sp.Matrix(SM),sp.Matrix(C)))
+X = sp.simplify(M.subs(d,0))
+print(X)
 
 SM.subs(b, var_b)
 SM.subs(d, var_d)
-
 #df = pd.DataFrame (A)
 
 ## save to xlsx file
