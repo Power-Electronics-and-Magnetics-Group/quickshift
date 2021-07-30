@@ -4,6 +4,16 @@ import pandas as pd
 import math
 np.set_printoptions(threshold=np.inf)
 
+"""
+
+    This case assumes all layer spacing is even (homogeneous by one symbol 'r').
+    Accepts the following parameters:
+        N = number of layers
+        sl = list-type collection of layer #'s in series with each other. 
+    Returns a tuple (immutable collection) of symbolic 3*N expressions. 
+
+"""
+
 def current_sharing(N, sl):
     b,d,l,r = sp.symbols('b,d,l,r')
     if (N==0): quit()

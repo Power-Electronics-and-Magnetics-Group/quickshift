@@ -3,6 +3,20 @@ import sympy as sp
 import pandas as pd
 import math
 
+"""
+
+Accepts the following parameters, all in standard units:
+    N = number of layers
+   sl = a list-type collection of layer #'s in series with each other
+    b = Layer width (in m)
+    f = Operating frequency (in Hz)
+    l = Turn length (in m)
+    r = Layer spacing (in m) -- assumption that all layers are evenly spaced by one value.
+    Ip = parallel current in (A)
+ Returns a list of 3*N elements, where N is the number of layers.
+
+"""
+
 def current_sharing(N, sl, b, f, l, r, Ip):
     d = 2/((2*math.pi*f)*(4*math.pi*pow(10,-7))*(1.68*math.pow(10,-8)))
     if (N == 0): quit()

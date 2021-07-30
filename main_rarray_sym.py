@@ -4,6 +4,14 @@ import pandas as pd
 import math
 np.set_printoptions(threshold=np.inf)
 
+"""
+    This case makes no assumptions on the layer spacing between each pair of layers. 
+    Accepts the following parameters:
+        N = number of layers
+       sl = list-type collection of layer #'s in series with each other.
+    Returns a tuple (immutable collection) of 3*N symbolic expressions.
+
+"""
 def current_sharing(N, sl):
     b,d,l,r = sp.symbols('b,d,l,r')
     if (N==0): quit()
