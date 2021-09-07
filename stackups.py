@@ -13,6 +13,8 @@ from scipy.special import comb
 
 def subset(array, num):
     return list(combinations(array,num))
+
+
 def stackups(N, turnsRatio):
     possibilities = int(comb(N,turnsRatio))
     layerList = list(range(1,N+1))
@@ -32,4 +34,17 @@ def stackups(N, turnsRatio):
     stackup_hash = {tuple(key): tuple(value) for key, value in zip(tuple(seriesList),tuple(parallelList))}  
     return stackup_hash
 
-pprint.pprint(stackups(8,3))
+
+def returnSeriesList(stackupTable,n):
+    seriesLists = list(stackupTable.keys())
+    return seriesLists[n]
+
+def returnParallelList(stackupTable,key):
+    return stackupTable[key]
+
+def returnSeriesParallelPair(stackupTable,n):
+    series = returnSeriesList(stackupTable,n)
+    parallel = returnParallelList(stackupTable,series)
+    return [series,parallel]
+
+print(returnSeriesParallelPair(stackups(8,3),0))
