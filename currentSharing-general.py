@@ -3,7 +3,7 @@ import sympy as sp
 import pandas as pd
 import math
 
-def current_sharing_numeric(N, pl, sl, b, f, l, r, Ip = 1):
+def current_sharing_numeric(N, pl, sl, b, f, l, r, N_turns = 1, Ip = 1):
     '''
     Evaluates current sharing within the specified layer structure & dimensions.
 
@@ -11,29 +11,24 @@ def current_sharing_numeric(N, pl, sl, b, f, l, r, Ip = 1):
     -----------
     N : int
         Total layer number.
-
     pl : list
         A valid layer list representing the primary winding.
-
     sl : list
         A valid layer list representing the secondary winding. Elements in the sl should not be in the pl.
-
     b : float
         Layer width (m)
-
     f : int
         Operating frequency (Hz)
-
     l : float
         Turn length (m)
-
     r : float or float list
         Distances between layers (m). Can either be a single value (in which case distances are assumed to be the 
         same) or a list of floats with N-1 entries.
-
-
     Ip : float
         Primary current value (A). If it is not specified, will be set to 1.
+    N_turns : int list
+        Number of turns of each layer. Should have N entries. If not specified, all layers will be assumed to
+        have 1 layer each.
 
     Returns:
     --------
@@ -42,10 +37,6 @@ def current_sharing_numeric(N, pl, sl, b, f, l, r, Ip = 1):
         next 2*N entries representing the surface current densities in each layer (starting from the top
         of the structure and moving down).
     '''
-
-
-    #b,d,l,r = sp.symbols('b,d,l,r')
-
     #calculate skin depth
     d = 2*(1.68*math.pow(10,-8))/((2*math.pi*f)*(4*math.pi*pow(10,-7)))
     bOverL = b/l
@@ -53,16 +44,19 @@ def current_sharing_numeric(N, pl, sl, b, f, l, r, Ip = 1):
     if (N == 0): return 0
     if (valid_layer_list(sl,N) == 0): raise ValueError('Not a valid layer list.')
 
+    if (N_turns == 1): N_turns = [1] * (N)
+    if (len(N_turns) != (N)): raise ValueError('Not a valid turn count list.')
+
     #Current relationships based on structure
     SM = sp.Matrix([primary_current_identity(pl, N)])
-    SM = SM.col_join(sp.Matrix(traverse_layer_list(pl, N, d, bOverL, r,[])))
-    SM = SM.col_join(sp.Matrix(traverse_layer_list(sl, N, d, bOverL, r,[])))
+    SM = SM.col_join(sp.Matrix(traverse_layer_list(pl, N, d, bOverL, r, N_turns, [])))
+    SM = SM.col_join(sp.Matrix(traverse_layer_list(sl, N, d, bOverL, r, N_turns, [])))
 
     #Layer level current identities
     KSummation = sp.zeros(N,3*N)
     
     for i in range(0,N):
-        KSummation[i,i] = -1
+        KSummation[i,i] = -1 * N_turns[i]
         KSummation[i, N + 2*i] = b
         KSummation[i, N + (2*i) + 1] = b
     SM = SM.col_join(KSummation)
@@ -77,7 +71,6 @@ def current_sharing_numeric(N, pl, sl, b, f, l, r, Ip = 1):
     SM = SM.col_join(AmperianLoops)
 
     #Generate the LHS of the equality.
-    Ip = sp.symbols('Ip')
     C = sp.zeros(int(3*N),1)
     C[0] = Ip
 
@@ -87,7 +80,7 @@ def current_sharing_numeric(N, pl, sl, b, f, l, r, Ip = 1):
     
     return X
 
-def current_sharing_symbolic(N, pl, sl, distanceFlag = 0):
+def current_sharing_symbolic(N, pl, sl, N_turns = 1,  distanceFlag = 0):
     '''
     Evaluates current sharing within the specified layer structure & dimensions.
 
@@ -95,13 +88,13 @@ def current_sharing_symbolic(N, pl, sl, distanceFlag = 0):
     -----------
     N : int
         Total layer number.
-
     pl : list
         A valid layer list representing the primary winding.
-
     sl : list
         A valid layer list representing the secondary winding. Elements in the sl should not be in the pl.
-
+    N_turns : int list
+        Number of turns of each layer. Should have N entries. If not specified, all layers will be assumed to
+        have 1 layer each.
     distanceFlag: bool
         0 if all interlayer distances should be treated as the same. 1 otherwise.
 
@@ -119,17 +112,19 @@ def current_sharing_symbolic(N, pl, sl, distanceFlag = 0):
     else:
         r = [sp.symbols('r%d' % i) for i in range(N-1)] #symbolic list
 
-    #calculate skin depth
-    #d = 2*(1.68*math.pow(10,-8))/((2*math.pi*f)*(4*math.pi*pow(10,-7)))
     bOverL = b/l
+
     #input validation
     if (N == 0): return 0
     if (valid_layer_list(sl,N) == 0): raise ValueError('Not a valid layer list.')
 
+    if (N_turns == 1): N_turns = [1] * (N)
+    if (len(N_turns) != (N)): raise ValueError('Not a valid turn count list.')
+
     #Current relationships based on structure
     SM = sp.Matrix([primary_current_identity(pl, N)])
-    SM = SM.col_join(sp.Matrix(traverse_layer_list(pl, N, d, bOverL, r,[])))
-    SM = SM.col_join(sp.Matrix(traverse_layer_list(sl, N, d, bOverL, r,[])))
+    SM = SM.col_join(sp.Matrix(traverse_layer_list(pl, N, d, bOverL, r, N_turns, [])))
+    SM = SM.col_join(sp.Matrix(traverse_layer_list(sl, N, d, bOverL, r, N_turns, [])))
 
     #Layer level current identities
     KSummation = sp.zeros(N,3*N)
@@ -168,7 +163,6 @@ def valid_layer_list(node, N):
     -----------
     node : int or list
         A potential layer list.
-
     N : int
         Total number of layers.
 
@@ -202,7 +196,6 @@ def primary_current_identity(node, N):
     -----------
     node : int or list
         A valid layer list or layer number.
-
     N : int
         Total number of layers
 
@@ -218,7 +211,7 @@ def primary_current_identity(node, N):
         identity[j-1] = 1
     return identity
 
-def traverse_layer_list(node, N, d, bOverL, R, array):
+def traverse_layer_list(node, N, d, bOverL, R, N_turns, array):
     '''
     Returns a list of lists, with each inner list representing either a Faraday loop between paralleled layers
     or a series current identity between series connected layers.
@@ -227,20 +220,18 @@ def traverse_layer_list(node, N, d, bOverL, R, array):
     -----------
     node : int or list
         A valid layer list or layer number.
-
     N : int
         Total number of layers.
-
     d : float
-        Skin depth
-
+          Skin depth
     bOverL : float
         Ratio of layer width to turn length.
-
     R : float or float list
         Distances between layers. Can either be a single value (in which case distances are assumed to be the 
         same) or a list of floats with N-1 entries.
-
+    N_turns : int list
+        Number of turns of each layer. Should have N entries. If not specified, all layers will be assumed to
+        have 1 layer each.
     array : list
         Top level calls should pass in an empty list.
 
@@ -257,15 +248,15 @@ def traverse_layer_list(node, N, d, bOverL, R, array):
         a = I_node(node[1],[])
         b = I_node(node[2],[])
         array.append(series_equation(a,b,N))
-        traverse_layer_list(node[1], N, d, bOverL, R, array)
-        traverse_layer_list(node[2], N, d, bOverL, R, array)
+        traverse_layer_list(node[1], N, d, bOverL, R, N_turns, array)
+        traverse_layer_list(node[2], N, d, bOverL, R, N_turns, array)
         return array
     elif node[0] == 'p': #Parallel connected node.
         a = node_contains(node[1])
         b = node_contains(node[2])
-        array.append(faraday_equation(a,b,N,d,bOverL, R))
-        traverse_layer_list(node[1], N, d, bOverL, R, array)
-        traverse_layer_list(node[2], N, d, bOverL, R, array)
+        array.append(faraday_equation(a,b,N,d,bOverL, N_turns, R))
+        traverse_layer_list(node[1], N, d, bOverL, R, N_turns, array)
+        traverse_layer_list(node[2], N, d, bOverL, R, N_turns, array)
         return array
     else: return 0
 
@@ -277,7 +268,6 @@ def I_node(node, array):
     -----------
     node : int or list
         A valid layer list or layer number.
-
     array : list
         Top level calls of this function should pass an empty list.
 
@@ -356,7 +346,7 @@ def series_equation(a,b,N):
     return series
 
 
-def faraday_equation(a,b,N,d, bOverL, r=1):
+def faraday_equation(a,b,N,d, bOverL, N_turns, r=1):
     '''
     Generates a list representing a Faraday Loop taken between layer numbers a and b.
 
@@ -375,6 +365,9 @@ def faraday_equation(a,b,N,d, bOverL, r=1):
     r : float or float list
         Distances between layers. Can either be a single value (in which case distances are assumed to be the 
         same) or a list of floats with N-1 entries.
+    N_turns : int list
+        Number of turns of each layer. Should have N entries. If not specified, all layers will be assumed to
+        have 1 layer each.
 
     Returns:
     --------
@@ -402,11 +395,12 @@ def faraday_equation(a,b,N,d, bOverL, r=1):
         val = 0
         for j in range(max(a-1,i),b-1):
             val = val + r[j]
-        faraday[i] = val*bOverL
+        faraday[i] = val*bOverL*N_turns[i]
     
     faraday[N + a*2 - 1] = d/2
     faraday[N + b*2 - 2] = -d/2
     return faraday
+#(N, pl, sl, b, f, l, r, N_turns = 1, Ip = 1)
+print(current_sharing_numeric(8, ['s',2,['s', 3, ['s', 4, 7]]], ['p', 1, ['p', 5, ['p', 6, 8]]], .02, 1000000, .2, .001, [2,1,1,1,1,1,1,1]))
 
-#print(current_sharing_numeric(8, ['s',2,['s', 3, ['s', 4, 7]]], ['p', 1, ['p', 5, ['p', 6, 8]]], 80,23,48,89,90))
-print(current_sharing_symbolic(8, ['s',2,['s', 3, ['s', 4, 7]]], ['p', 1, ['p', 5, ['p', 6, 8]]],1))
+print(current_sharing_symbolic(8, ['s',2,['s', 3, ['s', 4, 7]]], ['p', 1, ['p', 5, ['p', 6, 8]]],[2,1,1,1,1,1,1,1]))
