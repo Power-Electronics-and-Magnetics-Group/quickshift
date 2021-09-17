@@ -401,6 +401,6 @@ def faraday_equation(a,b,N,d, bOverL, N_turns, r=1):
     faraday[N + b*2 - 2] = -d/2
     return faraday
 #(N, pl, sl, b, f, l, r, N_turns = 1, Ip = 1)
-print(current_sharing_numeric(8, ['s',2,['s', 3, ['s', 4, 7]]], ['p', 1, ['p', 5, ['p', 6, 8]]], .02, 1000000, .2, .001, [2,1,1,1,1,1,1,1]))
+print(current_sharing_numeric(8, ['s',2,['s', 3, ['s', 4, 7]]], ['p', 1, ['p', 5, ['p', 6, 8]]], .02, 1000000, .2, .001))
 
-print(current_sharing_symbolic(8, ['s',2,['s', 3, ['s', 4, 7]]], ['p', 1, ['p', 5, ['p', 6, 8]]],[2,1,1,1,1,1,1,1]))
+print(current_sharing_symbolic(8, ['s',2,['s', 3, ['s', 4, 7]]], ['p', 1, ['p', 5, ['p', 6, 8]]]))
