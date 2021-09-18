@@ -1,20 +1,23 @@
 demarcators = ['s','p']
-def func(listKind,value,seriesFlag,parallelFlag):
-
-    x = []
-    z = value
-    while (z < len(listKind)-1):
+def func(listKind,seriesFlag,parallelFlag):
+        x = []
+        z = 0
         if(seriesFlag):
-            x.append(demarcators[parallelFlag])
-            x.append(listKind[value])
-            z+=1
-            x.append(func(listKind,z,1,0))
-            print(x)
+            if(len(listKind)==2):
+                x.append(demarcators[0])
+                x.append(listKind[0])
+                x.append(listKind[1])
+                return x
+            else:
+                z+=1
+                x.append(func(listKind[z:],1,0))
         elif(parallelFlag):
-            x.append(demarcators[parallelFlag])
-            x.append(listKind[value])
-            z+=1
-            x.append(func(listKind,z,0,1))
-            print(x)
-    return(x)
-print(func([1,2,3,4],0,1,0))
+            if(len(listKind)==2):
+                x.append(demarcators[1])
+                x.append(listKind[0])
+                x.append(listKind[1])
+                return x
+            else:
+                z+=1
+                x.append(func(listKind[z:],0,1)
+func([1,2],1,0)
