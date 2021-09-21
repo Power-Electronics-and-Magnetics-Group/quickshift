@@ -18,15 +18,21 @@ def stackups(N, turnsRatio):
 
 	#Generate valid turn pairs. 
 	pairs = turnPairs(N, turnsRatio)
-
+	#rint(pairs)
 	stackupList =[]
 	for pair in pairs:
+		#print(pair)
 		primaryLayers = layerAssignments(N,pair)
+		#print(primaryLayers)
 		for pL in primaryLayers:
 			sL = tuple(set(layers).difference(pL))
-			primaryConnection = layerConnections(pL, pair(0))
-			secondaryConnection = layerConnections
-			stackupList.append((primaryConnection,secondaryConnection))
+			primaryConnection = layerConnections(pL, pair[0])
+			secondaryConnection = layerConnections(sL, pair[1])
+			if (secondaryConnection[0] != 's' and secondaryConnection[0] != 'p'):
+				for connect in secondaryConnection:
+					stackupList.append((primaryConnection,connect))
+			else: 
+				stackupList.append((primaryConnection,secondaryConnection))
 
 	return stackupList
 
@@ -103,4 +109,4 @@ def parallelConnect(layers):
 #print(turnPairs(12,1.5))
 #print(layerAssignments(5,[2,3]))
 #print(layerConnections([2,3,4],3))
-print(layerConnections([1,2,3,4,5],4))
+#print(layerConnections([1,2,3,4,5],4))

@@ -42,6 +42,7 @@ def current_sharing_numeric(N, pl, sl, b, f, l, r, N_turns = 1, Ip = 1):
     bOverL = b/l
     #input validation
     if (N == 0): return 0
+
     if (valid_layer_list(sl,N) == 0): raise ValueError('Not a valid layer list.')
 
     if (N_turns == 1): N_turns = [1] * (N)
@@ -49,8 +50,10 @@ def current_sharing_numeric(N, pl, sl, b, f, l, r, N_turns = 1, Ip = 1):
 
     #Current relationships based on structure
     SM = sp.Matrix([primary_current_identity(pl, N)])
-    SM = SM.col_join(sp.Matrix(traverse_layer_list(pl, N, d, bOverL, r, N_turns, [])))
-    SM = SM.col_join(sp.Matrix(traverse_layer_list(sl, N, d, bOverL, r, N_turns, [])))
+    primaryEquations = traverse_layer_list(pl, N, d, bOverL, r, N_turns, [])
+    if (primaryEquations != None): SM = SM.col_join(sp.Matrix(primaryEquations))
+    secondaryEquations = traverse_layer_list(sl, N, d, bOverL, r, N_turns, [])
+    if (secondaryEquations != None): SM = SM.col_join(sp.Matrix(secondaryEquations))
 
     #Layer level current identities
     KSummation = sp.zeros(N,3*N)
@@ -123,9 +126,11 @@ def current_sharing_symbolic(N, pl, sl, N_turns = 1,  distanceFlag = 0):
 
     #Current relationships based on structure
     SM = sp.Matrix([primary_current_identity(pl, N)])
-    SM = SM.col_join(sp.Matrix(traverse_layer_list(pl, N, d, bOverL, r, N_turns, [])))
-    SM = SM.col_join(sp.Matrix(traverse_layer_list(sl, N, d, bOverL, r, N_turns, [])))
-
+    primaryEquations = traverse_layer_list(pl, N, d, bOverL, r, N_turns, [])
+    if (primaryEquations != None): SM = SM.col_join(sp.Matrix(primaryEquations))
+    secondaryEquations = traverse_layer_list(sl, N, d, bOverL, r, N_turns, [])
+    if (secondaryEquations != None): SM = SM.col_join(sp.Matrix(secondaryEquations))
+    
     #Layer level current identities
     KSummation = sp.zeros(N,3*N)
     
@@ -401,6 +406,5 @@ def faraday_equation(a,b,N,d, bOverL, N_turns, r=1):
     faraday[N + b*2 - 2] = -d/2
     return faraday
 #(N, pl, sl, b, f, l, r, N_turns = 1, Ip = 1)
-print(current_sharing_numeric(8, ['s',2,['s', 3, ['s', 4, 7]]], ['p', 1, ['p', 5, ['p', 6, 8]]], .02, 1000000, .2, .001))
-
-print(current_sharing_symbolic(8, ['s',2,['s', 3, ['s', 4, 7]]], ['p', 1, ['p', 5, ['p', 6, 8]]]))
+#print(current_sharing_numeric(8, ['s',2,['s', 3, ['s', 4, 7]]], ['p', 1, ['p', 5, ['p', 6, 8]]], .02, 1000000, .2, .001))
+#print(current_sharing_symbolic(8, ['s',2,['s', 3, ['s', 4, 7]]], ['p', 1, ['p', 5, ['p', 6, 8]]]))
