@@ -51,3 +51,32 @@ N_turns = list(int)
 ``X``
 
 A 3×N by 1 vector, with the first N entries representing the current in layers 1 through N, and the next 2×N entries representing the surface current densities in each layer (starting from the top of the structure and moving down).
+
+
+==== _current{score}sharing{score}symbolic_
+Evaluates current sharing within the specified layer structure & dimensions.
+
+*Parameters*:
+
+[source,python]
+----
+n = int 
+# Total layer number.
+
+pl = list 
+# A valid layer list representing the primary winding.
+
+sl = list 
+#  A valid layer list representing the secondary winding. Elements in the sl should not be in the pl.
+
+N_turns = list(int)
+# Number of turns of each layer. Should have N entries. If not specified, all layers will be assumed to have 1 layer each.
+
+distanceFlag = bool
+# 0 if all interlayer distances should be treated as the same. 1 otherwise.
+----
+
+*Returns*:
+``X``
+
+A 3×N by 1 vector, with the first N entries representing the current in layers 1 through N, and the next 2×N entries representing the surface current densities in each layer (starting from the top of the structure and moving down).
