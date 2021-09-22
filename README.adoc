@@ -20,5 +20,11 @@ Evaluates current sharing within the specified layer structure & dimensions.
 n = int # Total layer number.
 
 pl = list # A valid layer list representing the primary winding.
+
+sl = list #  A valid layer list representing the secondary winding. Elements in the sl should not be in the pl.
+
+b = float # Layer width (m)
+
+f = int # Operating frequency (Hz)
 ----
 
