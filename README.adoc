@@ -7,4 +7,8 @@ This project aims to be fully complete in a command-line format and then transfe
 
 Instructions for this will be updated when the project is complete 
 
-== _currentSharing{score}general_
+== Methods
+
+=== currentSharing{score}general
+
+
