@@ -1,4 +1,5 @@
 :score: _
+:stem: asciimath
 = current-sharing
 
 This project aims to be fully complete in a command-line format and then transferred to a application framework (either a web GUI with Flask/Django/etc. or a software-based GUI with WxPython, etc.?)
