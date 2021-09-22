@@ -11,7 +11,7 @@ Instructions for this will be updated when the project is complete
 
 === currentSharing{score}general
 
-==== current_sharing_numeric
+==== _current{score}sharing{score}numeric_
 Evaluates current sharing within the specified layer structure & dimensions.
 
 *Parameters*:
