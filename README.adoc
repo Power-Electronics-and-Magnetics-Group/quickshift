@@ -11,4 +11,10 @@ Instructions for this will be updated when the project is complete
 
 === currentSharing{score}general
 
+Evaluates current sharing within the specified layer structure & dimensions.
+
+Parameters:
+[source,python]
+---- n: int ----
+Total layer number.
 
