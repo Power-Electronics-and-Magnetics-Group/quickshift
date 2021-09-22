@@ -1,0 +1,82 @@
+:score: _
+:stem: latexmath
+= current-sharing
+
+This project aims to be fully complete in a command-line format and then transferred to a application framework (either a web GUI with Flask/Django/etc. or a software-based GUI with WxPython, etc.?)
+
+== Installation
+
+Instructions for this will be updated when the project is complete 
+
+== Methods
+
+=== currentSharing{score}general
+
+==== _current{score}sharing{score}numeric_
+Evaluates current sharing within the specified layer structure & dimensions.
+
+*Parameters*:
+
+[source,python]
+----
+n = int 
+# Total layer number.
+
+pl = list 
+# A valid layer list representing the primary winding.
+
+sl = list 
+#  A valid layer list representing the secondary winding. Elements in the sl should not be in the pl.
+
+b = float 
+# Layer width (m)
+
+f = int 
+# Operating frequency (Hz)
+
+l = float
+# Turn length (m)
+
+r = float or list(float) 
+# Distances between layers (m). Can either be a single value (in which case distances are assumed to be the same) or a list of floats with N-1 entries.
+
+Ip = float 
+# Primary current value (A). If it is not specified, will be set to 1.
+
+N_turns = list(int)
+# Number of turns of each layer. Should have N entries. If not specified, all layers will be assumed to have 1 layer each.
+----
+
+*Returns*:
+``X``
+
+A 3×N by 1 vector, with the first N entries representing the current in layers 1 through N, and the next 2×N entries representing the surface current densities in each layer (starting from the top of the structure and moving down).
+
+
+==== _current{score}sharing{score}symbolic_
+Evaluates current sharing within the specified layer structure & dimensions.
+
+*Parameters*:
+
+[source,python]
+----
+n = int 
+# Total layer number.
+
+pl = list 
+# A valid layer list representing the primary winding.
+
+sl = list 
+#  A valid layer list representing the secondary winding. Elements in the sl should not be in the pl.
+
+N_turns = list(int)
+# Number of turns of each layer. Should have N entries. If not specified, all layers will be assumed to have 1 layer each.
+
+distanceFlag = bool
+# 0 if all interlayer distances should be treated as the same. 1 otherwise.
+----
+
+*Returns*:
+``X``
+
+A 3×N by 1 vector, with the first N entries representing the current in layers 1 through N, and the next 2×N entries representing the surface current densities in each layer (starting from the top of the structure and moving down).
