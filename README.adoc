@@ -26,5 +26,9 @@ sl = list #  A valid layer list representing the secondary winding. Elements in 
 b = float # Layer width (m)
 
 f = int # Operating frequency (Hz)
+
+l = float # Turn length (m)
+
+r : float or list(float) # Distances between layers (m). Can either be a single value (in which case distances are assumed to be the same) or a list of floats with N-1 entries.
 ----
 
