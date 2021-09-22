@@ -50,4 +50,4 @@ N_turns = list(int)
 *Returns*:
 ``X``
 
-A stem:[3*Nx1] vector, with the first N entries representing the current in layers 1 through N, and the next stem:[2*N] entries representing the surface current densities in each layer (starting from the top of the structure and moving down).
+A 3×N by 1 vector, with the first N entries representing the current in layers 1 through N, and the next 2 by N entries representing the surface current densities in each layer (starting from the top of the structure and moving down).
