@@ -46,3 +46,6 @@ N_turns = list(int)
 # Number of turns of each layer. Should have N entries. If not specified, all layers will be assumed to have 1 layer each.
 ----
 
+*Returns*:
+''X''
+A 3*Nx1 vector, with the first N entries representing the current in layers 1 through N, and the next 2*N entries representing the surface current densities in each layer (starting from the top of the structure and moving down).
