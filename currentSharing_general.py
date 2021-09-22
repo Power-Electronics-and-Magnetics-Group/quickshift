@@ -72,14 +72,15 @@ def current_sharing_numeric(N, pl, sl, b, f, l, r, N_turns = 1, Ip = 1):
     AmperianLoops[0, N] = 1
     AmperianLoops[N, 3*N-1] = 1
     SM = SM.col_join(AmperianLoops)
-
+    #print(SM)
     #Generate the LHS of the equality.
     C = sp.zeros(int(3*N),1)
     C[0] = Ip
-
+    print(SM)
+    print(sp.shape(SM))
     #Solve
     M = sp.linsolve((sp.Matrix(SM),sp.Matrix(C)))
-    X = sp.simplify(M.subs(d,0))
+    X = sp.simplify(M)
     
     return X
 
@@ -148,7 +149,8 @@ def current_sharing_symbolic(N, pl, sl, N_turns = 1,  distanceFlag = 0):
     AmperianLoops[0, N] = 1
     AmperianLoops[N, 3*N-1] = 1
     SM = SM.col_join(AmperianLoops)
-
+    print(SM)
+    print(sp.shape(SM))
     #Generate the LHS of the equality.
     Ip = sp.symbols('Ip')
     C = sp.zeros(int(3*N),1)
@@ -405,6 +407,8 @@ def faraday_equation(a,b,N,d, bOverL, N_turns, r=1):
     faraday[N + a*2 - 1] = d/2
     faraday[N + b*2 - 2] = -d/2
     return faraday
-#(N, pl, sl, b, f, l, r, N_turns = 1, Ip = 1)
-#print(current_sharing_numeric(8, ['s',2,['s', 3, ['s', 4, 7]]], ['p', 1, ['p', 5, ['p', 6, 8]]], .02, 1000000, .2, .001))
-#print(current_sharing_symbolic(8, ['s',2,['s', 3, ['s', 4, 7]]], ['p', 1, ['p', 5, ['p', 6, 8]]]))
+
+#stack=(1, ['s', 2, ['s', ['p', 3, 4], ['p', 5, 6]]])
+stack=(1, ['s', 2, ['s', 3, ['s', ['p', 6, ['p', 7, 8]], ['p', 4, 5]]]])
+print(current_sharing_symbolic(8, stack[0], stack[1]))
+print(current_sharing_numeric(8, stack[0], stack[1], .02, 1000000, .2, .001))
