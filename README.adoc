@@ -17,8 +17,8 @@ Evaluates current sharing within the specified layer structure & dimensions.
 
 [source,python]
 ----
-n = int // Total layer number.
+n = int # Total layer number.
 
-pl = list // A valid layer list representing the primary winding.
+pl = list # A valid layer list representing the primary winding.
 ----
 
