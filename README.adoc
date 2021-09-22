@@ -13,10 +13,16 @@ Instructions for this will be updated when the project is complete
 
 Evaluates current sharing within the specified layer structure & dimensions.
 
-Parameters:
+*Parameters*:
+
 [source,python]
 ----
 n = int
 ----
 Total layer number.
 
+[source,python]
+----
+pl = list
+----
+A valid layer list representing the primary winding.
