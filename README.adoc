@@ -16,7 +16,7 @@ Evaluates current sharing within the specified layer structure & dimensions.
 Parameters:
 [source,python]
 ----
-n: int
+n = int
 ----
 Total layer number.
 
