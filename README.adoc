@@ -1,5 +1,10 @@
+:score: _
 = current-sharing
 
 This project aims to be fully complete in a command-line format and then transferred to a application framework (either a web GUI with Flask/Django/etc. or a software-based GUI with WxPython, etc.?)
 
+== Installation
 
+Instructions for this will be updated when the project is complete 
+
+== _currentSharing{score}general_
