@@ -8,8 +8,10 @@ Jump to each function's respective documentation below:
 
 <<stackups,stackups>> +
 <<turnPairs,turnPairs>> + 
-<<layerAssignments,layerAssignments>>
-
+<<layerAssignments,layerAssignments>> + 
+<<layerConnections,layerConnections>> + 
+<<seriesConnect,seriesConnect>> + 
+<<parallelConnect,parallelConnect>> + 
 '''
 
 ==== _stackups_ [[id,stackups]]
