@@ -38,8 +38,10 @@ def current_sharing_numeric(N, pl, sl, b, f, l, r, N_turns = 1, Ip = 1):
         of the structure and moving down).
     '''
     #calculate skin depth
-    d = 2*(1.68*math.pow(10,-8))/((2*math.pi*f)*(4*math.pi*pow(10,-7)))
+    #d = 2*(1.68*math.pow(10,-8))/((2*math.pi*f)*(4*math.pi*pow(10,-7)))
+    d=0
     bOverL = b/l
+
     #input validation
     if (N == 0): return 0
 
@@ -57,7 +59,6 @@ def current_sharing_numeric(N, pl, sl, b, f, l, r, N_turns = 1, Ip = 1):
 
     #Layer level current identities
     KSummation = sp.zeros(N,3*N)
-    
     for i in range(0,N):
         KSummation[i,i] = -1 * N_turns[i]
         KSummation[i, N + 2*i] = b
@@ -76,13 +77,19 @@ def current_sharing_numeric(N, pl, sl, b, f, l, r, N_turns = 1, Ip = 1):
     #Generate the LHS of the equality.
     C = sp.zeros(int(3*N),1)
     C[0] = Ip
-    print(SM)
-    print(sp.shape(SM))
+    #print(SM)
+    #print(sp.shape(SM))
     #Solve
-    M = sp.linsolve((sp.Matrix(SM),sp.Matrix(C)))
-    X = sp.simplify(M)
+    #print(SM)
+    #print(np.array(SM))
+    #print(np.array(SM, dtype=float))
+
+    X = np.linalg.solve(np.array(SM, dtype=float),np.array(C, dtype=float))
+    result = [0] * (3*N)
+    for j in range(0,3*N):
+        result[j] = X[j][0]
     
-    return X
+    return result
 
 def current_sharing_symbolic(N, pl, sl, N_turns = 1,  distanceFlag = 0):
     '''
@@ -149,8 +156,8 @@ def current_sharing_symbolic(N, pl, sl, N_turns = 1,  distanceFlag = 0):
     AmperianLoops[0, N] = 1
     AmperianLoops[N, 3*N-1] = 1
     SM = SM.col_join(AmperianLoops)
-    print(SM)
-    print(sp.shape(SM))
+    #print(SM)
+    #print(sp.shape(SM))
     #Generate the LHS of the equality.
     Ip = sp.symbols('Ip')
     C = sp.zeros(int(3*N),1)
@@ -352,7 +359,6 @@ def series_equation(a,b,N):
         series[k-1] = -1
     return series
 
-
 def faraday_equation(a,b,N,d, bOverL, N_turns, r=1):
     '''
     Generates a list representing a Faraday Loop taken between layer numbers a and b.
@@ -392,7 +398,6 @@ def faraday_equation(a,b,N,d, bOverL, N_turns, r=1):
         raise ValueError('Layer out of range.')
 
     faraday = [0] * (3*N)
-
     if (type(r)==int or type(r)==float or type(r)==sp.core.symbol.Symbol):
         r=[r] * int(N)
     elif (len(r) != (N-1)):
@@ -409,6 +414,6 @@ def faraday_equation(a,b,N,d, bOverL, N_turns, r=1):
     return faraday
 
 #stack=(1, ['s', 2, ['s', ['p', 3, 4], ['p', 5, 6]]])
-stack=(1, ['s', 2, ['s', 3, ['s', ['p', 6, ['p', 7, 8]], ['p', 4, 5]]]])
-print(current_sharing_symbolic(8, stack[0], stack[1]))
-print(current_sharing_numeric(8, stack[0], stack[1], .02, 1000000, .2, .001))
+#stack=(1, ['s', 2, ['s', 3, ['s', ['p', 6, ['p', 7, 8]], ['p', 4, 5]]]])
+#print(current_sharing_symbolic(8, stack[0], stack[1]))
+#print(current_sharing_numeric(8, stack[0], stack[1], .02, 1000000, .2, .001))

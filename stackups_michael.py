@@ -214,6 +214,3 @@ def parallelConnect(layers):
 		return ['p',layers[0],layers[1]]
 	else: #Put first layer in series with the remaining layers
 		return ['p',layers[0],parallelConnect(layers[1:])]
-
-
-print(stackups(8,2))

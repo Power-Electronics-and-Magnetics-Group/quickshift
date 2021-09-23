@@ -46,5 +46,3 @@ def returnSeriesParallelPair(stackupTable,n):
     series = returnSeriesList(stackupTable,n)
     parallel = returnParallelList(stackupTable,series)
     return [series,parallel]
-
-print(returnSeriesParallelPair(stackups(8,3),0))
