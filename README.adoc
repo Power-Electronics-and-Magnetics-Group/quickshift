@@ -14,11 +14,11 @@ Instructions for this will be updated when the project is complete
 
 Jump to functions and their details below:
 
-<<current_sharing_numeric,current_sharing_numeric>>
-<<current_sharing_symbolic,current_sharing_symbolic>>
-<<valid_layer_list,valid_layer_list>>
-<<primary_current_identity,primary_current_identity>>
-<<traverse_layer_list,traverse_layer_list>>
+<<current_sharing_numeric,current_sharing_numeric>> +
+<<current_sharing_symbolic,current_sharing_symbolic>> +
+<<valid_layer_list,valid_layer_list>> +
+<<primary_current_identity,primary_current_identity>> +
+<<traverse_layer_list,traverse_layer_list>> +
 
 ==== _current{score}sharing{score}numeric_ [[id,current_sharing_numeric]]
 Evaluates current sharing within the specified layer structure & dimensions.
