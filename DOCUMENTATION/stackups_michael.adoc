@@ -12,6 +12,7 @@ Jump to each function's respective documentation below:
 <<layerConnections,layerConnections>> + 
 <<seriesConnect,seriesConnect>> + 
 <<parallelConnect,parallelConnect>> + 
+ 
 '''
 
 ==== _stackups_ [[id,stackups]]
