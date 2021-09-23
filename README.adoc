@@ -12,9 +12,11 @@ Instructions for this will be updated when the project is complete
 
 === currentSharing{score}general
 
+Jump to functions and their details below:
 
 
-==== _current{score}sharing{score}numeric_
+
+==== _current{score}sharing{score}numeric_ [[id,current_sharing_numeric]]
 Evaluates current sharing within the specified layer structure & dimensions.
 
 *Parameters*:
@@ -56,7 +58,7 @@ A 3×N by 1 vector, with the first N entries representing the current in layers 
 
 '''
 
-==== _current{score}sharing{score}symbolic_
+==== _current{score}sharing{score}symbolic_ [id,current_sharing_symbolic]]
 Evaluates current sharing within the specified layer structure & dimensions.
 
 *Parameters*:
@@ -86,7 +88,7 @@ A 3×N by 1 vector, with the first N entries representing the current in layers 
 
 '''
 
-==== _valid{score}layer{score}list_
+==== _valid{score}layer{score}list_ [id,valid_layer_list]]
 
 *Parameters*:
 
@@ -104,7 +106,7 @@ N = int
 
 '''
 
-==== _primary{score}current{score}identity_
+==== _primary{score}current{score}identity_ [id,primary_current_identity]]
 
 *Parameters*:
 
@@ -124,7 +126,7 @@ A list representing a primary current equality, with the left hand side of the e
 
 '''
 
-==== _traverse{score}layer{score}list_
+==== _traverse{score}layer{score}list_ [id,traverse_layer_list]]
 
 Returns a list of lists, with each inner list representing either a Faraday loop between paralleled layers or a series current identity between series connected layers.
 
