@@ -167,3 +167,24 @@ A list of lists, with each inner list representing either a Faraday loop between
 
 '''
 
+==== _I{score}node_ [[id,I_node]]
+
+Given a layer list, returns a list of layers directly connected to the top level node.
+
+
+*Parameters*:
+
+[source,python]
+----
+node = int or list
+# A valid layer list or layer number.
+array = list
+# Top level calls of this function should pass an empty list.
+----
+
+*Returns*:
+``array`` 
+List of layers directly connected to the top level node - e.g. if the top level node specifies three layers in parallel (each of which has several layers in series), it will return the indices of each of the three parallel layers. If the node specifies two layers in series, it will return the first layer.
+
+'''
+
