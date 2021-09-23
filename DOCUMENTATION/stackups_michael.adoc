@@ -1,0 +1,135 @@
+:score: _
+
+= stackups_michael.py 
+
+File documentation for stackups_michael.py 
+
+Jump to each function's respective documentation below: 
+
+<<stackups,stackups>> +
+<<turnPairs,turnPairs>> + 
+<<layerAssignments,layerAssignments>>
+
+'''
+
+==== _stackups_ [[id,stackups]]
+
+Generates list of valid stackups for N layer transformer with supplied turns ratio. Maximum 1 turn per layer.
+
+*Parameters*:
+
+[source,python]
+----
+N = int
+# Number of turns.
+turnsRatio = int or float
+# Desired turns ratio. 
+----
+
+*Returns*:
+``stackupList``
+
+List of valid stackups.
+
+'''
+
+==== _turnPairs_ [[id,turnPairs]]
+
+Returns valid pairs of turn counts for a N layer transformer, assuming maximum 1 turn per layer.
+
+*Parameters*:
+
+[source,python]
+----
+N = int
+# Number of turns.
+turnsRatio = int or float
+# Desired turns ratio. turnsRatio >= 1
+----
+
+*Returns*:
+``turnPairs``
+
+_*finish documentation*_
+
+
+'''
+
+==== _layerAssignments_ [[id,layerAssignments]]
+
+Selects different combinations of layers for a given set of turns and a layer count.
+
+*Parameters*:
+
+[source,python]
+----
+N = int
+# Number of turns.
+turnPair: list(int) # len(list) must equal 2 
+# Pair of turn counts. turnPair[0] turns on the primary, turnPair[1] turns on the secondary.
+----
+
+*Returns*:
+``primaryLayerAssignments`` 
+
+List of lists. Each inner list is a unique set of layers that can function as the primary for the specified N and turnPair, with a max of 1 turn per layer.
+
+'''
+
+==== _layerConnections_ [[id,layerConnections]]
+
+*Parameters*:
+
+[source,python]
+----
+layers = list(int)
+# Layers that will be connected together with specified amount of turns.
+N = int
+# Number of turns.
+
+----
+
+*Returns*:
+``connections`` 
+
+List of layer connections that put N turns on the provided layers. 
+
+'''
+
+==== _seriesConnect_ [[id,seriesConnect]]
+
+Connects specified layers in series.
+
+*Parameters*:
+
+[source,python]
+----
+layers = list(int) 
+# layers to be connected in series
+----
+
+*Returns*:
+
+Series connection of all input layers.
+
+'''
+
+==== _parallelConnect_ [[id,parallelConnect]]
+
+Given a layer list, returns a list of layers directly connected to the top level node.
+
+
+*Parameters*:
+
+[source,python]
+----
+layers = list(int)
+# layers to be connected in parallel
+----
+
+*Returns*:
+Parallel connection of all input layers.
+
+'''
+
+:hardbreaks:
