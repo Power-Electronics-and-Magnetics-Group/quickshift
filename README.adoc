@@ -104,3 +104,22 @@ N = int
 
 '''
 
+==== _primary{score}current{score}identity_
+
+*Parameters*:
+
+[source,python]
+----
+node = int or list
+# A valid layer list or layer number
+
+N = int
+#  Total number of layers.
+----
+
+*Returns*:
+``identity`` 
+
+A list representing a primary current equality, with the left hand side of the equality implied to be nonzero
+
+
