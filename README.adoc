@@ -13,7 +13,7 @@ Instructions for this will be updated when the project is complete
 === currentSharing{score}general
 
 Jump to the respective AsciiDoc file for specific documentation on this function here.
-<<DOCUMENTATION/currentSharing_general.adoc,currentSharing_general>> +
+xref:DOCUMENTATION/currentSharing_general.adoc[currentSharing_general] +
 
 <<current_sharing_numeric,current_sharing_numeric>> +
 <<current_sharing_symbolic,current_sharing_symbolic>> +
