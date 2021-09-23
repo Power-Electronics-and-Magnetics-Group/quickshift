@@ -81,6 +81,8 @@ List of lists. Each inner list is a unique set of layers that can function as th
 
 ==== _layerConnections_ [[id,layerConnections]]
 
+Returns all possible 1 turn/layer combinations that place N turns on the specified layers.
+
 *Parameters*:
 
 [source,python]
@@ -119,7 +121,7 @@ Series connection of all input layers.
 
 ==== _parallelConnect_ [[id,parallelConnect]]
 
-Given a layer list, returns a list of layers directly connected to the top level node.
+Connects specified layers in parallel.
 
 
 *Parameters*:
