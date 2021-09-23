@@ -264,6 +264,6 @@ N_turns = list(int)
 
 List of length 3×N that specifies a Faraday loop. First N entries are the coefficients multiplied by I~1~ to I~N~, and the next 2×N entries are the coefficients to be multiplied by K~1T~ through K~NB~. The right hand side of the equation is assumed to be zero.
 
-'''
+:hardbreaks:
 
 
