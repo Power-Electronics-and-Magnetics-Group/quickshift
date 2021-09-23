@@ -10,6 +10,8 @@ Instructions for this will be updated when the project is complete
 
 == Methods
 
+Jump to the respective AsciiDoc file for specific documentation on this function here.
+
 xref:DOCUMENTATION/currentSharing_general.adoc[*currentSharing_general*] +
 
 
