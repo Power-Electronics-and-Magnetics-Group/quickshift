@@ -12,6 +12,8 @@ Instructions for this will be updated when the project is complete
 
 === currentSharing{score}general
 
+'''
+
 ==== _current{score}sharing{score}numeric_
 Evaluates current sharing within the specified layer structure & dimensions.
 
@@ -52,6 +54,7 @@ N_turns = list(int)
 
 A 3×N by 1 vector, with the first N entries representing the current in layers 1 through N, and the next 2×N entries representing the surface current densities in each layer (starting from the top of the structure and moving down).
 
+'''
 
 ==== _current{score}sharing{score}symbolic_
 Evaluates current sharing within the specified layer structure & dimensions.
@@ -81,6 +84,8 @@ distanceFlag = bool
 
 A 3×N by 1 vector, with the first N entries representing the current in layers 1 through N, and the next 2×N entries representing the surface current densities in each layer (starting from the top of the structure and moving down).
 
+'''
+
 ==== _valid{score}layer{score}list_
 
 *Parameters*:
@@ -96,4 +101,6 @@ N = int
 
 *Returns*:
 *1* if the layer list is valid, and *0* if it is not valid. A valid layer list can have three acceptable entries: an integer (of value between 1 and N inclusive), a series list ``(['s',  valid list, valid list])``, or a parallel list ``(['p', valid list, valid list])``.
+
+'''
 
