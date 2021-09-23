@@ -222,7 +222,7 @@ a = int or list(int)
 b : int or list(int)
 # The second layer set to be connected. a != b
 N : int
-#The total number of layers. N > a,b
+# The total number of layers. N > a,b
 ----
 
 *Returns*:
