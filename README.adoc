@@ -184,6 +184,7 @@ array = list
 
 *Returns*:
 ``array`` 
+
 List of layers directly connected to the top level node - e.g. if the top level node specifies three layers in parallel (each of which has several layers in series), it will return the indices of each of the three parallel layers. If the node specifies two layers in series, it will return the first layer.
 
 '''
