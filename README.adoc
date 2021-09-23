@@ -19,6 +19,7 @@ Jump to functions and their details below:
 <<valid_layer_list,valid_layer_list>> +
 <<primary_current_identity,primary_current_identity>> +
 <<traverse_layer_list,traverse_layer_list>> +
+<<I_node,I_node>> +
 
 ==== _current{score}sharing{score}numeric_ [[id,current_sharing_numeric]]
 Evaluates current sharing within the specified layer structure & dimensions.
@@ -188,4 +189,77 @@ array = list
 List of layers directly connected to the top level node - e.g. if the top level node specifies three layers in parallel (each of which has several layers in series), it will return the indices of each of the three parallel layers. If the node specifies two layers in series, it will return the first layer.
 
 '''
+==== _node{score}contains_ [[id,node_contains]]
+
+Returns the number of a layer that is contained by the node given.
+
+
+*Parameters*:
+
+[source,python]
+----
+node = int or list
+# A valid layer list or layer number.
+----
+
+*Returns*:
+``val`` 
+
+Int representing a layer number that is contained by this node.
+
+'''
+==== _series{score}equation_ [[id,series_equation]]
+
+Returns the number of a layer that is contained by the node given.
+
+
+*Parameters*:
+
+[source,python]
+----
+a = int or list(int)
+# The first layer set to be connected.
+b : int or list(int)
+# The second layer set to be connected. a != b
+N : int
+#The total number of layers. N > a,b
+----
+
+*Returns*:
+``series`` 
+
+List of length 3×N that specifies a series connection. First N entries are the coefficients multiplied by I~1~ to I~N~, and the next 2×N entries are the coefficients to be multiplied by K~1T through K~NB. The right hand side of the equation is assumed to be zero.
+
+'''
+==== _faraday{score}equation_ [[id,faraday_equation]]
+
+Generates a list representing a Faraday Loop taken between layer numbers a and b.
+
+
+*Parameters*:
+
+[source,python]
+----
+a = int or list(int) # if the latter, len(list) must equal 1 
+# The first layer in the Faraday loop.
+b = int or list(int) # if the latter, len(list) must equal 1 
+# The second layer in the Faraday loop. a != b.
+N = int
+# The total number of layers. N > a, b.
+d = float
+# Skin depth 
+bOverL = float
+# Ratio of layer width to turn length.
+r = float or float list
+# Distances between layers. Can either be a single value (in which case distances are assumed to be the same) or a list of floats with N-1 entries.
+N_turns = list(int)
+# Number of turns of each layer. Should have N entries. If not specified, all layers will be assumed to have 1 layer each.
+----
+
+*Returns*:
+``faraday`` 
+
+List of length 3×N that specifies a Faraday loop. First N entries are the coefficients multiplied by I~1~ to I~N~, and the next 2×N entries are the coefficients to be multiplied by K~1T~ through K~NB~. The right hand side of the equation is assumed to be zero.
+'''
+
 
