@@ -14,6 +14,6 @@ Jump to the respective AsciiDoc file for specific documentation on this function
 
 xref:DOCUMENTATION/currentSharing_general.adoc[*currentSharing_general*] +
 
-xref:DOCUMENTATION/stackups_michael.adoc[*stackups_michael*]+
+xref:DOCUMENTATION/stackups_michael.adoc[*stackups_michael*] +
 
 
