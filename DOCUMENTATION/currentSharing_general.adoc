@@ -1,3 +1,5 @@
+:score: _
+
 = currentSharing_general
 
 File documentation for currentSharing_general.py 
