@@ -20,6 +20,9 @@ Jump to functions and their details below:
 <<primary_current_identity,primary_current_identity>> +
 <<traverse_layer_list,traverse_layer_list>> +
 <<I_node,I_node>> +
+<<node_contains,node_contains>> +
+<<series_equation,series_equation>> +
+<<faraday_equation,faraday_equation>> +
 
 ==== _current{score}sharing{score}numeric_ [[id,current_sharing_numeric]]
 Evaluates current sharing within the specified layer structure & dimensions.
