@@ -16,6 +16,8 @@ Jump to each function's respective documentation below:
 <<series_equation,series_equation>> +
 <<faraday_equation,faraday_equation>> +
 
+'''
+
 ==== _current{score}sharing{score}numeric_ [[id,current_sharing_numeric]]
 Evaluates current sharing within the specified layer structure & dimensions.
 
