@@ -100,7 +100,7 @@ N = int
 ----
 
 *Returns*:
-*1* if the layer list is valid, and *0* if it is not valid. A valid layer list can have three acceptable entries: an integer (of value between 1 and N inclusive), a series list ``(['s',  valid list, valid list])``, or a parallel list ``(['p', valid list, valid list])``.
+``1`` if the layer list is valid, and ``0`` if it is not valid. A valid layer list can have three acceptable entries: an integer (of value between 1 and N inclusive), a series list ``(['s',  valid list, valid list])``, or a parallel list ``(['p', valid list, valid list])``.
 
 '''
 
@@ -132,25 +132,25 @@ Returns a list of lists, with each inner list representing either a Faraday loop
 
 [source,python]
 ----
-node : int or list
+node = int or list
 # A valid layer list or layer number.
 
-N : int
+N = int
 # Total number of layers.
 
-d : float
+d = float
 # Skin depth
 
-bOverL : float
+bOverL = float
 # Ratio of layer width to turn length.
 
-R : float or float list
+R = float or float list
 # Distances between layers. Can either be a single value (in which case distances are assumed to be the same) or a list of floats with N-1 entries.
 
-N_turns : int list
+N_turns = int list
 # Number of turns of each layer. Should have N entries. If not specified, all layers will be assumed to have 1 layer each.
 
-array : list
+array = list
 # Top level calls should pass in an empty list.
 ----
 
@@ -158,8 +158,6 @@ array : list
 ``array`` 
 
 A list of lists, with each inner list representing either a Faraday loop between paralleled layers or a series current identity between series connected layers.
-
-
 
 '''
 
