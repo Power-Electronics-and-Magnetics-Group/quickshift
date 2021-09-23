@@ -176,6 +176,7 @@ Given a layer list, returns a list of layers directly connected to the top level
 ----
 node = int or list
 # A valid layer list or layer number.
+
 array = list
 # Top level calls of this function should pass an empty list.
 ----
@@ -216,8 +217,10 @@ Returns the number of a layer that is contained by the node given.
 ----
 a = int or list(int)
 # The first layer set to be connected.
+
 b : int or list(int)
 # The second layer set to be connected. a != b
+
 N : int
 # The total number of layers. N > a,b
 ----
@@ -239,16 +242,22 @@ Generates a list representing a Faraday Loop taken between layer numbers a and b
 ----
 a = int or list(int) # if the latter, len(list) must equal 1 
 # The first layer in the Faraday loop.
+
 b = int or list(int) # if the latter, len(list) must equal 1 
 # The second layer in the Faraday loop. a != b.
+
 N = int
 # The total number of layers. N > a, b.
+
 d = float
 # Skin depth 
+
 bOverL = float
 # Ratio of layer width to turn length.
+
 r = float or float list
 # Distances between layers. Can either be a single value (in which case distances are assumed to be the same) or a list of floats with N-1 entries.
+
 N_turns = list(int)
 # Number of turns of each layer. Should have N entries. If not specified, all layers will be assumed to have 1 layer each.
 ----
