@@ -80,3 +80,20 @@ distanceFlag = bool
 ``X``
 
 A 3×N by 1 vector, with the first N entries representing the current in layers 1 through N, and the next 2×N entries representing the surface current densities in each layer (starting from the top of the structure and moving down).
+
+==== _valid{score}layer{score}list_
+
+*Parameters*:
+
+[source,python]
+----
+node = int or list
+# A potential layer list.
+
+N = int
+#  Total number of layers.
+----
+
+*Returns*:
+*1* if the layer list is valid, and *0* if it is not valid. A valid layer list can have three acceptable entries: an integer (of value between 1 and N inclusive), a series list ``(['s',  valid list, valid list])``, or a parallel list ``(['p', valid list, valid list])``.
+
