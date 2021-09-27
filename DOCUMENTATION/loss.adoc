@@ -6,7 +6,7 @@ File documentation for loss.py (specifically the defined *loss* function)
 
 ==== _loss_ [[id,loss]]
 
-Generates list of valid stackups for N layer transformer with supplied turns ratio. Maximum 1 turn per layer.
+Generates power loss / power draw coefficient for the resultant output of a current_sharing functionsolve. Takes a direct input of the generated tuple from this function.
 
 *Parameters*:
 
