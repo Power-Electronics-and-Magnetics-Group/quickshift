@@ -1,0 +1,25 @@
+:score: _
+
+= stackups_michael.py 
+
+File documentation for loss.py (specifically the defined *loss* function) 
+
+==== _loss_ [[id,loss]]
+
+Generates list of valid stackups for N layer transformer with supplied turns ratio. Maximum 1 turn per layer.
+
+*Parameters*:
+
+[source,python]
+----
+ff = tuple
+Tuple created by the output of the current_sharing_symbolic/current_sharing_numeric functions. All
+terms are in the form of N × I~p~ , where N is a real constant. 
+----
+
+*Returns*:
+
+The coefficient of the power loss with respect to I~p~. This function assumes the R term is constant for every layer in calculation of the power loss.  
+
+'''
+:hardbreaks:
