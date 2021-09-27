@@ -6,7 +6,7 @@ File documentation for loss.py (specifically the defined *loss* function)
 
 ==== _loss_ [[id,loss]]
 
-After a current_sharing function is called, this function generates the power loss / power draw coefficient for the resultant tuple that this function returns.
+After a current_sharing function is called, this function generates the power loss / power draw coefficient for the tuple that the current_sharing function returns.
 
 *Parameters*:
 
