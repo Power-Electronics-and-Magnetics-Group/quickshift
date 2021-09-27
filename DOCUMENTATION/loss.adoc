@@ -1,6 +1,6 @@
 :score: _
 
-= stackups_michael.py 
+= loss.py 
 
 File documentation for loss.py (specifically the defined *loss* function) 
 
@@ -13,7 +13,8 @@ Generates list of valid stackups for N layer transformer with supplied turns rat
 [source,python]
 ----
 ff = tuple
-Tuple created by the output of the current_sharing_symbolic/current_sharing_numeric functions. All
+
+# Tuple created by the output of the current_sharing_symbolic/current_sharing_numeric functions. All
 terms are in the form of N × I~p~ , where N is a real constant. 
 ----
 
