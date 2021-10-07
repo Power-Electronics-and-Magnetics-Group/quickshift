@@ -83,7 +83,10 @@ def current_sharing_numeric(N, pl, sl, b, f, l, r, N_turns = 1, Ip = 1):
     #print(SM)
     #print(np.array(SM))
     #print(np.array(SM, dtype=float))
-
+    # try:
+    #     X = np.linalg.solve(np.array(SM, dtype=float),np.array(C, dtype=float))
+    # except LinAlgError:
+    #     X = [0] * (3*N)
     X = np.linalg.solve(np.array(SM, dtype=float),np.array(C, dtype=float))
     result = [0] * (3*N)
     for j in range(0,3*N):
@@ -268,6 +271,10 @@ def traverse_layer_list(node, N, d, bOverL, R, N_turns, array):
     elif node[0] == 'p': #Parallel connected node.
         a = node_contains(node[1])
         b = node_contains(node[2])
+        if (b < a):
+            temp = b
+            b = a
+            a = temp
         array.append(faraday_equation(a,b,N,d,bOverL, N_turns, R))
         traverse_layer_list(node[1], N, d, bOverL, R, N_turns, array)
         traverse_layer_list(node[2], N, d, bOverL, R, N_turns, array)

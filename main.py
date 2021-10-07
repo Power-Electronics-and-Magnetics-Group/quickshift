@@ -10,7 +10,7 @@ def loss(ff):
         return loss_sum
 
 if __name__ == "__main__":
-    stack = (2, ['s', 1, ['s', ['p', 3, 5], ['p', 4, 6]]])
+    #stack = (2, ['s', 1, ['s', ['p', 3, 5], ['p', 4, 6]]])
     #a=current_sharing_symbolic(6, stack[0], stack[1])
     #b=current_sharing_numeric(6, stack[0], stack[1], .02, 10000000, .2, .001)
     #c=current_sharing_numeric_workaround(6, stack[0], stack[1], .02, 10000000, .2, .001)
@@ -22,9 +22,10 @@ if __name__ == "__main__":
     #print(b.subs(tau0,0))
 
 
-    N = 6
+    N = 8
     turnRatio = 3
     stacks = stackups(N,turnRatio)
+    print(len(stacks))
 
     minLoss = 1000000000
     bestStack = 0
@@ -48,3 +49,5 @@ if __name__ == "__main__":
     print(bestStack)
     print(minLoss)
     print(failureTally)
+
+    #solutionVector = list(current_sharing_numeric(8, ['s', 1, ['p', 2, ['p', 3, 4]]], ['s', 5, ['p', 8, ['p', 6, 7]]], .02, 1000000, .2, .001))

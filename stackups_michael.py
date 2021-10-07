@@ -27,7 +27,11 @@ def stackups(N, turnsRatio):
 		raise valueError('Invalid turns ratio')
 
 	#TurnsRatio should be >= 1
-	if (turnsRatio < 1): turnsRatio = 1/turnsRatio
+	if (turnsRatio < 1): 
+		turnsRatio = 1/turnsRatio
+		if (not turnsRatio.is_integer()):
+			raise valueError('Invalid turns ratio')
+		else: turnsRatio = int(turnsRatio)
 
 	#Generate [1,...,N]
 	layers = [0] * N
@@ -42,13 +46,14 @@ def stackups(N, turnsRatio):
 	#Iterate over all the turn pairs
 	for pair in pairs:
 		primaryLayers = layerAssignments(N,pair)									#Generate primary layer combinations
+		if(turnsRatio == 1): primaryLayers = primaryLayers[0:int(len(primaryLayers)/2)]		#If turnsRatio is unity, can cull symmetric entries
 		for pL in primaryLayers:													#Iterate over them
 			sL = tuple(set(layers).difference(pL))									#Secondary list is the remaining layers
 			primaryConnection = layerConnections(pL, pair[0])						#Generate primary connections
 			secondaryConnection = layerConnections(sL, pair[1])						#Generate secondary connections
 			#If primaryConnection is a single entry just iterate over secondary connections
 			if (isinstance(primaryConnection,int) or primaryConnection[0] == 's' or primaryConnection[0] == 'p'):
-				if (secondaryConnection[0] != 's' and secondaryConnection[0] != 'p'):
+				if (not isinstance(secondaryConnection,int) and secondaryConnection[0] != 's' and secondaryConnection[0] != 'p'):
 						for connect in secondaryConnection:
 							stackupList.append((primaryConnection,connect))
 				else: 
@@ -163,11 +168,24 @@ def layerConnections(layers, N):
 
 	if (p_count==0): return seriesConnect(layers) 	#Only need to do series connections
 	if (s_count==0): return parallelConnect(layers) #Only need to do parallel connections
+	if (p_count==1):								#Nonzero series connections but just one parallel, so let's get the parallel done first to reduce duplicates
+		parallelTurnOptions = list(combinations(layers,2))
+		connections = []
+		for s in parallelTurnOptions:
+			s2 = tuple(set(layers).difference(s))
+			a = ['s',parallelConnect(s),layerConnections(s2,s_count)]
+			connections.append(a)
+		return connections
 	else:
 		#Otherwise we will create one turn and put it in series with the remainder of the turns
 		connections = [] 
 		for i in range(1, num - N + 1):							#Can put 1 turn on up to p_count layers
 			oneTurnOptions = list(combinations(layers,i))		#Generate layer combinations for the one turn
+			if (i == num/2.0):										#If the layer selection is evenly split, turn connections will be symmetric. Can cut in half to reduce dupes
+				duplicateReductionCount = int(len(oneTurnOptions)/2)
+				#print(oneTurnOptions)
+				oneTurnOptions = oneTurnOptions[0:duplicateReductionCount]
+				#print(oneTurnOptions)
 			for s in oneTurnOptions:							#Iterate over each layer set
 				s2 = tuple(set(layers).difference(s))			#Specify the layers not included in the turn
 				a = layerConnections(s,1)						#Generate the 1 turn connection
@@ -214,3 +232,8 @@ def parallelConnect(layers):
 		return ['p',layers[0],layers[1]]
 	else: #Put first layer in series with the remaining layers
 		return ['p',layers[0],parallelConnect(layers[1:])]
+
+#stacks=stackups(8,1)
+#print(len(stacks))
+#for stack in stacks:
+#	print(stack)
