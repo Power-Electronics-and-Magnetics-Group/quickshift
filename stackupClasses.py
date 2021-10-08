@@ -121,21 +121,3 @@ class Layer:
 
 	def nodeCount(self):
 		return [0, 0]
-
-
-
-#x = Layer(3,1)
-#print(x.number)
-#print(x.allLayers())
-# y = Layer(2,2)
-# z = Layer(1,4)
-# a = SeriesNode(x,y)
-# b = ParallelNode(a,z)
-# print(b)
-# m = Layer(4,1)
-# n = Layer(5,1)
-# c = SeriesNode(m,n)
-
-# stack = Stackup(b,c,5)
-
-# print(stack.turnCount())

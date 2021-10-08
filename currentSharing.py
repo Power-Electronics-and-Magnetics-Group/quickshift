@@ -308,27 +308,3 @@ def faraday_equation(a,b,N,d, bOverL, N_turns, r=1):
     faraday[N + a*2 - 1] = d/2
     faraday[N + b*2 - 2] = -d/2
     return faraday
-
-# x = Layer(1,1)
-# y = Layer(2,2)
-# z = Layer(3,4)
-# a = SeriesNode(x,y)
-# b = ParallelNode(a,z)
-
-# m = Layer(4,1)
-# n = Layer(5,1)
-# c = SeriesNode(m,n)
-
-# stack = Stackup(b,c,5)
-# # print(stack.turnsRatio())
-# # print(stack.validStackup())
-# # # print(b.hasLayer())
-# # # print(b.allLayers())
-# # N = 8
-# # d = .001
-# # bOverL = 5
-# # R = 1
-# # N_turns = [1, 1, 1, 1, 1, 1, 1, 1]
-# # array = []
-# print(current_sharing_numeric(stack, .02, 1000000, .2, .001))
-# print(current_sharing_symbolic(stack))

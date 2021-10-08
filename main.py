@@ -46,5 +46,3 @@ if __name__ == "__main__":
     print(bestStack)
     print(minLoss)
     print(failureTally)
-
-    #solutionVector = list(current_sharing_numeric(8, ['s', 1, ['p', 2, ['p', 3, 4]]], ['s', 5, ['p', 8, ['p', 6, 7]]], .02, 1000000, .2, .001))
