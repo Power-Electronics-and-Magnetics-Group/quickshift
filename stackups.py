@@ -188,7 +188,7 @@ def layerConnections(layers, N):
 
 		return connections
 
-def seriesConnect(layers):
+def seriesConnect(layers, turns = 1):
 	'''
 	Connects specified layers in series.
 
@@ -196,17 +196,23 @@ def seriesConnect(layers):
 	-----------
 	layers : int list
 		layers to be connected in series
+	turns : int list
+		Optional parameter. If not passed, all turns assumed to be 1. If passed, len(turns)==len(layers)
+		and each layer will be assigned its corresponding turn.
 
 	Returns:
 	--------
 		Series connection of all input layers.
 	'''
-	if (len(layers) == 2): #Base Case
-		return SeriesNode(Layer(layers[0],1),Layer(layers[1],1))
-	else: #Put first layer in series with the remaining layers
-		return SeriesNode(Layer(layers[0],1),seriesConnect(layers[1:]))
+	if (turns == 1): turns = [1] * len(layers)
+	elif (len(turns) != len(layers)): raise valueError
 
-def parallelConnect(layers):
+	if (len(layers) == 2): #Base Case
+		return SeriesNode(Layer(layers[0],turns[0]),Layer(layers[1],turns[1]))
+	else: #Put first layer in series with the remaining layers
+		return SeriesNode(Layer(layers[0],turns[0]),seriesConnect(layers[1:],turns[1:]))
+
+def parallelConnect(layers, turns = 1):
 	'''
 	Connects specified layers in parallel.
 
@@ -214,15 +220,20 @@ def parallelConnect(layers):
 	-----------
 	layers : int list
 		layers to be connected in parallel
+	turns : int
+		Optional parameter. If not passed, all turns assumed to be 1. If passed, all the parallel turns will
+		be created with specified turns on them.
 
 	Returns:
 	--------
 		Parallel connection of all input layers.
 	'''
+	if (not isinstance(turns, int)): raise valueError
+
 	if (len(layers) == 2): #Base Case
-		return ParallelNode(Layer(layers[0],1),Layer(layers[1],1))
+		return ParallelNode(Layer(layers[0],turns),Layer(layers[1],turns))
 	else: #Put first layer in series with the remaining layers
-		return ParallelNode(Layer(layers[0],1),parallelConnect(layers[1:]))
+		return ParallelNode(Layer(layers[0],turns),parallelConnect(layers[1:],turns))
 
 #stacks=stackups(8,3)
 #print(len(stacks))
@@ -234,3 +245,7 @@ def parallelConnect(layers):
 # print(a.number)
 #for stack in stacks:
 #	print(stack)
+a=parallelConnect([1,2,3],5)
+b=seriesConnect([4,5,6],[1,2,3])
+print(a.turns)
+print(b.turns)

@@ -5,6 +5,10 @@ class Stackup:
 		self.secondary = secondary
 		self.N = N
 
+	def __repr__(self):
+		return f'Stack: Primary - {self.primary.__repr__()}; Secondary - {self.secondary.__repr__()}'
+
+
 	def turnsRatio(self):
 		n1 = self.primary.turns
 		n2 = self.secondary.turns
@@ -57,7 +61,10 @@ class ParallelNode(Node):
 	
 	def __init__(self, left, right):
 		super().__init__(left, right)
-		self.turns = (.5*(self.left.turns + self.right.turns))
+		self.turns = (.5*(self.left.turns + self.right.turns)) # NOT CORRECT. TO DO
+
+	def __repr__(self):
+		return f'(P,{self.left.__repr__()},{self.right.__repr__()})'
 
 	def I_node(self):
 		a = self.left.I_node()
@@ -72,6 +79,9 @@ class SeriesNode(Node):
 		super().__init__(left, right)
 		self.turns = (self.left.turns + self.right.turns)
 
+	def __repr__(self):
+		return f'(S,{self.left.__repr__()},{self.right.__repr__()})'
+
 	def I_node(self):
 		return self.left.I_node()
 
@@ -83,6 +93,9 @@ class Layer:
 		if (not isinstance(number, int)): print(type(number))
 		self.number = number
 		self.turns = turns
+
+	def __repr__(self):
+		return f'[L{self.number},{self.turns}T]'
 
 	def I_node(self):
 		return [self.number]
@@ -96,6 +109,8 @@ class Layer:
 	def turnCount(self):
 		return [[self.number, self.turns]]
 
+
+
 #x = Layer(3,1)
 #print(x.number)
 #print(x.allLayers())
@@ -103,7 +118,7 @@ class Layer:
 # z = Layer(1,4)
 # a = SeriesNode(x,y)
 # b = ParallelNode(a,z)
-
+# print(b)
 # m = Layer(4,1)
 # n = Layer(5,1)
 # c = SeriesNode(m,n)
