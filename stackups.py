@@ -42,7 +42,7 @@ def stackups(N, turnsRatio):
 	#Generate valid turn pairs. 
 	pairs = turnPairs(N, turnsRatio)
 
-	stackupList =[]
+	stackupList = []
 
 	#Iterate over all the turn pairs
 	for pair in pairs:
@@ -145,9 +145,9 @@ def layerConnections(layers, N):
 		List of layer connections that put N turns on the provided layers. 
 	'''
 	if (type(layers) == int): #If called on single layer, just return the layer (if N==1)
-		if (N==1): return Layer(layers,1)
+		if (N==1): return [Layer(layers,1)]
 		else: raise valueError('Invalid turn number for specified layers.')
-	if (len(layers) == 1): return Layer(layers,1)
+	if (len(layers) == 1): return [Layer(layers[0],1)]
 
 	#Since 1 turn per layer max, can't have more layers than turns
 	if (len(layers) < N): raise valueError('Invalid turn number for specified layers.')
@@ -163,8 +163,11 @@ def layerConnections(layers, N):
 		connections = []
 		for s in parallelTurnOptions:
 			s2 = tuple(set(layers).difference(s))
-			a = SeriesNode(parallelConnect(s), layerConnections(s2,s_count))
-			connections.append(a)
+			sConnections = layerConnections(s2,s_count)
+			pConnection = parallelConnect(s)
+			for sConnect in sConnections:
+				a = SeriesNode(pConnection, sConnect)
+				connections.append(a)
 		return connections
 	else:
 		#Otherwise we will create one turn and put it in series with the remainder of the turns
@@ -173,20 +176,15 @@ def layerConnections(layers, N):
 			oneTurnOptions = list(combinations(layers,i))		#Generate layer combinations for the one turn
 			if (i == num/2.0):										#If the layer selection is evenly split, turn connections will be symmetric. Can cut in half to reduce dupes
 				duplicateReductionCount = int(len(oneTurnOptions)/2)
-				#print(oneTurnOptions)
 				oneTurnOptions = oneTurnOptions[0:duplicateReductionCount]
-				#print(oneTurnOptions)
 			for s in oneTurnOptions:							#Iterate over each layer set
 				s2 = tuple(set(layers).difference(s))			#Specify the layers not included in the turn
 				a = layerConnections(s,1)						#Generate the 1 turn connection
 				b = layerConnections(s2,N-1)					#Generate the remaining turn connections
-
-				for connection in b:							#Iterate over all the options in b and return the combinations
-					print(type(a))
-					print(a)
-					print(type(b))
-					print(b)
-					connections.append(SeriesNode(a,connection))
+				
+				for aConnection in a:
+					for bConnection in b:							#Iterate over all the options in b and return the combinations
+						connections.append(SeriesNode(aConnection,bConnection))
 
 		return connections
 
@@ -226,7 +224,13 @@ def parallelConnect(layers):
 	else: #Put first layer in series with the remaining layers
 		return ParallelNode(Layer(layers[0],1),parallelConnect(layers[1:]))
 
-stacks=stackups(8,3)
-print(len(stacks))
+#stacks=stackups(8,3)
+#print(len(stacks))
+# a=layerConnections([1],1)
+# print(a)
+# a=a[0]
+# print(a)
+# print(a.kind)
+# print(a.number)
 #for stack in stacks:
 #	print(stack)

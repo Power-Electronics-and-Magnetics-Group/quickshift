@@ -21,6 +21,16 @@ class Stackup:
 		correct = list(range(1, self.N + 1))
 		return (layers == correct)
 
+	def turnCount(self):
+		Turns = self.primary.turnCount()
+		secTurns = self.secondary.turnCount()
+		Turns.extend(secTurns)
+		TurnsSort = sorted(Turns, key=lambda x: x[0])
+		turnCounts = [0] * self.N
+		for i in range(0,self.N):
+			turnCounts[i] = TurnsSort[i][1]
+		return turnCounts
+
 class Node(object):
 
 	def __init__(self, left, right):
@@ -33,6 +43,12 @@ class Node(object):
 	def allLayers(self):
 		a = self.left.allLayers()
 		a.extend(self.right.allLayers())
+		return a
+
+	def turnCount(self):
+		a = self.left.turnCount()
+		b = self.right.turnCount()
+		a.extend(b)
 		return a
 
 class ParallelNode(Node):
@@ -64,6 +80,7 @@ class Layer:
 	kind = 'L'
 
 	def __init__(self, number, turns):
+		if (not isinstance(number, int)): print(type(number))
 		self.number = number
 		self.turns = turns
 
@@ -76,10 +93,21 @@ class Layer:
 	def allLayers(self):
 		return [self.number]
 
-# x = Layer(4,1)
-# y = Layer(8,2)
-# z = Layer(2,4)
+	def turnCount(self):
+		return [[self.number, self.turns]]
+
+#x = Layer(3,1)
+#print(x.number)
+#print(x.allLayers())
+# y = Layer(2,2)
+# z = Layer(1,4)
 # a = SeriesNode(x,y)
 # b = ParallelNode(a,z)
-# print(b.hasLayer())
-# print(b.allLayers())
+
+# m = Layer(4,1)
+# n = Layer(5,1)
+# c = SeriesNode(m,n)
+
+# stack = Stackup(b,c,5)
+
+# print(stack.turnCount())

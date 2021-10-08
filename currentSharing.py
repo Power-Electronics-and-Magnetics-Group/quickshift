@@ -4,7 +4,7 @@ import pandas as pd
 import math
 from stackupClasses import Layer, SeriesNode, ParallelNode, Node, Stackup
 
-def current_sharing_numeric(stack, b, f, l, r, N_turns = 1, Ip = 1):
+def current_sharing_numeric(stack, b, f, l, r, Ip = 1):
     '''
     Evaluates current sharing within the specified layer structure & dimensions.
 
@@ -23,9 +23,6 @@ def current_sharing_numeric(stack, b, f, l, r, N_turns = 1, Ip = 1):
         same) or a list of floats with N-1 entries.
     Ip : float
         Primary current value (A). If it is not specified, will be set to 1.
-    N_turns : int list
-        Number of turns of each layer. Should have N entries. If not specified, all layers will be assumed to
-        have 1 layer each.
 
     Returns:
     --------
@@ -44,8 +41,7 @@ def current_sharing_numeric(stack, b, f, l, r, N_turns = 1, Ip = 1):
     #input validation
     if (not stack.validStackup()): raise ValueError('Not a valid layer list.')
 
-    if (N_turns == 1): N_turns = [1] * (N)
-    if (len(N_turns) != (N)): raise ValueError('Not a valid turn count list.')
+    N_turns = stack.turnCount()
 
     #Current relationships based on structure
     SM = sp.Matrix([primary_current_identity(stack.primary, N)])
@@ -83,7 +79,7 @@ def current_sharing_numeric(stack, b, f, l, r, N_turns = 1, Ip = 1):
     
     return result
 
-def current_sharing_symbolic(stack, N_turns = 1,  distanceFlag = 0):
+def current_sharing_symbolic(stack,  distanceFlag = 0):
     '''
     Evaluates current sharing within the specified layer structure & dimensions.
 
@@ -91,9 +87,6 @@ def current_sharing_symbolic(stack, N_turns = 1,  distanceFlag = 0):
     -----------
     stack : stackup object
         Valid stackup
-    N_turns : int list
-        Number of turns of each layer. Should have N entries. If not specified, all layers will be assumed to
-        have 1 layer each.
     distanceFlag: bool
         0 if all interlayer distances should be treated as the same. 1 otherwise.
 
@@ -117,8 +110,7 @@ def current_sharing_symbolic(stack, N_turns = 1,  distanceFlag = 0):
     #input validation
     if (not stack.validStackup()): raise ValueError('Not a valid layer list.')
 
-    if (N_turns == 1): N_turns = [1] * (N)
-    if (len(N_turns) != (N)): raise ValueError('Not a valid turn count list.')
+    N_turns = stack.turnCount()
 
     #Current relationships based on structure
     SM = sp.Matrix([primary_current_identity(stack.primary, N)])
@@ -317,26 +309,26 @@ def faraday_equation(a,b,N,d, bOverL, N_turns, r=1):
     faraday[N + b*2 - 2] = -d/2
     return faraday
 
-x = Layer(1,1)
-y = Layer(2,2)
-z = Layer(3,4)
-a = SeriesNode(x,y)
-b = ParallelNode(a,z)
+# x = Layer(1,1)
+# y = Layer(2,2)
+# z = Layer(3,4)
+# a = SeriesNode(x,y)
+# b = ParallelNode(a,z)
 
-m = Layer(4,1)
-n = Layer(5,1)
-c = SeriesNode(m,n)
+# m = Layer(4,1)
+# n = Layer(5,1)
+# c = SeriesNode(m,n)
 
 # stack = Stackup(b,c,5)
-# print(stack.turnsRatio())
-# print(stack.validStackup())
-# # print(b.hasLayer())
-# # print(b.allLayers())
-# N = 8
-# d = .001
-# bOverL = 5
-# R = 1
-# N_turns = [1, 1, 1, 1, 1, 1, 1, 1]
-# array = []
+# # print(stack.turnsRatio())
+# # print(stack.validStackup())
+# # # print(b.hasLayer())
+# # # print(b.allLayers())
+# # N = 8
+# # d = .001
+# # bOverL = 5
+# # R = 1
+# # N_turns = [1, 1, 1, 1, 1, 1, 1, 1]
+# # array = []
 # print(current_sharing_numeric(stack, .02, 1000000, .2, .001))
 # print(current_sharing_symbolic(stack))

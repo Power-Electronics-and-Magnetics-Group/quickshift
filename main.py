@@ -1,7 +1,7 @@
-from currentSharing_general import current_sharing_numeric
-from currentSharing_general import current_sharing_symbolic
+from currentSharing import current_sharing_numeric
+from currentSharing import current_sharing_symbolic
 
-from stackups_michael import stackups
+from stackups import stackups
 
 def loss(ff):
     loss_sum=0
@@ -22,8 +22,8 @@ if __name__ == "__main__":
     #print(b.subs(tau0,0))
 
 
-    N = 8
-    turnRatio = 3
+    N = 4
+    turnRatio = 2
     stacks = stackups(N,turnRatio)
     print(len(stacks))
 
@@ -32,9 +32,10 @@ if __name__ == "__main__":
     failureTally = 0
 
     for stack in stacks:
+        print(stack)
         #print(failureTally)
         #print(stack)
-        solutionVector = list(current_sharing_numeric(N, stack[0], stack[1], .02, 1000000, .2, .001))
+        solutionVector = list(current_sharing_numeric(stack, .02, 1000000, .2, .001))
         #print(solutionVector)
         if (solutionVector == []):
             failureTally = failureTally + 1
