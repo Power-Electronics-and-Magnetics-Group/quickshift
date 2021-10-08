@@ -2,10 +2,11 @@ import numpy as np
 from itertools import combinations
 from itertools import product
 import pprint
+import math
 from scipy.special import comb
 from stackupClasses import Layer, SeriesNode, ParallelNode, Node, Stackup
 
-def stackups(N, turnsRatio):
+def stackups(N, turnsRatio, maxTurns):
 	'''
 	Generates list of valid stackups for N layer transformer with supplied turns ratio. Maximum 1 turn per layer.
 
@@ -15,6 +16,8 @@ def stackups(N, turnsRatio):
 		Number of turns.
 	turnsRatio : int or float
 		Desired turns ratio. 
+	maxTurns : int
+		Maximum amount of turns to put on a single layer.
 
 	Returns:
 	--------
@@ -40,14 +43,13 @@ def stackups(N, turnsRatio):
 		layers[i-1] = i
 
 	#Generate valid turn pairs. 
-	pairs = turnPairs(N, turnsRatio)
+	pairs = turnPairs(N, turnsRatio, maxTurns)
 
 	stackupList = []
 
 	#Iterate over all the turn pairs
 	for pair in pairs:
-		primaryLayers = layerAssignments(N,pair)									#Generate primary layer combinations
-		if(turnsRatio == 1): primaryLayers = primaryLayers[0:int(len(primaryLayers)/2)]		#If turnsRatio is unity, can cull symmetric entries
+		primaryLayers = layerAssignments(N,pair,maxTurns)									#Generate primary layer combinations
 		for pL in primaryLayers:													#Iterate over them
 			sL = tuple(set(layers).difference(pL))									#Secondary list is the remaining layers
 			primaryConnection = layerConnections(pL, pair[0])						#Generate primary connections
@@ -59,7 +61,7 @@ def stackups(N, turnsRatio):
 
 	return stackupList
 
-def turnPairs(N, turnsRatio):
+def turnPairs(N, turnsRatio, maxTurns):
 	'''
 	Returns valid pairs of turn counts for a N layer transformer, assuming maximum 1 turn per layer.
 
@@ -69,11 +71,14 @@ def turnPairs(N, turnsRatio):
 		Number of turns.
 	turnsRatio : int or float
 		Desired turns ratio. turnsRatio >= 1
+	maxTurns : int
+		Maximum amount of turns to put on a single layer.
 
 	Returns:
 	--------
 	turnPairs
-		list of lists, with each inner
+		list of lists, each inner list represents a valid turn pair, with turnPairs[0] turns on the primary
+		and turnPairs[1] turns on the secondary.
 	'''
 	#Input validation
 	if (N <=2 or type(N) != int): raise valueError('Invalid N')
@@ -81,6 +86,7 @@ def turnPairs(N, turnsRatio):
 
 	if (turnsRatio < 1): turnsRatio = 1/turnsRatio
 
+	maxTotalTurns = N * maxTurns;
 
 	nFlag = 1						#True while haven't exceeded N
 	turnPairs = []					#Empty list to put turn pairs in
@@ -88,14 +94,14 @@ def turnPairs(N, turnsRatio):
 
 	while nFlag:
 		s = p * turnsRatio														#Set S based on turns ratio
-		if ((s + p) > N): nFlag = 0												#Not valid if s+p>N. Break out of loop
+		if ((s + p) > maxTotalTurns): nFlag = 0									#Not valid if s+p>maxTotalTurns. Break out of loop
 		else: 
-			if (isinstance(s,int) or s.is_integer()): turnPairs.append([p,s])	#append to list if valid
+			if (isinstance(s,int) or s.is_integer()): turnPairs.append([p,int(s)])	#append to list if valid
 		p = p+1																	#Increment p counter
 
 	return turnPairs
 
-def layerAssignments(N, turnPair):
+def layerAssignments(N, turnPair, maxTurns):
 	'''
 	Selects different combinations of layers for a given set of turns and a layer count.
 
@@ -105,6 +111,8 @@ def layerAssignments(N, turnPair):
 		Number of turns.
 	turnPair: int list of length 2
 		Pair of turn counts. turnPair[0] turns on the primary, turnPair[1] turns on the secondary.
+	maxTurns : int
+		Maximum amount of turns to put on a single layer.
 
 	Returns:
 	--------
@@ -121,16 +129,27 @@ def layerAssignments(N, turnPair):
 	for i in range(1, N+1):
 		layers[i-1] = i
 
-	validPrimaryCounts = range(turnPair[0],N - turnPair[1] + 1)			#Possible number of layers on the primary
+	#Possible number of layers on the primary
+	minPrimaryLayers = int(math.ceil(float(turnPair[0])/maxTurns))
+	minSecondaryLayers = int(math.ceil(float(turnPair[1])/maxTurns))
+	if ((minPrimaryLayers + minSecondaryLayers) > N): return 0
+	if (turnPair[1]==turnPair[0]): validPrimaryCounts=range(minPrimaryLayers,N//2)
+	else: validPrimaryCounts = range(minPrimaryLayers, N - minSecondaryLayers + 1)	
 	primaryLayerAssignments = []
 	for j in validPrimaryCounts:
-		primaryLayerAssignments.extend(list(combinations(layers,j)))	#Generate all combinations
+		options = list(combinations(layers,j))
+		for option in options:
+			mirror = [(N-x)+1 for x in option]
+			mirror = tuple(reversed(mirror))
+			if ((mirror in options) and (mirror != tuple(option))): 
+				options.remove(mirror)
+		primaryLayerAssignments.extend(options)	#Generate all combinations
 
 	return primaryLayerAssignments
 
 def layerConnections(layers, N):
 	'''
-	Returns all possible 1 turn/layer combinations that place N turns on the specified layers.
+	Returns combinations that place N turns on the specified layers.
 
 	Parameters:
 	-----------
@@ -182,15 +201,11 @@ def layerConnections(layers, N):
 	connections = []
 	#Make all possible connections with a parallel node at the top of the tree:
 	for i in range(1,1+int(num/2)):										#Limit set size b/c problem is symmetric
-		#print(i)
 		parallelSetsLeft = list(combinations(layers,i))
-		#print(parallelSetsLeft)
 		if ((num/2)==i): parallelSetsLeft = parallelSetsLeft[:len(parallelSetsLeft)//2]		#Another symmetry, can eliminate entries
 		for parallelSetLeft in parallelSetsLeft:
 			parallelSetRight = tuple(set(layers).difference(parallelSetLeft))
-			#print('here')
 			parallelLeftConnections = layerConnections(parallelSetLeft,N)
-			#print('there')
 			parallelRightConnections = layerConnections(parallelSetRight,N)
 			for parallelLeftConnection in parallelLeftConnections:
 				for parallelRightConnection in parallelRightConnections:
@@ -259,11 +274,12 @@ def parallelConnect(layers, turns = 1):
 
 #stacks=stackups(8,3)
 #print(len(stacks))
-a=layerConnections([1,2,3,4],2)
-print(len(a))
-#print(a)
-for stack in a:
-	print(stack)
+# a=stackups(4,1.5,4)
+# #a = turnPairs(8, 1.5, 4)
+# print(len(a))
+# #print(a)
+# for stack in a:
+# 	print(stack)
 # a=a[0]
 # print(a)
 # print(a.kind)
