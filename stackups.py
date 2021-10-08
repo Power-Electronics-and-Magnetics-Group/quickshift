@@ -144,49 +144,71 @@ def layerConnections(layers, N):
 	connections
 		List of layer connections that put N turns on the provided layers. 
 	'''
-	if (type(layers) == int): #If called on single layer, just return the layer (if N==1)
-		if (N==1): return [Layer(layers,1)]
-		else: raise valueError('Invalid turn number for specified layers.')
-	if (len(layers) == 1): return [Layer(layers[0],1)]
+	#If called on single layer, just return the layer with specified turns.
+	#print(f'call. layers {layers}, N {N}')
+	if (type(layers) == int): return [Layer(layers,N)]
+	if (len(layers) == 1): return [Layer(layers[0],N)]
 
-	#Since 1 turn per layer max, can't have more layers than turns
-	if (len(layers) < N): raise valueError('Invalid turn number for specified layers.')
+	#If only need one turn, can only put layers in parallel. 
+	if (N == 1): return([parallelConnect(layers,1)])
 
 	num = len(layers)
-	p_count = num-N 	#number of parallel connections
-	s_count = N-1 		#number of series connections
 
-	if (p_count==0): return [seriesConnect(layers)] 	#Only need to do series connections
-	if (s_count==0): return [parallelConnect(layers)] #Only need to do parallel connections
-	if (p_count==1):								#Nonzero series connections but just one parallel, so let's get the parallel done first to reduce duplicates
-		parallelTurnOptions = list(combinations(layers,2))
-		connections = []
-		for s in parallelTurnOptions:
-			s2 = tuple(set(layers).difference(s))
-			sConnections = layerConnections(s2,s_count)
-			pConnection = parallelConnect(s)
-			for sConnect in sConnections:
-				a = SeriesNode(pConnection, sConnect)
-				connections.append(a)
-		return connections
-	else:
-		#Otherwise we will create one turn and put it in series with the remainder of the turns
-		connections = [] 
-		for i in range(1, num - N + 1):							#Can put 1 turn on up to p_count layers
-			oneTurnOptions = list(combinations(layers,i))		#Generate layer combinations for the one turn
-			if (i == num/2.0):										#If the layer selection is evenly split, turn connections will be symmetric. Can cut in half to reduce dupes
-				duplicateReductionCount = int(len(oneTurnOptions)/2)
-				oneTurnOptions = oneTurnOptions[0:duplicateReductionCount]
-			for s in oneTurnOptions:							#Iterate over each layer set
-				s2 = tuple(set(layers).difference(s))			#Specify the layers not included in the turn
-				a = layerConnections(s,1)						#Generate the 1 turn connection
-				b = layerConnections(s2,N-1)					#Generate the remaining turn connections
-				
-				for aConnection in a:
-					for bConnection in b:							#Iterate over all the options in b and return the combinations
-						connections.append(SeriesNode(aConnection,bConnection))
+	seriesConnections = []
+	#Make all possible connections with a series node at the top of the tree
+	for i in range(1,1+int(num/2)):										#Limit set size b/c problem is symmetric
+		seriesSetsLeft = list(combinations(layers,i))
+		if ((num/2)==i): seriesSetsLeft = seriesSetsLeft[:len(seriesSetsLeft)//2]			#Another symmetry, can eliminate entries
+		for seriesSetLeft in seriesSetsLeft:
+			seriesSetRight = tuple(set(layers).difference(seriesSetLeft))
+			for j in range(1,N):
+				seriesLeftConnections = layerConnections(seriesSetLeft,j)
+				seriesRightConnections = layerConnections(seriesSetRight,N-j)
+				for seriesLeftConnection in seriesLeftConnections:
+					for seriesRightConnection in seriesRightConnections:
+						a = SeriesNode(seriesLeftConnection,seriesRightConnection)
+						seriesConnections.append(a)
 
-		return connections
+	allSeriesFlag = 0
+	deleteList = []
+	for i in range(0,len(seriesConnections)):
+		count = seriesConnections[i].nodeCount()
+		if (count[0] == num-1):
+			if (not allSeriesFlag):
+				allSeriesFlag = 1
+			else: deleteList.append(i)
+	for i in reversed(deleteList): del seriesConnections[i]
+
+	connections = []
+	#Make all possible connections with a parallel node at the top of the tree:
+	for i in range(1,1+int(num/2)):										#Limit set size b/c problem is symmetric
+		#print(i)
+		parallelSetsLeft = list(combinations(layers,i))
+		#print(parallelSetsLeft)
+		if ((num/2)==i): parallelSetsLeft = parallelSetsLeft[:len(parallelSetsLeft)//2]		#Another symmetry, can eliminate entries
+		for parallelSetLeft in parallelSetsLeft:
+			parallelSetRight = tuple(set(layers).difference(parallelSetLeft))
+			#print('here')
+			parallelLeftConnections = layerConnections(parallelSetLeft,N)
+			#print('there')
+			parallelRightConnections = layerConnections(parallelSetRight,N)
+			for parallelLeftConnection in parallelLeftConnections:
+				for parallelRightConnection in parallelRightConnections:
+					b = ParallelNode(parallelLeftConnection,parallelRightConnection)
+					connections.append(b)
+
+	allParallelFlag = 0
+	deleteList = []
+	for i in range(0,len(connections)):
+		count = connections[i].nodeCount()
+		if (count[1] == num-1):
+			if (not allParallelFlag):
+				allParallelFlag = 1
+			else: deleteList.append(i)
+	for i in reversed(deleteList): del connections[i]
+
+	connections.extend(seriesConnections)
+	return connections
 
 def seriesConnect(layers, turns = 1):
 	'''
@@ -237,15 +259,12 @@ def parallelConnect(layers, turns = 1):
 
 #stacks=stackups(8,3)
 #print(len(stacks))
-# a=layerConnections([1],1)
-# print(a)
+a=layerConnections([1,2,3,4],2)
+print(len(a))
+#print(a)
+for stack in a:
+	print(stack)
 # a=a[0]
 # print(a)
 # print(a.kind)
 # print(a.number)
-#for stack in stacks:
-#	print(stack)
-a=parallelConnect([1,2,3],5)
-b=seriesConnect([4,5,6],[1,2,3])
-print(a.turns)
-print(b.turns)

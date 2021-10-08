@@ -71,6 +71,11 @@ class ParallelNode(Node):
 		a.extend(self.right.I_node())
 		return a
 
+	def nodeCount(self):
+		lN = self.left.nodeCount()
+		rN = self.right.nodeCount()
+		return [lN[0] + rN[0], 1 + lN[1] + rN[1]]
+
 class SeriesNode(Node):
 
 	kind = 'S'
@@ -84,6 +89,11 @@ class SeriesNode(Node):
 
 	def I_node(self):
 		return self.left.I_node()
+
+	def nodeCount(self):
+		lN = self.left.nodeCount()
+		rN = self.right.nodeCount()
+		return [1 + lN[0] + rN[0], lN[1] + rN[1]]
 
 class Layer:
 
@@ -108,6 +118,9 @@ class Layer:
 
 	def turnCount(self):
 		return [[self.number, self.turns]]
+
+	def nodeCount(self):
+		return [0, 0]
 
 
 
