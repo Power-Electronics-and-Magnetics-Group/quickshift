@@ -132,7 +132,7 @@ def layerAssignments(N, turnPair, maxTurns):
 	#Possible number of layers on the primary
 	minPrimaryLayers = int(math.ceil(float(turnPair[0])/maxTurns))
 	minSecondaryLayers = int(math.ceil(float(turnPair[1])/maxTurns))
-	if ((minPrimaryLayers + minSecondaryLayers) > N): return 0
+	if ((minPrimaryLayers + minSecondaryLayers) > N): return []
 	if (turnPair[1]==turnPair[0]): validPrimaryCounts=range(minPrimaryLayers,N//2)
 	else: validPrimaryCounts = range(minPrimaryLayers, N - minSecondaryLayers + 1)	
 	primaryLayerAssignments = []
