@@ -49,6 +49,14 @@ class Node(object):
 		self.left = left
 		self.right = right
 
+	def __eq__(self,other):
+		if (isinstance(other,Node)):
+			return (str(self) == str(other))
+		return False
+
+	def __hash__(self):
+		return hash(str(self))
+
 	def hasLayer(self):
 		return self.left.hasLayer()
 
@@ -86,13 +94,15 @@ class Node(object):
 			return
 
 	def sortTree(self):
-		self.sortChildren()
-		self.left.sortChildren()
-		self.right.sortChildren()
-
+		if (isinstance(self.left,Layer) and isinstance(self.right,Layer)):
+			if (self.left.number > self.right.number): self.swap()
+			return
+		if (isinstance(self.left,Node)): self.left.sortTree()
+		if (isinstance(self.right,Node)): self.right.sortTree()
 		return
 
 	def standardForm(self):
+		self.sortTree()
 		edgeNodes = self.findNodeEdge()
 		nodePlusMinLayer = []
 		for node in edgeNodes:
@@ -102,9 +112,14 @@ class Node(object):
 		edgeNodesSorted  = []
 		for nodePlusLayer in edgeNodesAlmostSorted:
 			edgeNodesSorted.append(nodePlusLayer[0])
-
-		
-		return edgeNodesSorted
+		for node in edgeNodesSorted:
+			node = node.standardForm()
+		if (self.kind == 'P'):
+			return parallelConnectNodes(edgeNodesSorted)
+		if (self.kind == 'S'):
+			return seriesConnectNodes(edgeNodesSorted)
+		else: 
+			return edgeNodesSorted[0]
 
 	def findNodeEdge(self):
 		if (self.kind == self.left.kind): nodes = self.left.findNodeEdge()
@@ -122,13 +137,6 @@ class ParallelNode(Node):
 	def __init__(self, left, right):
 		super().__init__(left, right)
 		self.turns = (.5*(self.left.turns + self.right.turns)) # NOT CORRECT. TO DO
-
-	def __eq__(self,other):
-		if (isinstance(other,ParallelNode)):
-			leftEq = (self.left == other.left) or (self.left == other.right)
-			rightEq = (self.right == other.right) or (self.right == other.left)
-			return (leftEq and rightEq)
-		return False
 
 	def __repr__(self):
 		return f'(P,{self.left.__repr__()},{self.right.__repr__()})'
@@ -150,13 +158,6 @@ class SeriesNode(Node):
 	def __init__(self, left, right):
 		super().__init__(left, right)
 		self.turns = (self.left.turns + self.right.turns)
-
-	def __eq__(self,other):
-		if (isinstance(other,SeriesNode)):
-			leftEq = (self.left == other.left) or (self.left == other.right)
-			rightEq = (self.right == other.right) or (self.right == other.left)
-			return (leftEq and rightEq)
-		return False
 
 	def __repr__(self):
 		return f'(S,{self.left.__repr__()},{self.right.__repr__()})'
@@ -183,6 +184,9 @@ class Layer:
 			return (self.number == other.number) and (self.turns == other.turns)
 		return False
 
+	def __hash__(self):
+		return hash(str(self.number)+','+str(self.turns))
+
 	def __repr__(self):
 		return f'[L{self.number},{self.turns}T]'
 
@@ -201,19 +205,42 @@ class Layer:
 	def nodeCount(self):
 		return [0, 0]
 
-	def sortChildren(self):
-		return
+	def standardForm(self):
+		return self
 
-a = Layer(8,2)
-b = Layer(2,2)
-c = Layer(7,2)
-d = Layer(4,2)
-e = Layer(5,2)
-f = Layer(6,2)
+def parallelConnectNodes(NodeList):
+	length = len(NodeList)
+	if (length == 2):
+		return ParallelNode(NodeList[0],NodeList[1])
+	else:
+		return ParallelNode(parallelConnectNodes(NodeList[0:length-1]),NodeList[length-1])
 
-g = ParallelNode(a,b)
-h= SeriesNode(c,d)
-i = ParallelNode(g,h)
-j = ParallelNode(i,e)
+def seriesConnectNodes(NodeList):
+	length = len(NodeList)
+	if (length == 2):
+		return SeriesNode(NodeList[0],NodeList[1])
+	else:
+		return SeriesNode(seriesConnectNodes(NodeList[0:length-1]),NodeList[length-1])
 
-print(j.standardForm())
+# a = Layer(8,2)
+# b = Layer(2,2)
+# c = Layer(7,2)
+# d = Layer(4,2)
+# e = Layer(5,2)
+# f = Layer(6,2)
+
+# g = ParallelNode(a,b)
+# h= SeriesNode(c,d)
+# i = ParallelNode(g,h)
+# j = ParallelNode(i,e)
+
+# k = SeriesNode(d,c)
+# l = ParallelNode(k,e)
+# m = ParallelNode(b,a)
+# n = ParallelNode(l,m)
+# print(f'output:{j.standardForm()}')
+# print(f'output:{n.standardForm()}')
+# print(j==n)
+# j=j.standardForm()
+# n=n.standardForm()
+# print(j==n)
