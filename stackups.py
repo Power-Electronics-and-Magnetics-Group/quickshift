@@ -44,16 +44,17 @@ def stackups(N, turnsRatio, maxTurns):
 
 	#Generate valid turn pairs. 
 	pairs = turnPairs(N, turnsRatio, maxTurns)
-
+	#print(pairs)
 	stackupList = []
 
 	#Iterate over all the turn pairs
 	for pair in pairs:
-		primaryLayers = layerAssignments(N,pair,maxTurns)									#Generate primary layer combinations
+		primaryLayers = layerAssignments(N,pair,maxTurns)							#Generate primary layer combinations
+		#print(primaryLayers)
 		for pL in primaryLayers:													#Iterate over them
 			sL = tuple(set(layers).difference(pL))									#Secondary list is the remaining layers
-			primaryConnection = layerConnections(pL, pair[0])						#Generate primary connections
-			secondaryConnection = layerConnections(sL, pair[1])						#Generate secondary connections
+			primaryConnection = layerConnections(pL, pair[0], maxTurns)				#Generate primary connections
+			secondaryConnection = layerConnections(sL, pair[1], maxTurns)			#Generate secondary connections
 
 			for pConnect in primaryConnection:
 				for sConnect in secondaryConnection:
@@ -147,7 +148,7 @@ def layerAssignments(N, turnPair, maxTurns):
 
 	return primaryLayerAssignments
 
-def layerConnections(layers, N):
+def layerConnections(layers, N, maxTurns):
 	'''
 	Returns combinations that place N turns on the specified layers.
 
@@ -157,6 +158,8 @@ def layerConnections(layers, N):
 		Layers that will be connected together with specified amount of turns.
 	N : int
 		Number of turns.
+	maxTurns : int
+		Maximum amount of turns to put on a single layer.
 
 	Returns:
 	--------
@@ -164,9 +167,12 @@ def layerConnections(layers, N):
 		List of layer connections that put N turns on the provided layers. 
 	'''
 	#If called on single layer, just return the layer with specified turns.
-	#print(f'call. layers {layers}, N {N}')
-	if (type(layers) == int): return [Layer(layers,N)]
-	if (len(layers) == 1): return [Layer(layers[0],N)]
+	if (type(layers) == int): 
+		if (N <= maxTurns): return [Layer(layers,N)]
+		else: return None
+	if (len(layers) == 1): 
+		if (N <= maxTurns): return [Layer(layers[0],N)]
+		else: return None
 
 	#If only need one turn, can only put layers in parallel. 
 	if (N == 1): return([parallelConnect(layers,1)])
@@ -181,12 +187,13 @@ def layerConnections(layers, N):
 		for seriesSetLeft in seriesSetsLeft:
 			seriesSetRight = tuple(set(layers).difference(seriesSetLeft))
 			for j in range(1,N):
-				seriesLeftConnections = layerConnections(seriesSetLeft,j)
-				seriesRightConnections = layerConnections(seriesSetRight,N-j)
-				for seriesLeftConnection in seriesLeftConnections:
-					for seriesRightConnection in seriesRightConnections:
-						a = SeriesNode(seriesLeftConnection,seriesRightConnection)
-						seriesConnections.append(a)
+				seriesLeftConnections = layerConnections(seriesSetLeft,j,maxTurns)
+				seriesRightConnections = layerConnections(seriesSetRight,N-j,maxTurns)
+				if ((seriesLeftConnections != None) and (seriesRightConnections != None)):
+					for seriesLeftConnection in seriesLeftConnections:
+						for seriesRightConnection in seriesRightConnections:
+							a = SeriesNode(seriesLeftConnection,seriesRightConnection)
+							seriesConnections.append(a)
 
 	allSeriesFlag = 0
 	deleteList = []
@@ -205,12 +212,13 @@ def layerConnections(layers, N):
 		if ((num/2)==i): parallelSetsLeft = parallelSetsLeft[:len(parallelSetsLeft)//2]		#Another symmetry, can eliminate entries
 		for parallelSetLeft in parallelSetsLeft:
 			parallelSetRight = tuple(set(layers).difference(parallelSetLeft))
-			parallelLeftConnections = layerConnections(parallelSetLeft,N)
-			parallelRightConnections = layerConnections(parallelSetRight,N)
-			for parallelLeftConnection in parallelLeftConnections:
-				for parallelRightConnection in parallelRightConnections:
-					b = ParallelNode(parallelLeftConnection,parallelRightConnection)
-					connections.append(b)
+			parallelLeftConnections = layerConnections(parallelSetLeft,N,maxTurns)
+			parallelRightConnections = layerConnections(parallelSetRight,N,maxTurns)
+			if ((parallelLeftConnections != None) and (parallelRightConnections != None)):
+				for parallelLeftConnection in parallelLeftConnections:
+					for parallelRightConnection in parallelRightConnections:
+						b = ParallelNode(parallelLeftConnection,parallelRightConnection)
+						connections.append(b)
 
 	allParallelFlag = 0
 	deleteList = []
@@ -271,3 +279,11 @@ def parallelConnect(layers, turns = 1):
 		return ParallelNode(Layer(layers[0],turns),Layer(layers[1],turns))
 	else: #Put first layer in series with the remaining layers
 		return ParallelNode(Layer(layers[0],turns),parallelConnect(layers[1:],turns))
+
+# a = layerConnections([2,3,4,5],2,1)
+# for c in a:
+# 	print(c)
+stacks = stackups(6,2,4)
+print(len(stacks))
+# for stack in stacks:
+# 	print(stack)
