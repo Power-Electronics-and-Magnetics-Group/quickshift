@@ -67,7 +67,7 @@ def current_sharing_numeric(stack, b, f, l, r, Ip = 1):
     AmperianLoops[0, N] = 1
     AmperianLoops[N, 3*N-1] = 1
     SM = SM.col_join(AmperianLoops)
-
+    print(SM)
     #Generate the LHS of the equality.
     C = sp.zeros(int(3*N),1)
     C[0] = Ip
@@ -137,12 +137,12 @@ def current_sharing_symbolic(stack,  distanceFlag = 0):
     AmperianLoops[0, N] = 1
     AmperianLoops[N, 3*N-1] = 1
     SM = SM.col_join(AmperianLoops)
-
+    print(SM)
     #Generate the LHS of the equality.
     Ip = sp.symbols('Ip')
     C = sp.zeros(int(3*N),1)
     C[0] = Ip
-
+    print(C)
     #Solve
     M = sp.linsolve((sp.Matrix(SM),sp.Matrix(C)))
     X = sp.simplify(M.subs(d,0))

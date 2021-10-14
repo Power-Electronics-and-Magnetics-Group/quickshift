@@ -1,6 +1,7 @@
 from currentSharing import current_sharing_numeric
 from currentSharing import current_sharing_symbolic
 from stackups import stackups
+from stackupClasses import Layer, SeriesNode, ParallelNode, Node, Stackup
 import math
 import time
 import numpy
@@ -12,10 +13,26 @@ def loss(ff):
         return loss_sum
 
 if __name__ == "__main__":
-    N = 8
+    #[Stack: Primary - [L1,1T]; Secondary - (P,(S,[L4,1T],[L6,1T]),(S,[L5,1T],(P,[L2,1T],[L3,1T]))), 
+    # N = 6
+    # p = Layer(1,1)
+    # s = ParallelNode(SeriesNode(Layer(4,1),Layer(6,1)), SeriesNode(Layer(5,1), ParallelNode(Layer(2,1),Layer(3,1))))
+
+    # stack = Stackup(p,s,N)
+
+    # b = .02
+    # f = 1000000
+    # l = .2
+    # r = .001
+
+    #solutionVector = list(current_sharing_numeric(stack, b, f, l, r))
+    # solutionVector = list(current_sharing_symbolic(stack))
+    # print(solutionVector)
+
+    N = 5
     turnRatio = 2
-    maxTurns = 1
-    print(f'Optimizing {N} layers, {turnRatio}:1 turns ratio, with maximum {maxTurns} turns/layer.')
+    maxTurns = 4
+    print(f'Optimizing {N} layers, {turnRatio}:1 turns ratio, with maximum {maxTurns} turns/layer')
     tic = time.perf_counter()
     stacks = stackups(N, turnRatio, maxTurns)
     print(f'Analyzing {len(stacks)} options...')

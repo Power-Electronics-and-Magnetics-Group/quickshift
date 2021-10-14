@@ -194,17 +194,8 @@ def layerConnections(layers, N, maxTurns):
 					for seriesLeftConnection in seriesLeftConnections:
 						for seriesRightConnection in seriesRightConnections:
 							a = SeriesNode(seriesLeftConnection,seriesRightConnection)
-							seriesConnections.add(a)
-
-	# allSeriesFlag = 0
-	# deleteList = []
-	# for i in range(0,len(seriesConnections)):
-	# 	count = seriesConnections[i].nodeCount()
-	# 	if (count[0] == num-1):
-	# 		if (not allSeriesFlag):
-	# 			allSeriesFlag = 1
-	# 		else: deleteList.append(i)
-	# for i in reversed(deleteList): del seriesConnections[i]
+							a = a.standardForm()
+							if (a not in seriesConnections): seriesConnections.add(a)
 
 	connections = set()
 	#Make all possible connections with a parallel node at the top of the tree:
@@ -220,21 +211,10 @@ def layerConnections(layers, N, maxTurns):
 				for parallelLeftConnection in parallelLeftConnections:
 					for parallelRightConnection in parallelRightConnections:
 						b = ParallelNode(parallelLeftConnection,parallelRightConnection)
-						connections.add(b)
-
-	# allParallelFlag = 0
-	# deleteList = []
-	# for i in range(0,len(connections)):
-	# 	count = connections[i].nodeCount()
-	# 	if (count[1] == num-1):
-	# 		if (not allParallelFlag):
-	# 			allParallelFlag = 1
-	# 		else: deleteList.append(i)
-	# for i in reversed(deleteList): del connections[i]
+						b = b.standardForm()
+						if (b not in connections): connections.add(b)
 
 	connections.update(seriesConnections)
-
-
 	return connections
 
 def seriesConnect(layers, turns = 1):
@@ -287,7 +267,7 @@ def parallelConnect(layers, turns = 1):
 # a = layerConnections([2,3,4,5],2,1)
 # for c in a:
 # 	print(c)
-stacks = stackups(8,2,4)
+stacks = stackups(4,2,8)
 print(len(stacks))
-# for stack in stacks:
-# 	print(stack)
+for stack in stacks:
+	print(stack)
