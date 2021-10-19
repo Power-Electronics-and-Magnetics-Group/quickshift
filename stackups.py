@@ -263,11 +263,3 @@ def parallelConnect(layers, turns = 1):
 		return ParallelNode(Layer(layers[0],turns),Layer(layers[1],turns))
 	else: #Put first layer in series with the remaining layers
 		return ParallelNode(Layer(layers[0],turns),parallelConnect(layers[1:],turns))
-
-# a = layerConnections([2,3,4,5],2,1)
-# for c in a:
-# 	print(c)
-stacks = stackups(4,2,8)
-print(len(stacks))
-for stack in stacks:
-	print(stack)

@@ -1,5 +1,6 @@
 class Stackup:
-
+	'''Stackup class specifies a set of two windings (each are node objects) and a 
+	number of turns. Used for transformer specification.'''
 	def __init__(self, primary, secondary, N):
 		self.primary = primary
 		self.secondary = secondary
@@ -16,8 +17,8 @@ class Stackup:
 	def __repr__(self):
 		return f'Stack: Primary - {self.primary.__repr__()}; Secondary - {self.secondary.__repr__()}'
 
-
 	def turnsRatio(self):
+		'''Returns turns ratio of the stackup.'''
 		n1 = self.primary.turns
 		n2 = self.secondary.turns
 
@@ -26,6 +27,7 @@ class Stackup:
 		else: return n2/n1
 
 	def validStackup(self):
+		'''Validates that the stackup has all necessary layers, and they are all in range of N'''
 		primLayers = self.primary.allLayers()
 		secondaryLayers = self.secondary.allLayers()
 		primLayers.extend(secondaryLayers)
@@ -34,6 +36,7 @@ class Stackup:
 		return (layers == correct)
 
 	def turnCount(self):
+		'''Returns turns on each layer in the stackup.'''
 		Turns = self.primary.turnCount()
 		secTurns = self.secondary.turnCount()
 		Turns.extend(secTurns)
@@ -44,6 +47,7 @@ class Stackup:
 		return turnCounts
 
 class Node(object):
+	'''Node class specifies a binary tree used to represent transformer connections.'''
 
 	def __init__(self, left, right):
 		self.left = left
@@ -58,20 +62,24 @@ class Node(object):
 		return hash(str(self))
 
 	def hasLayer(self):
+		'''Returns a layer that is contained by this node.'''
 		return self.left.hasLayer()
 
 	def allLayers(self):
+		'''Returns all layers contained by this node.'''
 		a = self.left.allLayers()
 		a.extend(self.right.allLayers())
 		return a
 
 	def turnCount(self):
+		'''Returns array of layers and their respective turn counts.'''
 		a = self.left.turnCount()
 		b = self.right.turnCount()
 		a.extend(b)
 		return a
 
 	def swap(self):
+		'''Swaps position of left and right children on this node.'''
 		temp = self.right
 		self.right = self.left
 		self.left = temp
@@ -94,6 +102,7 @@ class Node(object):
 	# 		return
 
 	def sortTree(self):
+		'''Re-orders tree such that smaller layer #s are the left children.'''
 		if (isinstance(self.left,Layer) and isinstance(self.right,Layer)):
 			if (self.left.number > self.right.number): self.swap()
 			return
@@ -102,6 +111,7 @@ class Node(object):
 		return
 
 	def standardForm(self):
+		'''Returns a sorted but equivalent tree.'''
 		self.sortTree()
 		edgeNodes = self.findNodeEdge()
 		nodePlusMinLayer = []
@@ -122,6 +132,9 @@ class Node(object):
 			return edgeNodesSorted[0]
 
 	def findNodeEdge(self):
+		'''Returns list of nodes that are attached to the edge of the cumulative node 
+		(i.e. if self.kind=='P' and it is connected to several other parallel nodes,
+		findNodeEdge will return the nodes connected to those parallel nodes.'''
 		if (self.kind == self.left.kind): nodes = self.left.findNodeEdge()
 		else: nodes = [self.left]
 		if (self.kind == self.right.kind): b = self.right.findNodeEdge()
@@ -131,7 +144,7 @@ class Node(object):
 		return nodes
 
 class ParallelNode(Node):
-
+	'''Node subclass that specifies parallel connected children.'''
 	kind = 'P'
 	
 	def __init__(self, left, right):
@@ -142,17 +155,19 @@ class ParallelNode(Node):
 		return f'(P,{self.left.__repr__()},{self.right.__repr__()})'
 
 	def I_node(self):
+		'''Returns current flowing through this node'''
 		a = self.left.I_node()
 		a.extend(self.right.I_node())
 		return a
 
 	def nodeCount(self):
+		'''Counts total attached nodes, separated by kind [#S,#P].'''
 		lN = self.left.nodeCount()
 		rN = self.right.nodeCount()
 		return [lN[0] + rN[0], 1 + lN[1] + rN[1]]
 
 class SeriesNode(Node):
-
+	'''Node subclass that specifies series connected children.'''
 	kind = 'S'
 	
 	def __init__(self, left, right):
@@ -163,15 +178,17 @@ class SeriesNode(Node):
 		return f'(S,{self.left.__repr__()},{self.right.__repr__()})'
 
 	def I_node(self):
+		'''Returns current flowing through this node'''
 		return self.left.I_node()
 
 	def nodeCount(self):
+		'''Counts total attached nodes, separated by kind [#S,#P].'''
 		lN = self.left.nodeCount()
 		rN = self.right.nodeCount()
 		return [1 + lN[0] + rN[0], lN[1] + rN[1]]
 
 class Layer:
-
+	'''Layer class specifies single layer in a transformer. Composed of turn count and layer number.'''
 	kind = 'L'
 
 	def __init__(self, number, turns):
@@ -191,24 +208,31 @@ class Layer:
 		return f'[L{self.number},{self.turns}T]'
 
 	def I_node(self):
+		'''Returns own layer.'''
 		return [self.number]
 
 	def hasLayer(self):
+		'''Returns own layer.'''
 		return self.number
 
 	def allLayers(self):
+		'''Returns own layer.'''
 		return [self.number]
 
 	def turnCount(self):
+		'''Returns layer number and turn count.'''
 		return [[self.number, self.turns]]
 
 	def nodeCount(self):
+		'''Returns number of attached nodes.'''
 		return [0, 0]
 
 	def standardForm(self):
+		'''Returns self to aid in construction of standardized stack representations.'''
 		return self
 
 def parallelConnectNodes(NodeList):
+	'''Connect all nodes in NodeList in parallel.'''
 	length = len(NodeList)
 	if (length == 2):
 		return ParallelNode(NodeList[0],NodeList[1])
@@ -216,6 +240,7 @@ def parallelConnectNodes(NodeList):
 		return ParallelNode(parallelConnectNodes(NodeList[0:length-1]),NodeList[length-1])
 
 def seriesConnectNodes(NodeList):
+	'''Connect all nodes in NodeList in series.'''
 	length = len(NodeList)
 	if (length == 2):
 		return SeriesNode(NodeList[0],NodeList[1])

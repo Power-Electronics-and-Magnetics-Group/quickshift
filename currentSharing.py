@@ -67,7 +67,7 @@ def current_sharing_numeric(stack, b, f, l, r, Ip = 1):
     AmperianLoops[0, N] = 1
     AmperianLoops[N, 3*N-1] = 1
     SM = SM.col_join(AmperianLoops)
-    print(SM)
+    #print(SM)
     #Generate the LHS of the equality.
     C = sp.zeros(int(3*N),1)
     C[0] = Ip

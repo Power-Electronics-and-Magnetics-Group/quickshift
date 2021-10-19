@@ -29,9 +29,9 @@ if __name__ == "__main__":
     # solutionVector = list(current_sharing_symbolic(stack))
     # print(solutionVector)
 
-    N = 5
+    N = 8
     turnRatio = 2
-    maxTurns = 4
+    maxTurns = 1
     print(f'Optimizing {N} layers, {turnRatio}:1 turns ratio, with maximum {maxTurns} turns/layer')
     tic = time.perf_counter()
     stacks = stackups(N, turnRatio, maxTurns)
