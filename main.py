@@ -1,17 +1,16 @@
+import math
+import time
+import multiprocessing
+import numpy
+from more_itertools import divide
 from currentSharing import current_sharing_numeric
 from currentSharing import current_sharing_symbolic
 from stackups import stackups
 from stackupClasses import Layer, SeriesNode, ParallelNode, Node, Stackup
-import math
-import time
-import numpy
-import multiprocessing
-from more_itertools import divide
-
 # def loss(ff):
 #     loss_sum=0
 #     for term in ff:
-#         loss_sum = loss_sum + term**2 
+#         loss_sum = loss_sum + term**2
 #         return loss_sum
 
 def solver(queue, stacks, b, f, l, r, N):
@@ -29,11 +28,10 @@ def solver(queue, stacks, b, f, l, r, N):
             solutionVector = [100] * 3*N
             failureTally = failureTally + 1
             failedStacks.append(stack)
-        
         stackLoss = 0
         for i in range(N,3*N):
             stackLoss = stackLoss + .5*R*((b*solutionVector[i])**2)
-        if (stackLoss < minLoss):
+        if stackLoss < minLoss:
             minLoss = stackLoss
             bestStack = stack
 
@@ -41,9 +39,9 @@ def solver(queue, stacks, b, f, l, r, N):
 
 
 if __name__ == "__main__":
-    N = 8
-    turnRatio = 2
-    maxTurns = 8
+    N = 5
+    turnRatio = 3
+    maxTurns = 3
     print(f'Optimizing {N} layers, {turnRatio}:1 turns ratio, with maximum {maxTurns} turns/layer')
     tic = time.perf_counter()
     stacks = stackups(N, turnRatio, maxTurns)
@@ -109,7 +107,7 @@ if __name__ == "__main__":
     failureTally = 0
     failedStacks = []
     for result in results:
-        if (result[1] < minLoss):
+        if result[1] < minLoss:
             minLoss = result[1]
             bestStack = result[0]
         failureTally = failureTally + result[2]
