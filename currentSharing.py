@@ -72,6 +72,9 @@ def current_sharing_numeric(stack, b, f, l, r, Ip = 1):
     C = sp.zeros(int(3*N),1)
     C[0] = Ip
 
+    #print(SM)
+    #print(sp.shape(SM))
+
     X = np.linalg.solve(np.array(SM, dtype=float),np.array(C, dtype=float))
     result = [0] * (3*N)
     for j in range(0,3*N):

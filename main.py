@@ -2,40 +2,28 @@ import math
 import time
 import multiprocessing
 import numpy
+from itertools import repeat
 from more_itertools import divide
+from multiprocessing import Pool, cpu_count
 from currentSharing import current_sharing_numeric
 from currentSharing import current_sharing_symbolic
-from stackups import stackups
+from stackups import stackups, parallelConnect, seriesConnect
 from stackupClasses import Layer, SeriesNode, ParallelNode, Node, Stackup
-# def loss(ff):
-#     loss_sum=0
-#     for term in ff:
-#         loss_sum = loss_sum + term**2
-#         return loss_sum
 
-def solver(queue, stacks, b, f, l, r, N):
-    minLoss = 1000000000
-    bestStack = 0
+def solver(stack, b, f, l, r, N):
     d = math.sqrt(2*(1.68*math.pow(10,-8))/((2*math.pi*f)*(4*math.pi*pow(10,-7))))
     R = 1.68*math.pow(10,-8)*l/(d*b)
-    failureTally = 0
-    failedStacks = []
+    stackLoss = 0
 
-    for stack in stacks:
-        try:
-            solutionVector = list(current_sharing_numeric(stack, b, f, l, r))
-        except numpy.linalg.LinAlgError:
-            solutionVector = [100] * 3*N
-            failureTally = failureTally + 1
-            failedStacks.append(stack)
-        stackLoss = 0
+    try:
+        solutionVector = list(current_sharing_numeric(stack, b, f, l, r))
         for i in range(N,3*N):
             stackLoss = stackLoss + .5*R*((b*solutionVector[i])**2)
-        if stackLoss < minLoss:
-            minLoss = stackLoss
-            bestStack = stack
+    except numpy.linalg.LinAlgError:
+        solutionVector = [100] * 3*N
+        stackLoss = 9999
 
-    queue.put([bestStack, minLoss, failureTally, failedStacks])
+    return ([stack, stackLoss])
 
 def solveIt(N, turnRatio, maxTurns):
     stacks = stackups(N, turnRatio, maxTurns)
@@ -44,19 +32,13 @@ def solveIt(N, turnRatio, maxTurns):
     l = .2
     r = .001
 
-    queue = multiprocessing.Queue()
-    threadCount = multiprocessing.cpu_count()
-    stacksDivided = divide(threadCount, stacks)
-    stacksDividedList = [list(s) for s in stacksDivided]
+    print(f'Analyzing {len(stacks)} options...')
 
-    solvers = [multiprocessing.Process(target=solver, args=(queue, s, b, f, l, r, N)) for s in stacksDividedList]
-    for s in solvers:
-        s.start()
+    threadCount = multiprocessing.cpu_count() - 1
 
-    for s in solvers:
-        s.join()
+    with multiprocessing.Pool(processes=threadCount) as pool:
+        results = pool.starmap(solver, zip(stacks, repeat(b), repeat(f), repeat(l), repeat(r), repeat(N)))
 
-    results = [queue.get() for _ in solvers]
     minLoss = 1000000000
     bestStack = 0
     failureTally = 0
@@ -65,113 +47,53 @@ def solveIt(N, turnRatio, maxTurns):
         if (result[1] < minLoss):
             minLoss = result[1]
             bestStack = result[0]
-        failureTally = failureTally + result[2]
-        failedStacks.extend(result[3])
+        if (result[1] == 9999):
+            failureTally = failureTally + 1
+            failedStacks.append(result[0])
 
     return [bestStack, minLoss, failureTally, failedStacks]
 
 if __name__ == "__main__":
-    #N = 5
-    #turnRatio = 2
-    #maxTurns = 2
-    #print(solveIt(5,2,2))
-
-    # print(f'Optimizing {N} layers, {turnRatio}:1 turns ratio, with maximum {maxTurns} turns/layer')
-    # tic = time.perf_counter()
-    # stacks = stackups(N, turnRatio, maxTurns)
-    # print(f'Analyzing {len(stacks)} options...')
-    # tic1 = time.perf_counter()
-
-    # # minLoss = 1000000000
-    # # bestStack = 0
-    # # failureTally = 0
-    # # failedStacks = []
-    # # for stack in stacks:
-    # #     #print(stack)
-    # #     #print(failureTally)
-    # #     #print(stack)
-    # #     try:
-    # #         solutionVector = list(current_sharing_numeric(stack, b, f, l, r))
-    # #     except numpy.linalg.LinAlgError:
-    # #         solutionVector = [100] * 3*N
-    # #         failureTally = failureTally + 1
-    # #         failedStacks.append(stack)
-        
-    # #     stackLoss = 0
-    # #     d = math.sqrt(2*(1.68*math.pow(10,-8))/((2*math.pi*f)*(4*math.pi*pow(10,-7))))
-    # #     R = 1.68*math.pow(10,-8)*l/(d*b)
-
-    # #     for i in range(N,3*N):
-    # #         stackLoss = stackLoss + .5*R*((b*solutionVector[i])**2)
-    # #     #print(stackLoss)
-    # #     if (stackLoss < minLoss):
-    # #         minLoss = stackLoss
-    # #         bestStack = stack
-    # # toc = time.perf_counter()
-
-    # # print(f'Optimized Stackup: {bestStack}')
-    # # print(f'Minimum Loss (for 1A on high current winding): {minLoss:0.4f} W')
-    # print(f"Stackup Generation Time: {tic1 - tic:0.4f} seconds")
-    # # print(f"Calculation Time (asynchronous): {toc - tic1:0.4f} seconds")
-    # # print(f"Total Optimization Time: {toc - tic:0.4f} seconds")
-    # # print(f'Failed Stacks: {failedStacks}. Count {failureTally}')
-
-    # tic = time.perf_counter()
-    # queue = multiprocessing.Queue()
-    # threadCount = multiprocessing.cpu_count()
-    # stacksDivided = divide(threadCount, stacks)
-    # stacksDividedList = [list(s) for s in stacksDivided]
-    # #print(stacksDividedList)
-    # #print(len(stacksDividedList))
-    # solvers = [multiprocessing.Process(target=solver, args=(queue, s, b, f, l, r, N)) for s in stacksDividedList]
-    # for s in solvers:
-    #     s.start()
-
-    # for s in solvers:
-    #     s.join()
-
-    # results = [queue.get() for _ in solvers]
-
-    # minLoss = 1000000000
-    # bestStack = 0
-    # failureTally = 0
-    # failedStacks = []
-    # for result in results:
-    #     if (result[1] < minLoss):
-    #         minLoss = result[1]
-    #         bestStack = result[0]
-    #     failureTally = failureTally + result[2]
-    #     failedStacks.extend(result[3])
+    N = 8
+    turnRatio = 3
+    maxTurns = 3
+    ans = solveIt(N,turnRatio,maxTurns)
+    print(f'Optimized {ans[0]}')
+    print(f'Loss (with 1A on high-current winding): {ans[1]:3f} W')
+    if (ans[2] == 0):
+        print(f'No failed stacks.')
+    else:
+        print(f'Failed Stacks: {ans[3]}')
 
 
-    # toc = time.perf_counter()
-    # print(f"Calculation Time (paralleled): {toc-tic:0.4f} seconds")
-    # print(f'Optimized Stackup: {bestStack}')
-    # for stack in stacks:
-    #     #print(stack)
-    #     #print(failureTally)
-    #     #print(stack)
-    #     try:
-    #         solutionVector = list(current_sharing_numeric(stack, b, f, l, r))
-    #     except numpy.linalg.LinAlgError:
-    #         solutionVector = [100] * 3*N
-    #         failureTally = failureTally + 1
-    #         failedStacks.append(stack)
-        
-    #     stackLoss = 0
-    #     d = math.sqrt(2*(1.68*math.pow(10,-8))/((2*math.pi*f)*(4*math.pi*pow(10,-7))))
-    #     R = 1.68*math.pow(10,-8)*l/(d*b)
+    #Broken solver
+    #[Stack: Primary - [L1,1T]; Secondary - (P,(S,(P,[L2,1T],(P,[L6,1T],[L7,1T])),[L4,2T]),(S,(P,[L3,2T],[L5,2T]),[L8,1T])),
+    # Stack: Primary - [L1,1T]; Secondary - (P,(S,(P,[L2,1T],(P,[L6,1T],[L7,1T])),[L4,2T]),(S,(P,[L3,2T],[L5,2T]),[L8,1T]))
 
-    #     for i in range(N,3*N):
+    # prim = Layer(1,1)
+    # #sec = ParallelNode(SeriesNode( ParallelNode(Layer(2,1), ParallelNode(Layer(6,1),Layer(7,1))) , Layer(4,2)), 
+    # #    SeriesNode(ParallelNode(Layer(3,2), Layer(5,2)) , Layer(8,1)))
+    # sec = ParallelNode(SeriesNode( ParallelNode(Layer(2,1), ParallelNode(Layer(6,1),Layer(7,1))) , Layer(4,1)), 
+    #     SeriesNode(ParallelNode(Layer(3,1), Layer(5,1)) , Layer(8,1)))
+    # stack = Stackup(prim,sec,8)
+
+    # prim = parallelConnect([1,2,4,6,8])
+    # sec = seriesConnect([3,5,7])
+    # stack = Stackup(prim,sec,8)
+    # print(stack)
+
+    # b = .02
+    # f = 3000000
+    # l = .2
+    # r = .001
+    # N=8
+
+    # solutionVector = list(current_sharing_numeric(stack, b, f, l, r))
+    # d = math.sqrt(2*(1.68*math.pow(10,-8))/((2*math.pi*f)*(4*math.pi*pow(10,-7))))
+    # R = 1.68*math.pow(10,-8)*l/(d*b)
+
+    # stackLoss=0
+    # for i in range(N,3*N):
     #         stackLoss = stackLoss + .5*R*((b*solutionVector[i])**2)
-    #     #print(stackLoss)
-    #     if (stackLoss < minLoss):
-    #         minLoss = stackLoss
-    #         bestStack = stack
-    # toc = time.perf_counter()
 
-    # print(f'Optimized Stackup: {bestStack}')
-    # print(f'Minimum Loss (for 1A on high current winding): {minLoss:0.4f} W')
-    # print(f"Calculation Time (asynchronous): {toc - tic1:0.4f} seconds")
-    # print(f"Total Optimization Time: {toc - tic:0.4f} seconds")
-    # print(f'Failed Stacks: {failedStacks}. Count {failureTally}')
+    # print(stackLoss)
