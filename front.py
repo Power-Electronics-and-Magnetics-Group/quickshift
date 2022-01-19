@@ -1,0 +1,46 @@
+from main import solveIt
+from currentSharing import current_sharing_numeric
+from colorprocessing import listDeterminer
+from decimal import Decimal
+from flask import Flask, request, url_for, redirect, render_template,jsonify
+app = Flask(__name__)
+
+@app.route('/')
+def front():
+    return render_template('index.html') 
+
+@app.route('/evaluator')
+def evaluator():
+    return render_template('evaluator.html')
+
+@app.route('/identifier',methods=["POST","GET"])
+def identifier():
+    if request.method == 'GET':
+        return render_template('identifier.html')
+    if request.method == 'POST':
+        nValue=int(request.form['nValueForm'])
+        turnsPerLayer=int(request.form['turnsPerLayer'])
+        turnsRatio=int(request.form['turnsRatio'])
+        solution = solveIt(nValue,turnsRatio,turnsPerLayer)
+        output = solution[1]
+        
+        inStack = solution[0]
+        layerWidth=float(request.form['layerWidth'])
+        operatingFrequency=int(request.form['operatingFrequency'])
+        turnLength=float(request.form['turnLength'])
+        layerDistances=float(request.form['layerDistances'])
+        primaryCurrent=(request.form['primaryCurrent'])
+        primCurrent=1.00000
+        if(primaryCurrent!=""):
+            primCurrent=float(primaryCurrent)
+        solute = current_sharing_numeric(inStack,layerWidth,operatingFrequency,turnLength,layerDistances,primCurrent)
+        currentList = solute[:nValue]
+        hexList = listDeterminer(currentList)
+        return render_template('identifier.html',
+                               output="{:.5E}".format(Decimal(output)),
+                               inputs=inStack,
+                               currentSolution=solute,
+                               pC=primCurrent,
+                               nVal=nValue,
+                               hL=hexList)
+

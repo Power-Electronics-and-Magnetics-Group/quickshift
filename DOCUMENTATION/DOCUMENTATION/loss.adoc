@@ -1,0 +1,26 @@
+:score: _
+
+= loss.py 
+
+File documentation for loss.py (specifically the defined *loss* function) 
+
+==== _loss_ [[id,loss]]
+
+After a current_sharing function is called, this function generates the power loss / power draw coefficient for the tuple that the current_sharing function returns.
+
+*Parameters*:
+
+[source,python]
+----
+ff = tuple
+
+# Tuple created by the output of the current_sharing_symbolic/current_sharing_numeric functions. All
+# terms are in the form of N × Ip , where N is a real constant. 
+----
+
+*Returns*:
+
+The coefficient of the power loss with respect to I~p~. This function assumes the R term is constant for every layer in calculation of the power loss.  
+
+'''
+:hardbreaks:

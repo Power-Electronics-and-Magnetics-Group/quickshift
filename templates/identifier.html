@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Current Sharing DEMO</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+	</head>
+
+  <style>
+    .submit-btn {
+      border: none; 
+      background-color: #BF5700;
+    }
+    .submit-btn:hover {
+      background-color: #662e00;
+      border: none;
+
+    }
+  </style>
+  <body>
+    {% block navbar %}
+    <!-- nav bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand"><b>current-sharing</b></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link"  href="{{ url_for('front') }}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('evaluator') }}">Evaluator</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{{ url_for('identifier') }}">Identifier</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="https://www.github.com/abhijeet-b/flask-current">Github</a>
+            </li>
+          </ul>
+        </div>
+    </div>
+    </nav>
+    {% endblock %}
+
+    {% block content %}
+    <div class="d-grid pt-3 gap-3">
+    <div class="container p-4 bg-light border">
+
+    <form method="POST">
+      <p><b> Assume integer precision unless specified otherwise.</b> Float precision is of 5 decimal places. </p>
+      <div class="form-group pt-2">
+        <label for="nValueForm"># of layers</label>
+        <input type="number" min="0" class="form-control" name="nValueForm" id="nValueForm" placeholder="Enter the number of layers:">
+      </div>
+      <div class="form-group pt-2">
+        <label for="turnsRatio">Turns ratio:</label>
+        <input type="number" min="1" class="form-control" name="turnsRatio" id="turnsRatio" placeholder="Enter the turns ratio:">
+      </div>
+      <div class="form-group pt-2">
+        <label for="turnsPerLayer"># of turns per layer: </label>
+        <input type="number" min="0" class="form-control" name="turnsPerLayer" id="turnsPerLayer" placeholder="Enter the maximum amount of turns per layer:">
+      </div>
+       <div class="form-group pt-2">
+        <label for="layerWidth">Width of the layer (m), float precision: </label>
+        <input type="number" min="0" step=".001" class="form-control" name="layerWidth" id="layerWidth" placeholder="Enter the width of a layer:">
+      </div>
+       <div class="form-group pt-2">
+        <label for="operatingFrequency">Operating frequency (Hz): </label>
+        <input type="number" min="0" class="form-control" name="operatingFrequency" id="operatingFrequency" placeholder="Enter the operating frequency:">
+      </div>
+       <div class="form-group pt-2">
+        <label for="turnLength">Turn length (m), float precision: </label>
+        <input type="number" min="0" step=".001" class="form-control" name="turnLength" id="turnLength" placeholder="Enter the length of the turn:">
+      </div>
+       <div class="form-group pt-2">
+        <label for="layerDistances">Distances between the layers (m), float precision: </label>
+        <input type="number" min="0" step=".001" class="form-control" name="layerDistances" id="layerDistances" placeholder="Enter the distance between each layer (assumed to be the same for now):">
+      </div>
+      <div class="form-group pt-2">
+        <label for="primaryCurrent">Primary current (A), float precision: </label>
+        <input type="number" min="1" step=".001" class="form-control" name="primaryCurrent" id="primaryCurrent" placeholder="Enter the current on the primary (default is 1):">
+      </div>
+      <div class="pt-3"></div>
+      <button type="submit" class="submit-btn btn btn-primary">Submit</button>
+    </form>
+
+    </div>
+    </div>
+
+    <div class="d-grid pt-3 gap-3">
+    <div class="container p-4 bg-light border">
+      Once you submit the values listed above, the program will identify the best stackup. Be patient -- this will take some time (and your processing power). <br>
+      {% if output is defined %}
+        <b>Minimum power loss coefficient:</b> {{output}} <br>
+      {% endif %}
+      {% if inputs is defined %}
+        <b> The optimal stackup: </b> {{inputs}} <br>
+      {% endif %}
+      {% for i in currentSolution %}
+        {% if loop.index <= nVal %}
+	  <b> Layer {{loop.index}} </b> =  {{ i|float|round(5) }} A <br>
+        {% endif %}
+      {% endfor %}
+    </div>
+    {% if hL is defined %}
+    <div class="container p-4 bg-light border">
+      <b>Current intensity visualization: </b>
+      {% for i in hL %}
+        {% if loop.index <= nVal %}
+		<div style="text-align:center; padding-top:35px; width:300px;height:100px;border-radius:25px solid #00000;background:#{{i}};">
+			<p style="color:#000000"> <b> Layer {{loop.index}} </b> </p>
+		</div> <br>
+        {% endif %}
+      {% endfor %}
+	<img src="{{ url_for('static', filename='colorscale.svg') }}" alt="Current intensity color scale" style="objec-t-fit: cover"  />
+    </div>
+    {% endif %}
+    </div>
+    {% endblock %}
+  </body>
+
+</html>

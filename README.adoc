@@ -2,20 +2,22 @@
 :stem: latexmath
 = current-sharing
 
-This project aims to be fully complete in a command-line format and then transferred to a website based around Flask and Bootstrap. 
+This program is fully complete in a command-line format. The website implementation using flask is underway. 
 
 == Installation
 
-Instructions for this will be updated when the project is complete 
+Please see the linked xref:DOCUMENTATION/installation.adoc[installation guide].   
 
 == Methods
 
+=== ALL OF THE BELOW DOCUMENTATION relies on old, deprecated files of code.
+
 To view the documentation for each source file, jump to its respective AsciiDoc file using the links below.
 
-xref:DOCUMENTATION/currentSharing_general.adoc[*currentSharing_general*] +
+xref:DOCUMENTATION/currentSharing_general.adoc[*Deprecated/currentSharing_general*] +
 
-xref:DOCUMENTATION/stackups_michael.adoc[*stackups_michael*] +
+xref:DOCUMENTATION/stackups_michael.adoc[*Deprecated/stackups_michael*] +
 
-xref:DOCUMENTATION/loss.adoc[*loss*] +
+xref:DOCUMENTATION/loss.adoc[*Deprecated/loss*] +
 
 
