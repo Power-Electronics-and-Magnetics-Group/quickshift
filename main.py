@@ -25,7 +25,7 @@ def solver(stack, b, f, l, r, N):
 
     return ([stack, stackLoss])
 
-def solveIt(N, turnRatio, maxTurns):
+def solveIt(N, turnRatio, maxTurns, b, f, l, r):
     stacks = stackups(N, turnRatio, maxTurns)
     b = .02
     f = 3000000
@@ -54,10 +54,16 @@ def solveIt(N, turnRatio, maxTurns):
     return [bestStack, minLoss, failureTally, failedStacks]
 
 if __name__ == "__main__":
-    N = 8
+    N = 6
     turnRatio = 3
     maxTurns = 3
-    ans = solveIt(N,turnRatio,maxTurns)
+
+    b = .02
+    f = 3000000
+    l = .2
+    r = .001
+    #r = [.001, .002, .002, .002, .001]
+    ans = solveIt(N,turnRatio,maxTurns, b, f, l, r)
     print(f'Optimized {ans[0]}')
     print(f'Loss (with 1A on high-current winding): {ans[1]:3f} W')
     if (ans[2] == 0):
