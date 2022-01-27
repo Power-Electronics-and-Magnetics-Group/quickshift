@@ -7,7 +7,7 @@ from more_itertools import divide
 from multiprocessing import Pool, cpu_count
 from currentSharing import current_sharing_numeric
 from currentSharing import current_sharing_symbolic
-from stackups import stackups, parallelConnect, seriesConnect
+from stackups import stackups, parallelConnect, seriesConnect, parseStackup
 from stackupClasses import Layer, SeriesNode, ParallelNode, Node, Stackup
 
 def solver(stack, b, f, l, r, N):
@@ -54,22 +54,31 @@ def solveIt(N, turnRatio, maxTurns, b, f, l, r):
     return [bestStack, minLoss, failureTally, failedStacks]
 
 if __name__ == "__main__":
-    N = 6
-    turnRatio = 3
-    maxTurns = 3
+    #N = 6
+    #turnRatio = 3
+    #maxTurns = 3
 
     b = .02
     f = 3000000
     l = .2
     r = .001
     #r = [.001, .002, .002, .002, .001]
-    ans = solveIt(N,turnRatio,maxTurns, b, f, l, r)
-    print(f'Optimized {ans[0]}')
-    print(f'Loss (with 1A on high-current winding): {ans[1]:3f} W')
-    if (ans[2] == 0):
-        print(f'No failed stacks.')
-    else:
-        print(f'Failed Stacks: {ans[3]}')
+    # ans = solveIt(N,turnRatio,maxTurns, b, f, l, r)
+    # print(f'Optimized {ans[0]}')
+    # print(f'Loss (with 1A on high-current winding): {ans[1]:3f} W')
+    # if (ans[2] == 0):
+    #     print(f'No failed stacks.')
+    # else:
+    #     print(f'Failed Stacks: {ans[3]}')
+
+    #prim = parallelConnect([1,3,5,7],1)
+    #sec = parallelConnect([2,4,6,8],3)
+    # prim = parallelConnect([1,3,5,7,8],1)
+    # sec = seriesConnect([2,4,6])
+    # stack = Stackup(prim,sec,8)
+
+    # ans = solver(stack, b, f, l, r, 8)
+    # print(ans)
 
 
     #Broken solver
@@ -103,3 +112,11 @@ if __name__ == "__main__":
     #         stackLoss = stackLoss + .5*R*((b*solutionVector[i])**2)
 
     # print(stackLoss)
+
+
+    #test parser:
+
+    sec = "(P,(S,(P,[L2,1T],(P,[L6,1T],[L7,1T])),[L4,2T]),(S,(P,[L3,2T],[L5,2T]),[L8,1T]))"
+    prim = "[L1,1T]"
+    a = parseStackup(prim,sec,8)
+    print(a)

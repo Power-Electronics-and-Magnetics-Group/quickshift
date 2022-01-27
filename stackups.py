@@ -263,3 +263,90 @@ def parallelConnect(layers, turns = 1):
 		return ParallelNode(Layer(layers[0],turns),Layer(layers[1],turns))
 	else: #Put first layer in series with the remaining layers
 		return ParallelNode(Layer(layers[0],turns),parallelConnect(layers[1:],turns))
+
+def parseStackup(prim, sec, N):
+	'''
+	Returns Stack object specified by the text.
+
+	Parameters:
+	-----------
+	prim : string
+		string representation of the primary
+	sec : string
+		string representation of the secondary
+	N : int
+		Number of layers.
+
+	Returns:
+	--------
+		Stack object specified by the input.
+	'''
+	if (not isinstance(prim, str)): raise valueError
+	if (not isinstance(sec, str)): raise valueError
+	if (not isinstance(N, int)): raise valueError
+
+	Prim = parseNode(prim)
+	Sec = parseNode(sec)
+
+	stack = Stackup(Prim, Sec, N)
+
+	if (stack.validStackup()): return stack
+	else: return 0
+
+def parseNode(nodeText):
+	'''
+	Returns Node object specified by the text.
+
+	Parameters:
+	-----------
+	nodeText : string
+		string representation of the node
+
+	Returns:
+	--------
+		Node object specified by the input.
+	'''
+	if (not isinstance(nodeText, str)): raise valueError
+
+	nodeText = nodeText.upper()
+	nodeText = nodeText.strip()
+
+	leftArg = -1
+	rightArg = -1
+	oneLayerFlag = 0
+
+	if (nodeText[0] == '['):
+		oneLayerFlag = 1
+		split = nodeText.find(",")
+		leftArg = nodeText[1:split]
+		rightArg = nodeText[split+1:-1]
+	elif (nodeText[3] == '['):
+		split = nodeText.find("]")
+		leftArg = nodeText[3:split+1]
+		rightArg = nodeText[split+2:-1]
+	else:
+		rightPCount = 0
+		leftPCount = 0
+		for count, value in enumerate(nodeText):
+			if (value == "("): leftPCount = leftPCount + 1
+			if (value == ")"): 
+				rightPCount = rightPCount + 1
+				if (rightPCount == (leftPCount-1)):
+					leftArg = nodeText[3:count+1]
+					rightArg = nodeText[count+2:-1]
+					break
+
+	if (leftArg == -1): raise valueError
+
+	if (oneLayerFlag):
+		layer = leftArg[1:]
+		turns = rightArg[:-1]
+		node = Layer(int(layer),int(turns))
+	else:
+		if (nodeText[1] == 'P'): 
+			node = ParallelNode(parseNode(leftArg), parseNode(rightArg))
+		elif (nodeText[1] == 'S'): 
+			node = SeriesNode(parseNode(leftArg), parseNode(rightArg))
+		else: raise valueError
+	
+	return node
