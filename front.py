@@ -13,10 +13,10 @@ def front():
 def evaluator():
     return render_template('evaluator.html')
 
-@app.route('/identifier',methods=["POST","GET"])
-def identifier():
+@app.route('/optimizer',methods=["POST","GET"])
+def optimizer():
     if request.method == 'GET':
-        return render_template('identifier.html')
+        return render_template('optimizer.html')
     if request.method == 'POST':
         nValue=int(request.form['nValueForm'])
         turnsPerLayer=int(request.form['turnsPerLayer'])
@@ -36,7 +36,7 @@ def identifier():
         solute = current_sharing_numeric(inStack,layerWidth,operatingFrequency,turnLength,layerDistances,primCurrent)
         currentList = solute[:nValue]
         hexList = listDeterminer(currentList)
-        return render_template('identifier.html',
+        return render_template('optimizer.html',
                                output="{:.5E}".format(Decimal(output)),
                                inputs=inStack,
                                currentSolution=solute,
