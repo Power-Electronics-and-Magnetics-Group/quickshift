@@ -97,10 +97,14 @@ Both of these can be double-clicked on. Or in the shell, run:
 
 or likewise. 
 
-If you're on a Unix machine (Linux or Mac OS X) run the shell script run.sh. Make sure the shell script is executable:
+If you're on a Unix machine (Linux or Mac OS X) run the shell script run.sh. Make sure the shell script is executable.
+
+If you want to make the script executable for all users, run 'chmod a+x run.sh' instead of only the *first* command below. Otherwise:
 ....
-chmod +x run.sh
+chmod u+x run.sh
 ./run.sh
 ....
+
+
 
 By default, the page will be hosted at localhost:5000, so go there in the web browser of your choice. 
