@@ -68,12 +68,21 @@ Once all of these dependencies are installed, clone this GitHub repository. In t
 cd ~/flask-current
 ....
 
-Once that's done, create a virtual environment in Python and then activate it. 
+Once that's done, create a virtual environment in Python and then activate it. For Mac OS/Linux users: 
 
 ....
 $ python3 -m venv venv 
 $ . venv/bin/activate
 ....
+
+For Windows users:
+
+....
+$ python3 -m venv venv 
+$ . venv/Scripts/activate
+....
+
+venv creates different folders in each OS, so it's important to know where the differences are and which ones "activate" is located in.
 
 In this environment, install Flask. Then, exit the virtual environment.  
 
