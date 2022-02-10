@@ -24,7 +24,8 @@ def optimizer():
         solution = solveIt(nValue,turnsRatio,turnsPerLayer)
         output = solution[1]
         
-        inStack = solution[0]
+        # for now
+        inStack = solution[0][0]
         layerWidth=float(request.form['layerWidth'])
         operatingFrequency=int(request.form['operatingFrequency'])
         turnLength=float(request.form['turnLength'])
