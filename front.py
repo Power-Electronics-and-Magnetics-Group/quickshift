@@ -1,4 +1,5 @@
 from main import solveIt
+from stackups import parseStackup
 from currentSharing import current_sharing_numeric
 from colorprocessing import listDeterminer
 from decimal import Decimal
@@ -11,8 +12,14 @@ def front():
 
 @app.route('/evaluator')
 def evaluator():
-    return render_template('evaluator.html')
-
+    if request.method == 'GET':
+	return render_template('evaluator.html')
+    if request.method == 'POST': 
+	primary=request.form['primaryTurns']
+	secondary=request.form['secondaryTurns']
+	numLayers = int(request.form['numLayers'])
+	completeStack = parseStackup(primary,Secondary,numLayers)
+		 
 @app.route('/optimizer',methods=["POST","GET"])
 def optimizer():
     if request.method == 'GET':
