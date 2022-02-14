@@ -10,15 +10,36 @@ app = Flask(__name__)
 def front():
     return render_template('index.html') 
 
-@app.route('/evaluator')
+@app.route('/evaluator',methods=["POST","GET"])
 def evaluator():
     if request.method == 'GET':
-	return render_template('evaluator.html')
+        return render_template('evaluator.html')
     if request.method == 'POST': 
-	primary=request.form['primaryTurns']
-	secondary=request.form['secondaryTurns']
-	numLayers = int(request.form['numLayers'])
-	completeStack = parseStackup(primary,Secondary,numLayers)
+        primary=str(request.form['primaryTurns'])
+        secondary=str(request.form['secondaryTurns'])
+        nValue = int(request.form['nValueForm'])
+        inStack = parseStackup(primary,secondary,nValue)
+
+        layerWidth=float(request.form['layerWidth'])
+        operatingFrequency=int(request.form['operatingFrequency'])
+        turnLength=float(request.form['turnLength'])
+        layerDistances=float(request.form['layerDistances'])
+
+        primaryCurrent=(request.form['primaryCurrent'])
+        primCurrent=1.00000
+        if(primaryCurrent!=""):
+            primCurrent=float(primaryCurrent)
+
+        solute = current_sharing_numeric(inStack,layerWidth,operatingFrequency,turnLength,layerDistances,primCurrent)
+        currentList = solute[:nValue]
+        hexList = listDeterminer(currentList)
+        return render_template('evaluator.html',
+                                inputs=inStack,
+                                currentSolution=solute,
+                                pC=primCurrent,
+                                nVal=nValue,
+                                hL=hexList)
+ 
 		 
 @app.route('/optimizer',methods=["POST","GET"])
 def optimizer():
@@ -28,15 +49,15 @@ def optimizer():
         nValue=int(request.form['nValueForm'])
         turnsPerLayer=int(request.form['turnsPerLayer'])
         turnsRatio=int(request.form['turnsRatio'])
-        solution = solveIt(nValue,turnsRatio,turnsPerLayer)
-        output = solution[1]
-        
-        # for now
-        inStack = solution[0][0]
         layerWidth=float(request.form['layerWidth'])
         operatingFrequency=int(request.form['operatingFrequency'])
         turnLength=float(request.form['turnLength'])
         layerDistances=float(request.form['layerDistances'])
+        solution = solveIt(nValue,turnsRatio,turnsPerLayer,layerWidth,operatingFrequency,turnLength,layerDistances)
+        output = solution[1]
+
+        # for now
+        inStack = solution[0][0]
         primaryCurrent=(request.form['primaryCurrent'])
         primCurrent=1.00000
         if(primaryCurrent!=""):
