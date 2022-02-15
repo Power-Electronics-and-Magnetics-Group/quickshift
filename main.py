@@ -48,7 +48,7 @@ def solveIt(N, turnRatio, maxTurns, b, f, l, r):
             minLoss = result[1]
             bestStack = [result[0]]
         elif (result[1] == minLoss):
-            bestStack = bestStack.append(result[0])
+            bestStack.append(result[0])
         if (result[1] == 9999):
             failureTally = failureTally + 1
             failedStacks.append(result[0])
