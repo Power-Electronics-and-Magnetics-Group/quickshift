@@ -88,6 +88,11 @@
         {% if inputs is defined %}
           <b> The optimal stackup: </b> {{inputs}} <br>
         {% endif %}
+
+        {% if sL is defined %}
+          <b> The loss coefficient for this stackup: </b> {{sL}} <br>
+        {% endif %}
+        
         {% for i in currentSolution %}
           {% if loop.index <= nVal %}
       <b> Layer {{loop.index}} </b> =  {{ i|float|round(5) }} A <br>

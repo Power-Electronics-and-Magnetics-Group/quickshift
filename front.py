@@ -4,6 +4,8 @@ from currentSharing import current_sharing_numeric
 from colorprocessing import listDeterminer
 from decimal import Decimal
 from flask import Flask, request, url_for, redirect, render_template,jsonify
+import numpy
+import math
 app = Flask(__name__)
 
 @app.route('/')
@@ -30,11 +32,23 @@ def evaluator():
         if(primaryCurrent!=""):
             primCurrent=float(primaryCurrent)
 
-        solute = current_sharing_numeric(inStack,layerWidth,operatingFrequency,turnLength,layerDistances,primCurrent)
+        d = math.sqrt(2*(1.68*math.pow(10,-8))/((2*math.pi*operatingFrequency)*(4*math.pi*pow(10,-7))))
+        R = 1.68*math.pow(10,-8)*turnLength/(layerDistances*layerWidth)
+        stackLoss = 0
+        solute = current_sharing_numeric(inStack, layerWidth, operatingFrequency, turnLength, layerDistances)
+        try:
+            solutionVector = list(solute)
+            for i in range(nValue,3*nValue):
+                stackLoss = stackLoss + .5*R*((layerWidth*solutionVector[i])**2)
+        except numpy.linalg.LinAlgError:
+            solutionVector = [100] * 3*nValue
+            stackLoss = 9999
+
         currentList = solute[:nValue]
         hexList = listDeterminer(currentList)
         return render_template('evaluator.html',
                                 inputs=inStack,
+                                sL="{:.5E}".format(Decimal(stackLoss)),
                                 currentSolution=solute,
                                 pC=primCurrent,
                                 nVal=nValue,
