@@ -44,8 +44,9 @@ def evaluator():
             solutionVector = [100] * 3*nValue
             stackLoss = 9999
 
-        currentList = solute[:nValue]
-        hexList = listDeterminer(currentList)
+        currentDensityList = solute[nValue:]
+        print(currentDensityList)
+        hexList = listDeterminer(currentDensityList)
         return render_template('evaluator.html',
                                 inputs=inStack,
                                 sL="{:.5E}".format(Decimal(stackLoss)),
