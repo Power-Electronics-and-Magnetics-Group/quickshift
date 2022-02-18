@@ -47,13 +47,17 @@ def evaluator():
         currentDensityList = solute[nValue:]
         print(currentDensityList)
         hexList = listDeterminer(currentDensityList)
+        hexListA = []
+        for i in hexList:
+            hexListA.append(i.zfill(6))
+        print(hexListA)
         return render_template('evaluator.html',
                                 inputs=inStack,
                                 sL="{:.5E}".format(Decimal(stackLoss)),
                                 currentSolution=solute,
                                 pC=primCurrent,
                                 nVal=nValue,
-                                hL=hexList)
+                                hL=hexListA)
  
 		 
 @app.route('/optimizer',methods=["POST","GET"])
@@ -78,13 +82,18 @@ def optimizer():
         if(primaryCurrent!=""):
             primCurrent=float(primaryCurrent)
         solute = current_sharing_numeric(inStack,layerWidth,operatingFrequency,turnLength,layerDistances,primCurrent)
-        currentList = solute[:nValue]
-        hexList = listDeterminer(currentList)
+        currentDensityList = solute[nValue:]
+        print(currentDensityList)
+        hexList = listDeterminer(currentDensityList)
+        hexListA = []
+        for i in hexList:
+            hexListA.append(i.zfill(6))
+        print(hexListA)
         return render_template('optimizer.html',
                                output="{:.5E}".format(Decimal(output)),
                                inputs=inStack,
                                currentSolution=solute,
                                pC=primCurrent,
                                nVal=nValue,
-                               hL=hexList)
+                               hL=hexListA)
 
