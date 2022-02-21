@@ -87,6 +87,7 @@
         Once you submit the values listed above, the program will calculate the current distribution across each layer of the stackup. Each set of connections (both on the primary and secondary) rely on a binary tree format. <br>
         {% if inputs is defined %}
           <b> The optimal stackup: </b> {{inputs}} <br>
+          <br>
         {% endif %}
 
         {% if sL is defined %}
@@ -98,6 +99,16 @@
       <b> Layer {{loop.index}} </b> =  {{ i|float|round(5) }} A <br>
           {% endif %}
         {% endfor %}
+
+        {% if currentSolution is defined %}
+        <p> <b> Top and bottom current densities for each layer: </b> </p>
+          {% for i in range(nVal,currentSolution|length,2)%}
+            {% if loop.index <= nVal %}
+              <b> Layer {{ loop.index }} </b> = <b> T: </b> {{currentSolution[i]|float|round(5)}} A/m; <b> B: </b> {{currentSolution[i+1]|float|round(5)}} A/m <br>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+
       </div>
       {% if hL is defined %}
       <div class="container p-4 bg-light border">
