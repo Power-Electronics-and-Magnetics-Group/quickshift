@@ -97,7 +97,7 @@
     <div class="d-grid pt-3 gap-3">
     <div class="container p-4 bg-light border">
       Once you submit the values listed above, the program will identify the best stackup. Be patient -- this will take some time (and your processing power). <br>
-
+      <br>
       {% if output is defined %}
         <b>Minimum power loss coefficient:</b> {{output}} <br>
       {% endif %}
@@ -107,6 +107,7 @@
       {% endif %}
 
       <br>
+      <b> Layer currents: </b> <br>
       {% for i in currentSolution %}
         {% if loop.index <= nVal %}
 	  <b> Layer {{loop.index}} </b> =  {{ i|float|round(5) }} A <br>
@@ -114,7 +115,8 @@
       {% endfor %}
 
       {% if currentSolution is defined %}
-      <p> <b> Top and bottom current densities for each layer: </b> </p>
+      <br>
+      <b> Top and bottom current densities for each layer: </b> <br>
         {% for i in range(nVal,currentSolution|length,2)%}
           {% if loop.index <= nVal %}
             <b> Layer {{ loop.index }} </b> = <b> T: </b> {{currentSolution[i]|float|round(5)}} A/m; <b> B: </b> {{currentSolution[i+1]|float|round(5)}} A/m <br>

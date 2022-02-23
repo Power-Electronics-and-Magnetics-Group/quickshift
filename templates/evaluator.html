@@ -85,20 +85,22 @@
     <div class="d-grid pt-3 gap-3">
       <div class="container p-4 bg-light border">
         Once you submit the values listed above, the program will calculate the current distribution across each layer of the stackup. Each set of connections (both on the primary and secondary) rely on a binary tree format. <br>
+        <br>
+        {% if sL is defined %}
+        <b> The loss coefficient for this stackup: </b> {{sL}} <br>
+        
+        {% endif %}
         {% if inputs is defined %}
           <b> The optimal stackup: </b> {{inputs}} <br>
-          <br>
         {% endif %}
 
-        {% if sL is defined %}
-          <b> The loss coefficient for this stackup: </b> {{sL}} <br>
+      <br>
+      <b> Layer currents: </b> <br>
+      {% for i in currentSolution %}
+        {% if loop.index <= nVal %}
+	  <b> Layer {{loop.index}} </b> =  {{ i|float|round(5) }} A <br>
         {% endif %}
-        
-        {% for i in currentSolution %}
-          {% if loop.index <= nVal %}
-      <b> Layer {{loop.index}} </b> =  {{ i|float|round(5) }} A <br>
-          {% endif %}
-        {% endfor %}
+      {% endfor %}
 
         {% if currentSolution is defined %}
         <br>
