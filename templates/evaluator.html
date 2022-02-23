@@ -101,7 +101,8 @@
         {% endfor %}
 
         {% if currentSolution is defined %}
-        <p> <b> Top and bottom current densities for each layer: </b> </p>
+        <br>
+        <b> Top and bottom current densities for each layer: </b> <br>
           {% for i in range(nVal,currentSolution|length,2)%}
             {% if loop.index <= nVal %}
               <b> Layer {{ loop.index }} </b> = <b> T: </b> {{currentSolution[i]|float|round(5)}} A/m; <b> B: </b> {{currentSolution[i+1]|float|round(5)}} A/m <br>
@@ -127,7 +128,7 @@
           {% endif %}
         {% endfor %}
     <img src="{{ url_for('static', filename='colorscale.svg') }}" alt="Current intensity color scale" style="object-fit: cover"  />
-    <p style="color:#000000"> The current heat maps above are calculated in relationship to the maximum current in any of the layers. The more red, the closer to +(max), and the more blue, the closer to -(max). </p>
+    <p style="color:#000000"> The current heat maps above are calculated in relationship to the maximum current density in any of the layers. The more red, the closer to +(max), and the more blue, the closer to -(max). </p>
       </div>
       {% endif %}
       </div>
