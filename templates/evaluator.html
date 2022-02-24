@@ -115,16 +115,16 @@
    
       {% if hL is defined %}
       <div class="container p-4 bg-light border">
-        <b>Current intensity visualization: </b>
+        <b>Current density visualization: </b>
         {% for i in range(0,2*nVal-1,2) %}
           {% if loop.index <= nVal %}
   
-      <div style="padding-top:35px; width:300px;height:20px;border:3px solid black;background:#{{hL[i]}};">
+      <div style="padding-top:25px; width:800px;height:10px;border:3px solid black;background:#{{hL[i]}};">
       </div>
-      <div class="bg-light" style="text-align:center; padding-top:35px; width:300px;height:100px;border-radius:25px solid #00000;border:3px solid black;">
+      <div class="bg-light" style="text-align:center; padding-top:0px; width:800px;height:25px;border-radius:25px solid #00000;border:1px solid black;">
         <p style="color:#000000"> <b> Layer {{loop.index}} </b> </p>
       </div> 
-      <div style="padding-top:35px; width:300px;height:20px;border:3px solid black;background:#{{hL[i+1]}};">
+      <div style="padding-top:25px; width:800px;height:10px;border:3px solid black;background:#{{hL[i+1]}};">
       </div> <br>
     
           {% endif %}
