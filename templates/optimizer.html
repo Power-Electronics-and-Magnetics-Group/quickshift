@@ -105,7 +105,7 @@
       {% if inputs is defined %}
         <b> The optimal stackup: </b> {{inputs}} <br>
       {% endif %}
-
+	{% if currentSolution is defined %}
       <br>
       <b> Layer currents: </b> <br>
       {% for i in currentSolution %}
@@ -113,6 +113,7 @@
 	  <b> Layer {{loop.index}} </b> =  {{ i|float|round(5) }} A <br>
         {% endif %}
       {% endfor %}
+	{% endif %}
 
       {% if currentSolution is defined %}
       <br>
