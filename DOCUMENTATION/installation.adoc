@@ -34,12 +34,14 @@ Once you're at a point when both Python 3 and pip are installed, install the fol
 
 To install all of them in one command, copy this command and paste it into your terminal of choice:
 
+[source,shell]
 ....
 python3 -m pip install Flask numpy scipy sympy pandas more_itertools
 ....
 
 Next, you'll want to create a virtual environment in your local current-sharing folder to install Flask in. Change directories into where you downloaded/cloned the current-sharing folder and create a virtual environment: 
 
+[source,shell]
 ....
 cd current-sharing
 python3 -m venv venv
@@ -47,12 +49,14 @@ python3 -m venv venv
 
 Activate the virtual environment using the command 
 
+[source,shell]
 ....
 . venv/bin/activate
 ....
 
 Inside the virtual environment, install Flask once more and then exit: 
 
+[source,shell]
 ....
 python3 -m pip install Flask
 deactivate
@@ -60,6 +64,7 @@ deactivate
 
 Lastly, you'll want to make sure the run script is executable. After this point, run it. By default, Flask opens a website instance at localhost:5000, so go there in the web browser of your choice.
 
+[source.shell]
 ....
 chmod +x run.sh
 ./run.sh
