@@ -21,26 +21,7 @@ To see how to install the software for your operating system, jump to your opera
 
 Your distro likely comes with Python 3. If it doesn't, make sure to install it using the instructions for your distro and/or package manager.
 
-Also important is making sure you have pip installed for Python 3. Some example instructions for various distros are shown below. 
-
-*Ubuntu/Debian*
-....
-sudo apt update 
-sudo apt install python3-pip
-....
-
-*Fedora* 
-....
-sudo dnf update
-sudo dnf install python3-pip
-....
-
-*Fedora Silverblue / Kinoite*
-....
-sudo rpm-ostree update
-sudo rpm-ostree install python3-pip
-....
-
+Also important is making sure you have pip installed for Python 3. A good resource to find out how to install pip is <<https://packaging.python.org/en/latest/guides/installing-using-linux-tools/#installing-pip-setuptools-wheel-with-linux-package-managers,here>>.
 == Mac OS X [[Mac]]
 
 == Windows [[Windows]]
