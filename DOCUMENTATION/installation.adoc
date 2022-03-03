@@ -14,7 +14,7 @@ To see how to install the software for your operating system, jump to your opera
 
 
 * <<Linux,Linux>>
-* <<Macintosh,Mac>>
+* <<Mac,Mac OS X>>
 * <<Windows,Windows>>
 
 == Linux [[linux]]
