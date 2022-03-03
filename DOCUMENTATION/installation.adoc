@@ -26,6 +26,7 @@ Also important is making sure you have pip installed for Python 3. A good resour
 
 If your distro is not included or you want to install pip directly, click on https://bootstrap.pypa.io/get-pip.py[this link] to download the pip installer and save it. Open the terminal of your choice, change directories into where the file was downloaded (only if you need to) and run: 
 
+[source,shell]
 ....
 python3 get-pip.py 
 ....
@@ -88,6 +89,7 @@ Python 3 is _not_ built into Mac OS X -- only Python 2 is. Flask requires Python
 
 Once done, you will need to download pip. Click on https://bootstrap.pypa.io/get-pip.py[this link] to download the pip installer and save it. Go into your Terminal, change directories into where the file was downloaded (only if you need to) and run: 
 
+[source,shell]
 ....
 python3 get-pip.py 
 ....
@@ -109,6 +111,7 @@ If you install Python 3 from the Microsoft Store, then you cannot use *py* to ru
 
 You will need to download pip. Click on https://bootstrap.pypa.io/get-pip.py[this link] to download the pip installer and save it. Go into your Command Prompt or PowerShell, change directories into where the file was downloaded (only if you need to) and run: 
 
+[source,shell]
 ....
 python3 get-pip.py 
 ....
@@ -163,6 +166,7 @@ Lastly, run the shell script 'run-mst.bat'. It should be executable straight out
 
 You will need to download pip. Click on https://bootstrap.pypa.io/get-pip.py[this link] to download the pip installer and save it. Go into your Command Prompt or PowerShell, change directories into where the file was downloaded (only if you need to) and run: 
 
+[source,shell]
 ....
 py get-pip.py 
 ....
