@@ -166,6 +166,8 @@ Lastly, run the shell script 'run-mst.bat'. It should be executable straight out
 .\run-mst.bat
 ....
 
+Flask opens a website instance by default at localhost:5000, so go there in the web browser of your choice. 
+
 === If you installed Python from Python's official website: 
 
 You will need to download pip. Click on https://bootstrap.pypa.io/get-pip.py[this link] to download the pip installer and save it. Go into your Command Prompt or PowerShell, change directories into where the file was downloaded (only if you need to) and run: 
@@ -220,6 +222,8 @@ Lastly, run the shell script 'run.bat'. It should be executable straight out of 
 ....
 .\run.bat
 ....
+
+Flask opens a website instance by default at localhost:5000, so go there in the web browser of your choice. 
 
 == FreeBSD[[FreeBSD]]
 I *WILL* FINISH THIS
