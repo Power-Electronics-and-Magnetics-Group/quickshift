@@ -83,12 +83,10 @@ def optimizer():
             primCurrent=float(primaryCurrent)
         solute = current_sharing_numeric(inStack,layerWidth,operatingFrequency,turnLength,layerDistances,primCurrent)
         currentDensityList = solute[nValue:]
-#        print(currentDensityList)
         hexList = listDeterminer(currentDensityList)
         hexListA = []
         for i in hexList:
             hexListA.append(i.zfill(6))
-#        print(hexListA)
         return render_template('optimizer.html',
                                output="{:.5E}".format(Decimal(output)),
                                inputs=inStack,

@@ -3,117 +3,14 @@
 
 This file explains how to download the current-sharing web GUI (along with the backend processing) and get a development mode instance running. This is fine for local use, but for professional use or to host an instance of this program for others, you will want to get a production mode instance running. *The latter* will be described in full detail later in an update once development is finished.
 
-Below are Python libraries that need to be installed (i.e. present when downloading the source code). External dependencies must be explicitly installed. (See the *Notes on installing Flask* below for hints on how to do this.) 
+To see how to install the software for your operating system, jump to your operating system's section below. 
 
-The direct package names that pip needs to install for the external dependencies are listed in parentheses. 
+<<Linux,Linux>>
+<<Mac OS X,Mac OS X>>
+<<Windows,Windows>>
 
-The internal dependencies will come with a default install of Python 3, and thus do not need to be (and cannot be) reinstalled.
+== Linux [[linux]]
 
-== Dependencies 
+== Mac OS X [[Mac OS X]]
 
-=== Internal Dependencies
-
-* math
-* decimal 
-* time
-* multiprocessing
-* pprint
-
-=== External Dependencies 
-
-* Flask (Flask)
-** Werkzeug
-** MarkupSafe
-** Click
-** ItsDangerous
-
-* NumPy (numpy)
-* SciPy (scipy)
-* SymPy (sympy)
-* pandas (pandas)
-* more_itertools (more_itertools) 
-
-
-*Notes on installing this project on Windows 10 and 11*:
-
-On either of these operating systems, installing Python libraries in the Command Prompt or PowerShell is dependent on how you installed Python. If you installed Python through its own website (currently ver. 3.10), then by default the latest version of Python is run through the *py* command, not *python* or *python3*. The opposite is (again, by default) true if you installed Python through the Microsoft Store (currently ver. 3.7).
-
-
-
-*Notes on installing Flask*:
-
-For all distributions, you must install Flask under Python 3. This is especially important to remember on Mac OS X, which (as of writing) only ships with Python 2.7.
-
-You will want to install Flask both globally and in the venv below in order for the shell script to run. 
-
-Once you have an install of Python 3, run either 
-....
-python3 -m pip install Flask 
-....
-
-or 
-
-....
-pip3 install Flask
-....
-
-whichever one works first. You will need to repeat this step in the venv creation part below, but a global Flask install is necessary so that you don't get a "ModuleNotFoundError" when you try to run the script. 
-
-
-== Next Steps
-
-Once all of these dependencies are installed, clone this GitHub repository. In the command line, perform a change directory operation (cd) into the folder into which the Git repository has been cloned. For example, on Linux, if you cloned flask-current into your home directory (:tilde:): 
-
-....
-cd ~/flask-current
-....
-
-Once that's done, create a virtual environment in Python and then activate it. For Mac OS/Linux users: 
-
-....
-$ python3 -m venv venv 
-$ . venv/bin/activate
-....
-
-For Windows users:
-
-....
-$ python3 -m venv venv 
-$ . venv/Scripts/activate
-....
-
-venv creates different folders in each OS, so it's important to know where the differences are and which ones "activate" is located in.
-
-In this environment, install Flask. Then, exit the virtual environment.  
-
-....
-pip install Flask
-deactivate
-....
-
-At this point, one of two things can be done to run the current-sharing Flask instance.
-
-If you're on a Windows machine (say Windows 11 or 10) run one of two scripts depending on, again, how Python is installed.
-
-* if Python is installed from *Python's official website*, run 'run.bat'.
-* if Python is installed from *the Microsoft Store*, run 'run_mst.bat'.
-
-Both of these can be double-clicked on. Or in the shell, run:
-
-....
-.\run.bat
-....
-
-or likewise. 
-
-If you're on a Unix machine (Linux or Mac OS X) run the shell script run.sh. Make sure the shell script is executable.
-
-If you want to make the script executable for all users, run 'chmod a+x run.sh' instead of only the *first* command below. Otherwise:
-....
-chmod u+x run.sh
-./run.sh
-....
-
-
-
-By default, the page will be hosted at localhost:5000, so go there in the web browser of your choice. 
+== Windows [[Windows]]
