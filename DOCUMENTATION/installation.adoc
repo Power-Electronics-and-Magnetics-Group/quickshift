@@ -1,7 +1,9 @@
 :tilde: ~
-= Installation
+=== Assumptions
 
-*NOTE* In all discussions to "change directories", this refers directly to the 'cd' command. This command, in any terminal/shell discussed in the operating systems below, allows you to change the folder you're working in in the terminal, which allows you to interact with the files of each folder as will be done in this guide. To keep track of which folders you can switch into or which files are in your present folder, the 'ls' or 'dir' commands (the former for Mac/Linux, the latter for Windows) are useful.
+In all discussions to "change directories", this refers directly to the 'cd' command. This command, in any terminal/shell discussed in the operating systems below, allows you to change the folder you're working in in the terminal, which allows you to interact with the files of each folder as will be done in this guide. To keep track of which folders you can switch into or which files are in your present folder, the 'ls' or 'dir' commands (the former for Mac/Linux, the latter for Windows) are useful.
+
+= Installation
 
 This file explains how to download the current-sharing web GUI (along with the backend processing) and get a development mode instance running. This is fine for local use, but for professional use or to host an instance of this program for others, you will want to get a production mode instance running. *The latter* will be described in full detail later in an update once development is finished.
 
