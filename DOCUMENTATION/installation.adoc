@@ -24,6 +24,14 @@ Your distro likely comes with Python 3. If it doesn't, make sure to install it u
 
 Also important is making sure you have pip installed for Python 3. A good resource to find out how to install pip is https://packaging.python.org/en/latest/guides/installing-using-linux-tools/#installing-pip-setuptools-wheel-with-linux-package-managers[here].
 
+If your distro is not included or you want to install pip directly, click on https://bootstrap.pypa.io/get-pip.py[this link] to download the pip installer and save it. Open the terminal of your choice, change directories into where the file was downloaded (only if you need to) and run: 
+
+....
+python3 get-pip.py 
+....
+
+If there are instructions, follow them and pip should be installed. 
+
 Once you're at a point when both Python 3 and pip are installed, install the following external dependencies for Python using pip:
 
 * Flask
@@ -78,7 +86,13 @@ There are relatively few differences between installing the current-sharing prog
 
 Python 3 is _not_ built into Mac OS X -- only Python 2 is. Flask requires Python 3, so you will need to install Python 3 separately -- either through https://brew.sh/[Homebrew] or through the https://www.python.org/downloads/macos/[installer on the Python website]. 
 
-Once done, follow the instructions https://github.com/pypa/get-pip[in this GitHub repository] to install pip. 
+Once done, you will need to download pip. Click on https://bootstrap.pypa.io/get-pip.py[this link] to download the pip installer and save it. Go into your Terminal, change directories into where the file was downloaded (only if you need to) and run: 
+
+....
+python3 get-pip.py 
+....
+
+If there are instructions, follow them and pip should be installed.
 
 At this point, you should be able to follow through the <<Linux,Linux>> guide with no issues.
 
