@@ -14,7 +14,7 @@ To see how to install the software for your operating system, jump to your opera
 
 
 * <<Linux,Linux>>
-* <<Mac,Macintosh>>
+* <<Macintosh,Mac>>
 * <<Windows,Windows>>
 
 == Linux [[linux]]
@@ -41,6 +41,6 @@ sudo rpm-ostree update
 sudo rpm-ostree install python3-pip
 ....
 
-== Mac OS X [[Macintosh]]
+== Mac OS X [[Mac]]
 
 == Windows [[Windows]]
