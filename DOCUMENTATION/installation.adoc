@@ -62,7 +62,7 @@ python3 -m pip install Flask
 deactivate
 ....
 
-Lastly, you'll want to make sure the run script is executable. After this point, run it. By default, Flask opens a website instance at localhost:5000, so go there in the web browser of your choice.
+Lastly, you'll want to make sure the run script is executable. After this point, run it. By default, Flask opens a website instance at link:localhost:5000[localhost:5000], so go there in the web browser of your choice.
 
 [source.shell]
 ....
