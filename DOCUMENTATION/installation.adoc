@@ -5,9 +5,9 @@ This file explains how to download the current-sharing web GUI (along with the b
 
 To see how to install the software for your operating system, jump to your operating system's section below. 
 
-<<Linux,Linux>>
-<<Mac,Macintosh>>
-<<Windows,Windows>>
+* <<Linux,Linux>>
+* <<Mac,Macintosh>>
+* <<Windows,Windows>>
 
 == Linux [[linux]]
 
