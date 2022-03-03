@@ -105,7 +105,7 @@ Before proceeding further, make sure to install https://git-scm.com/download/win
 
 Windows has two ways of running Python commands (and thus handling installing) depending on where you installed Python 3 from. Both examples will be covered. 
 
-If you install Python 3 from the Microsoft Store, then you cannot use *py* to run python commands, only *python* or *python3*. However, if you install Python 3 from https://www.python.org/downloads/windows/[Python's official website], then you can install Python and run commands with *py*. *python* and *python3* _should_ work for both installs, but the Microsoft Store install is more restrictive in this regard, hence why the Windows section will be split up into talking about both. Plus, in the worst case scenario you have both installed, this should allow you to use the website install (as opposed to the Microsoft Store one) without creating confusion and conflicts between both versions. 
+If you install Python 3 from the Microsoft Store, then you cannot use *py* to run python commands, only *python* or *python3*. However, if you install Python 3 from https://www.python.org/downloads/windows/[Python's official website], then you can install Python and run commands with *py*. *python* and *python3* _should_ work for both installs, but in the worst case scenario you have both installed, the separation between these guides should allow you to use the website install (as opposed to the Microsoft Store one) without creating confusion and conflicts between both versions. 
 
 === If you installed Python from the Microsoft Store:
 
