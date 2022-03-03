@@ -16,6 +16,7 @@ To see how to install the software for your operating system, jump to your opera
 * <<Linux,Linux>>
 * <<Mac,Mac OS X>>
 * <<Windows,Windows>>
+* <<FreeBSD,FreeBSD>>
 
 == Linux [[linux]]
 
@@ -62,7 +63,7 @@ python3 -m pip install Flask
 deactivate
 ....
 
-Lastly, you'll want to make sure the run script is executable. After this point, run it. By default, Flask opens a website instance at link:localhost:5000[localhost:5000], so go there in the web browser of your choice.
+Lastly, you'll want to make sure the run script is executable. After this point, run it. By default, Flask opens a website instance at localhost:5000, so go there in the web browser of your choice.
 
 [source.shell]
 ....
@@ -73,4 +74,130 @@ chmod +x run.sh
 
 == Mac OS X [[Mac]]
 
+There are relatively few differences between installing the current-sharing program on Linux and on Mac OS X. This is because Mac OS X is based on Unix and allows shell scripts to run in roughly the same way. You can follow the instruction guide above, but the one big difference is how you acquire Python 3 (and thus pip). 
+
+Python 3 is _not_ built into Mac OS X -- only Python 2 is. Flask requires Python 3, so you will need to install Python 3 separately -- either through https://brew.sh/[Homebrew] or through the https://www.python.org/downloads/macos/[installer on the Python website]. 
+
+Once done, follow the instructions https://github.com/pypa/get-pip[in this GitHub repository] to install pip. 
+
+At this point, you should be able to follow through the Linux guide with no issues.
+
+
 == Windows [[Windows]]
+
+Before proceeding further, make sure to install https://git-scm.com/download/win[Git for Windows]. This allows you to actually clone the repository in the git command line (if you really need to -- plus it speeds up pulling new updates to the code).
+
+Windows has two ways of running Python commands (and thus handling installing) depending on where you installed Python 3 from. Both examples will be covered. 
+
+If you install Python 3 from the Microsoft Store, then you cannot use *py* to run python commands, only *python* or *python3*. However, if you install Python 3 from https://www.python.org/downloads/windows/[Python's official website], then you can install Python and run commands with *py*. *python* and *python3* _should_ work for both installs, but the Microsoft Store install is more restrictive in this regard, hence why the Windows section will be split up into talking about both. Plus, in the worst case scenario you have both installed, this should allow you to use the website install (as opposed to the Microsoft Store one) without creating confusion and conflicts between both versions. 
+
+=== If you installed Python from the Microsoft Store:
+
+You will need to download pip. Click on https://bootstrap.pypa.io/get-pip.py[this link] to download the pip installer and save it. Go into your Command Prompt or PowerShell, change directories into where the file was downloaded (only if you need to) and run: 
+
+....
+python3 get-pip.py 
+....
+
+If there are instructions, follow them and pip should be installed. Then, install the following external dependencies that the current-sharing program relies on. 
+
+* Flask
+* numpy
+* scipy
+* sympy
+* pandas
+* more_itertools
+
+To install all of them in one command, copy this command and paste it into your terminal of choice:
+
+[source,shell]
+....
+python3 -m pip install Flask numpy scipy sympy pandas more_itertools
+....
+
+Next, you'll want to create a virtual environment in your local current-sharing folder to install Flask in. Change directories into where you downloaded/cloned the current-sharing folder and create a virtual environment: 
+
+[source,shell]
+....
+cd current-sharing
+python3 -m venv venv
+....
+
+Activate the virtual environment using the command 
+
+[source,shell]
+....
+. venv/Scripts/activate
+....
+
+Inside the virtual environment, install Flask once more and then exit: 
+
+[source,shell]
+....
+python3 -m pip install Flask
+deactivate
+....
+
+Lastly, run the shell script 'run-mst.bat'. It should be executable straight out of the gate, so you can either double click on it in File Explorer (where the current-sharing folder is located) or launch it in your shell as such:
+
+[source.shell]
+....
+.\run-mst.bat
+....
+
+=== If you installed Python from Python's official website: 
+
+You will need to download pip. Click on https://bootstrap.pypa.io/get-pip.py[this link] to download the pip installer and save it. Go into your Command Prompt or PowerShell, change directories into where the file was downloaded (only if you need to) and run: 
+
+....
+py get-pip.py 
+....
+
+If there are instructions, follow them and pip should be installed. Then, install the following external dependencies that the current-sharing program relies on. 
+
+* Flask
+* numpy
+* scipy
+* sympy
+* pandas
+* more_itertools
+
+To install all of them in one command, copy this command and paste it into your terminal of choice:
+
+[source,shell]
+....
+py -m pip install Flask numpy scipy sympy pandas more_itertools
+....
+
+Next, you'll want to create a virtual environment in your local current-sharing folder to install Flask in. Change directories into where you downloaded/cloned the current-sharing folder and create a virtual environment: 
+
+[source,shell]
+....
+cd current-sharing
+py -m venv venv
+....
+
+Activate the virtual environment using the command 
+
+[source,shell]
+....
+. venv/Scripts/activate
+....
+
+Inside the virtual environment, install Flask once more and then exit: 
+
+[source,shell]
+....
+py -m pip install Flask
+deactivate
+....
+
+Lastly, run the shell script 'run.bat'. It should be executable straight out of the gate, so you can either double click on it in File Explorer (where the current-sharing folder is located) or launch it in your shell as such:
+
+[source.shell]
+....
+.\run.bat
+....
+
+== FreeBSD 
+I *WILL* FINISH THIS
