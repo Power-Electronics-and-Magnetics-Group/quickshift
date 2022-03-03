@@ -23,6 +23,48 @@ Your distro likely comes with Python 3. If it doesn't, make sure to install it u
 
 Also important is making sure you have pip installed for Python 3. A good resource to find out how to install pip is https://packaging.python.org/en/latest/guides/installing-using-linux-tools/#installing-pip-setuptools-wheel-with-linux-package-managers[here].
 
+Once you're at a point when both Python 3 and pip are installed, install the following external dependencies for Python using pip:
+
+* Flask
+* numpy
+* scipy
+* sympy
+* pandas
+* more_itertools
+
+To install all of them in one command, copy this command and paste it into your terminal of choice:
+
+....
+python3 -m pip install Flask numpy scipy sympy pandas more_itertools
+....
+
+Next, you'll want to create a virtual environment in your local current-sharing folder to install Flask in. Change directories into where you downloaded/cloned the current-sharing folder and create a virtual environment: 
+
+....
+cd current-sharing
+python3 -m venv venv
+....
+
+Activate the virtual environment using the command 
+
+....
+. venv/bin/activate
+....
+
+Inside the virtual environment, install Flask once more and then exit: 
+
+....
+python3 -m pip install Flask
+deactivate
+....
+
+Lastly, you'll want to make sure the run script is executable. After this point, run it. By default, Flask opens a website instance at localhost:5000, so go there in the web browser of your choice.
+
+....
+chmod +x run.sh
+./run.sh
+....
+
 
 == Mac OS X [[Mac]]
 
