@@ -80,7 +80,7 @@ Python 3 is _not_ built into Mac OS X -- only Python 2 is. Flask requires Python
 
 Once done, follow the instructions https://github.com/pypa/get-pip[in this GitHub repository] to install pip. 
 
-At this point, you should be able to follow through the Linux guide with no issues.
+At this point, you should be able to follow through the <<Linux,Linux>> guide with no issues.
 
 
 == Windows [[Windows]]
