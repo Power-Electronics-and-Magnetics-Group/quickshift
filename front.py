@@ -32,6 +32,10 @@ def evaluator():
         if(primaryCurrent!=""):
             primCurrent=float(primaryCurrent)
 
+        if (inStack==0):
+            return render_template('evaluator.html',
+                                    invalidStackup=1)
+
         d = math.sqrt(2*(1.68*math.pow(10,-8))/((2*math.pi*operatingFrequency)*(4*math.pi*pow(10,-7))))
         R = 1.68*math.pow(10,-8)*turnLength/(layerDistances*layerWidth)
         stackLoss = 0
@@ -74,6 +78,7 @@ def optimizer():
         layerDistances=float(request.form['layerDistances'])
         solution = solveIt(nValue,turnsRatio,turnsPerLayer,layerWidth,operatingFrequency,turnLength,layerDistances)
         output = solution[1]
+        options = solution[4]
 
         # for now
         inStack = solution[0][0]
@@ -93,5 +98,6 @@ def optimizer():
                                currentSolution=solute,
                                pC=primCurrent,
                                nVal=nValue,
-                               hL=hexListA)
+                               hL=hexListA,
+                               count=options)
 

@@ -53,25 +53,25 @@ def solveIt(N, turnRatio, maxTurns, b, f, l, r):
             failureTally = failureTally + 1
             failedStacks.append(result[0])
 
-    return [bestStack, minLoss, failureTally, failedStacks]
+    return [bestStack, minLoss, failureTally, failedStacks, len(stacks)]
 
 if __name__ == "__main__":
-    N = 7
-    turnRatio = 3
-    maxTurns = 3
+    # N = 7
+    # turnRatio = 3
+    # maxTurns = 3
 
-    b = .02
-    f = 3000000
-    l = .2
-    r = .001
-    #r = [.001, .002, .002, .002, .001]
-    ans = solveIt(N,turnRatio,maxTurns, b, f, l, r)
-    print(f'Optimized {ans[0]}')
-    print(f'Loss (with 1A on high-current winding): {ans[1]:3f} W')
-    if (ans[2] == 0):
-        print(f'No failed stacks.')
-    else:
-        print(f'Failed Stacks: {ans[3]}')
+    # b = .02
+    # f = 3000000
+    # l = .2
+    # r = .001
+    # #r = [.001, .002, .002, .002, .001]
+    # ans = solveIt(N,turnRatio,maxTurns, b, f, l, r)
+    # print(f'Optimized {ans[0]}')
+    # print(f'Loss (with 1A on high-current winding): {ans[1]:3f} W')
+    # if (ans[2] == 0):
+    #     print(f'No failed stacks.')
+    # else:
+    #     print(f'Failed Stacks: {ans[3]}')
 
 
     #Broken solver
@@ -81,7 +81,8 @@ if __name__ == "__main__":
 
     #test parser:
 
-    # sec = "(P,(S,(P,[L2,1T],(P,[L6,1T],[L7,1T])),[L4,2T]),(S,(P,[L3,2T],[L5,2T]),[L8,1T]))"
-    # prim = "[L1,1T]"
-    # a = parseStackup(prim,sec,8)
-    # print(a)
+    sec = "(P,(S,(P,[L2,1T],(P,[L6,1T],[L7,1T])),[L4,2T]),(S,(P,[L3,2T],[L5,2T]),[L8,1T]))"
+    prim = "[L1,1T]"
+    a = parseStackup(prim,sec,4)
+    b = parseStackup(sec,prim,4)
+    print(b)

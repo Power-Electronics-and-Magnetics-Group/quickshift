@@ -54,7 +54,8 @@
     <div class="container p-4 bg-light border">
 
     <form method="POST">
-      <p><b> Assume integer precision unless specified otherwise.</b> Float precision is of 5 decimal places. </p>
+      <p><b>For a given number of layers and target turns ratio, the optimizer will identify optimal winding configurations.</b></p>
+      <!--<p><b> Assume integer precision unless specified otherwise.</b> Float precision is of 5 decimal places. </p>-->
       <div class="form-group pt-2">
         <label for="nValueForm"># of layers</label>
         <input type="number" min="0" class="form-control" name="nValueForm" id="nValueForm" placeholder="Enter the number of layers:">
@@ -99,11 +100,16 @@
       Once you submit the values listed above, the program will identify the best stackup. Be patient -- this will take some time (and your processing power). <br>
       <br>
       {% if output is defined %}
-        <b>Minimum power loss coefficient:</b> {{output}} <br>
+        Analyzed {{count}} possible options.<br>
+        <br>
+      {% endif %}
+
+      {% if output is defined %}
+        <b>Minimum power loss (W):</b> {{output}} <br>
       {% endif %}
 
       {% if inputs is defined %}
-        <b> The optimal stackup: </b> {{inputs}} <br>
+        <b> Optimal stackup: </b> {{inputs}} <br>
       {% endif %}
 	{% if currentSolution is defined %}
       <br>
@@ -132,17 +138,17 @@
       {% for i in range(0,2*nVal-1,2) %}
       {% if loop.index <= nVal %}
 
-      <div style="padding-top:25px; width:800px;height:10px;border:3px solid black;background:#{{hL[i]}};">
+      <div style="padding-top:25px; width:800px;height:10px;border:1px solid black;background:#{{hL[i]}};">
       </div>
       <div class="bg-light" style="text-align:center; padding-top:0px; width:800px;height:25px;border-radius:25px solid #00000;border:1px solid black;">
         <p style="color:#000000"> <b> Layer {{loop.index}} </b> </p>
       </div> 
-      <div style="padding-top:25px; width:800px;height:10px;border:3px solid black;background:#{{hL[i+1]}};">
+      <div style="padding-top:25px; width:800px;height:10px;border:1px solid black;background:#{{hL[i+1]}};">
       </div> <br>
 
       {% endif %}
     {% endfor %}
-	<img src="{{ url_for('static', filename='colorscale.svg') }}" alt="Current intensity color scale" style="objec-t-fit: cover"  />
+	<img src="{{ url_for('static', filename='colorgradient.png') }}" alt="Current intensity color scale" style="objec-t-fit: cover"  />
 	<p style="color:#000000"> The current heat maps above are calculated in relationship to the maximum current density in any of the layers. The more red, the closer to +(max), and the more blue, the closer to -(max). </p>
     </div>
     {% endif %}
