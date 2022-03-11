@@ -130,21 +130,29 @@ def layerAssignments(N, turnPair, maxTurns):
 	for i in range(1, N+1):
 		layers[i-1] = i
 
-	#Possible number of layers on the primary
+	#Minimum possible number of layers on each layer
 	minPrimaryLayers = int(math.ceil(float(turnPair[0])/maxTurns))
 	minSecondaryLayers = int(math.ceil(float(turnPair[1])/maxTurns))
+	#Check if assignment is possible
 	if ((minPrimaryLayers + minSecondaryLayers) > N): return []
+
+	#assign range of valid layers to use
+	#If 1:1, reduce duplicates by using symmetry
 	if (turnPair[1]==turnPair[0]): validPrimaryCounts=range(minPrimaryLayers,N//2)
 	else: validPrimaryCounts = range(minPrimaryLayers, N - minSecondaryLayers + 1)	
+
+	#Begin assignment
 	primaryLayerAssignments = []
 	for j in validPrimaryCounts:
+		#valid combinations for each number of layers
 		options = list(combinations(layers,j))
 		for option in options:
+			#reduce duplicates by using symmetry
 			mirror = [(N-x)+1 for x in option]
 			mirror = tuple(reversed(mirror))
 			if ((mirror in options) and (mirror != tuple(option))): 
 				options.remove(mirror)
-		primaryLayerAssignments.extend(options)	#Generate all combinations
+		primaryLayerAssignments.extend(options)	#add to the list
 
 	return primaryLayerAssignments
 
