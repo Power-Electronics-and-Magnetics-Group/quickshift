@@ -12,12 +12,16 @@ from stackupClasses import Layer, SeriesNode, ParallelNode, Node, Stackup
 
 def solver(stack, b, f, l, r, N):
     d = math.sqrt(2*(1.68*math.pow(10,-8))/((2*math.pi*f)*(4*math.pi*pow(10,-7))))
+    print(d)
     R = 1.68*math.pow(10,-8)*l/(d*b)
+    print(R)
     stackLoss = 0
 
     try:
         solutionVector = list(current_sharing_numeric(stack, b, f, l, r))
+        print(solutionVector)
         for i in range(N,3*N):
+            print(.5*R*((b*solutionVector[i])**2))
             stackLoss = stackLoss + .5*R*((b*solutionVector[i])**2)
     except numpy.linalg.LinAlgError:
         solutionVector = [100] * 3*N
@@ -27,10 +31,6 @@ def solver(stack, b, f, l, r, N):
 
 def solveIt(N, turnRatio, maxTurns, b, f, l, r):
     stacks = stackups(N, turnRatio, maxTurns)
-    b = .02
-    f = 3000000
-    l = .2
-    r = .001
 
     print(f'Analyzing {len(stacks)} options...')
 
@@ -72,17 +72,16 @@ if __name__ == "__main__":
     #     print(f'No failed stacks.')
     # else:
     #     print(f'Failed Stacks: {ans[3]}')
+    prim = "(P,[L2,1T],(P,[L4,1T],[L6,1T]))"
+    sec = "(S,(S,(S,[L1,1T],[L3,1T]),[L5,1T]),[L7,1T])"
 
+    b = .004
+    f = 12000000
+    l = .066
+    r = .00025
+    N = 7
 
-    #Broken solver
-    #[Stack: Primary - [L1,1T]; Secondary - (P,(S,(P,[L2,1T],(P,[L6,1T],[L7,1T])),[L4,2T]),(S,(P,[L3,2T],[L5,2T]),[L8,1T])),
-    # Stack: Primary - [L1,1T]; Secondary - (P,(S,(P,[L2,1T],(P,[L6,1T],[L7,1T])),[L4,2T]),(S,(P,[L3,2T],[L5,2T]),[L8,1T]))
+    stack = parseStackup(prim,sec,N)
 
-
-    #test parser:
-
-    sec = "(P,(S,(P,[L2,1T],(P,[L6,1T],[L7,1T])),[L4,2T]),(S,(P,[L3,2T],[L5,2T]),[L8,1T]))"
-    prim = "[L1,1T]"
-    a = parseStackup(prim,sec,4)
-    b = parseStackup(sec,prim,4)
-    print(b)
+    ans = solver(stack, b, f, l, r, N)
+    print(ans)
