@@ -37,7 +37,7 @@ def evaluator():
                                     invalidStackup=1)
 
         d = math.sqrt(2*(1.68*math.pow(10,-8))/((2*math.pi*operatingFrequency)*(4*math.pi*pow(10,-7))))
-        R = 1.68*math.pow(10,-8)*turnLength/(layerDistances*layerWidth)
+        R = 1.68*math.pow(10,-8)*turnLength/(d*layerWidth)
         stackLoss = 0
         solute = current_sharing_numeric(inStack, layerWidth, operatingFrequency, turnLength, layerDistances)
         try:
