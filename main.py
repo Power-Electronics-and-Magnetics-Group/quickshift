@@ -10,18 +10,17 @@ from currentSharing import current_sharing_symbolic
 from stackups import stackups, parallelConnect, seriesConnect, parseStackup, turnPairs
 from stackupClasses import Layer, SeriesNode, ParallelNode, Node, Stackup
 
+def round_sig(x, sig=2):
+    return round(x, sig-int(math.floor(math.log10(abs(x))))-1)
+
 def solver(stack, b, f, l, r, N):
     d = math.sqrt(2*(1.68*math.pow(10,-8))/((2*math.pi*f)*(4*math.pi*pow(10,-7))))
-    print(d)
     R = 1.68*math.pow(10,-8)*l/(d*b)
-    print(R)
     stackLoss = 0
 
     try:
         solutionVector = list(current_sharing_numeric(stack, b, f, l, r))
-        print(solutionVector)
         for i in range(N,3*N):
-            print(.5*R*((b*solutionVector[i])**2))
             stackLoss = stackLoss + .5*R*((b*solutionVector[i])**2)
     except numpy.linalg.LinAlgError:
         solutionVector = [100] * 3*N
@@ -29,8 +28,8 @@ def solver(stack, b, f, l, r, N):
 
     return ([stack, stackLoss])
 
-def solveIt(N, turnRatio, maxTurns, b, f, l, r):
-    stacks = stackups(N, turnRatio, maxTurns)
+def solveIt(N, turnRatio, maxTurns, b, f, l, r, minTurns=1):
+    stacks = stackups(N, turnRatio, maxTurns, minTurns)
 
     print(f'Analyzing {len(stacks)} options...')
 
@@ -44,28 +43,30 @@ def solveIt(N, turnRatio, maxTurns, b, f, l, r):
     failureTally = 0
     failedStacks = []
     for result in results:
-        if (result[1] < minLoss):
-            minLoss = result[1]
+        loss = round_sig(result[1],5)
+        if (loss < minLoss):
+            minLoss = loss
             bestStack = [result[0]]
-        elif (result[1] == minLoss):
+        elif (loss == minLoss):
             bestStack.append(result[0])
-        if (result[1] == 9999):
+        if (loss == 9999):
             failureTally = failureTally + 1
             failedStacks.append(result[0])
 
     return [bestStack, minLoss, failureTally, failedStacks, len(stacks)]
 
 if __name__ == "__main__":
-    # N = 7
-    # turnRatio = 3
-    # maxTurns = 3
+    #N = 4
+    #turnRatio = 3
+    #maxTurns = 3
 
-    # b = .02
-    # f = 3000000
-    # l = .2
-    # r = .001
-    # #r = [.001, .002, .002, .002, .001]
-    # ans = solveIt(N,turnRatio,maxTurns, b, f, l, r)
+    #b = .02
+    #f = 3000000
+    #l = .2
+    #r = .001
+    #r = [.001, .002, .002, .002, .001]
+    #ans = solveIt(N,turnRatio,maxTurns, b, f, l, r,2)
+    #print(ans)
     # print(f'Optimized {ans[0]}')
     # print(f'Loss (with 1A on high-current winding): {ans[1]:3f} W')
     # if (ans[2] == 0):
@@ -87,9 +88,11 @@ if __name__ == "__main__":
     # ans = solver(stack, b, f, l, r, N)
     # print(ans)
 
-    a = turnPairs(8, 4, 4, 1)
-    b = turnPairs(8, 4, 4, 3)
+    # a = turnPairs(8, 4, 4, 1)
+    # b = turnPairs(8, 4, 4, 3)
 
-    print(a)
-    print(b)
+    # print(a)
+    # print(b)
+
+
 
