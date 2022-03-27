@@ -7,7 +7,7 @@ from more_itertools import divide
 from multiprocessing import Pool, cpu_count
 from currentSharing import current_sharing_numeric
 from currentSharing import current_sharing_symbolic
-from stackups import stackups, parallelConnect, seriesConnect, parseStackup
+from stackups import stackups, parallelConnect, seriesConnect, parseStackup, turnPairs
 from stackupClasses import Layer, SeriesNode, ParallelNode, Node, Stackup
 
 def solver(stack, b, f, l, r, N):
@@ -72,16 +72,24 @@ if __name__ == "__main__":
     #     print(f'No failed stacks.')
     # else:
     #     print(f'Failed Stacks: {ans[3]}')
-    prim = "(P,[L2,1T],(P,[L4,1T],[L6,1T]))"
-    sec = "(S,(S,(S,[L1,1T],[L3,1T]),[L5,1T]),[L7,1T])"
 
-    b = .004
-    f = 12000000
-    l = .066
-    r = .00025
-    N = 7
+    # prim = "(P,[L2,1T],(P,[L4,1T],[L6,1T]))"
+    # sec = "(S,(S,(S,[L1,1T],[L3,1T]),[L5,1T]),[L7,1T])"
 
-    stack = parseStackup(prim,sec,N)
+    # b = .004
+    # f = 12000000
+    # l = .066
+    # r = .00025
+    # N = 7
 
-    ans = solver(stack, b, f, l, r, N)
-    print(ans)
+    # stack = parseStackup(prim,sec,N)
+
+    # ans = solver(stack, b, f, l, r, N)
+    # print(ans)
+
+    a = turnPairs(8, 4, 4, 1)
+    b = turnPairs(8, 4, 4, 3)
+
+    print(a)
+    print(b)
+
