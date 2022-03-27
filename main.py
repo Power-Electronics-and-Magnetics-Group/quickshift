@@ -56,7 +56,7 @@ def solveIt(N, turnRatio, maxTurns, b, f, l, r, minTurns=1):
     return [bestStack, minLoss, failureTally, failedStacks, len(stacks)]
 
 if __name__ == "__main__":
-    #N = 4
+    N = 4
     #turnRatio = 3
     #maxTurns = 3
 

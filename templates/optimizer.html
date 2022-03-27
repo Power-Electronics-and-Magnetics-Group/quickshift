@@ -68,6 +68,10 @@
         <label for="turnsPerLayer"># of turns per layer: </label>
         <input type="number" min="0" class="form-control" name="turnsPerLayer" id="turnsPerLayer" placeholder="Enter the maximum amount of turns per layer:">
       </div>
+      <div class="form-group pt-2">
+        <label for="minimumTurns">Minimum number of turns on the primary (high current) winding: </label>
+        <input type="number" min="1" class="form-control" name="minimumTurns" id="minimumTurns" placeholder="Enter the minimum turns on the high current winding:">
+      </div>
        <div class="form-group pt-2">
         <label for="layerWidth">Width of the layer (m), float precision: </label>
         <input type="number" min="0" step=".00001" class="form-control" name="layerWidth" id="layerWidth" placeholder="Enter the width of a layer:">
@@ -109,7 +113,7 @@
       {% endif %}
 
       {% if inputs is defined %}
-        <b> Optimal stackup: </b> {{inputs}} <br>
+        <b> Optimal stackup(s): </b> {{inputs}} <br>
       {% endif %}
 	{% if currentSolution is defined %}
       <br>
