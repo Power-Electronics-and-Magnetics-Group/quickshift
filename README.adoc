@@ -1,6 +1,6 @@
 :score: _
 :stem: latexmath
-= current-sharing
+= quickSHiFT (Quick Simulation of High-Frequency Transformers)
 
 This program is fully complete in a command-line format. The website implementation using flask is underway. 
 
