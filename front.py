@@ -76,7 +76,7 @@ def optimizer():
         operatingFrequency=int(request.form['operatingFrequency'])
         turnLength=float(request.form['turnLength'])
         layerDistances=float(request.form['layerDistances'])
-        minimumTurns=float(request.form['minimumTurns'])
+        minimumTurns=int(request.form['minimumTurns'])
         solution = solveIt(nValue,turnsRatio,turnsPerLayer,layerWidth,operatingFrequency,turnLength,layerDistances,minimumTurns)
         output = solution[1]
         options = solution[4]
@@ -87,7 +87,7 @@ def optimizer():
         primCurrent=1.00000
         if(primaryCurrent!=""):
             primCurrent=float(primaryCurrent)
-        solute = current_sharing_numeric(inStack,layerWidth,operatingFrequency,turnLength,layerDistances,primCurrent,minimumTurns)
+        solute = current_sharing_numeric(inStack,layerWidth,operatingFrequency,turnLength,layerDistances,primCurrent)
         currentDensityList = solute[nValue:]
         hexList = listDeterminer(currentDensityList)
         hexListA = []

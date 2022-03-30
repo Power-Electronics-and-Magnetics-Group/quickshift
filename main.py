@@ -55,18 +55,36 @@ def solveIt(N, turnRatio, maxTurns, b, f, l, r, minTurns=1):
 
     return [bestStack, minLoss, failureTally, failedStacks, len(stacks)]
 
+def solveIt_list(N, turnRatio, maxTurns, b, f, l, r, minTurns=1):
+    stacks = stackups(N, turnRatio, maxTurns, minTurns)
+
+    print(f'Analyzing {len(stacks)} options...')
+
+    threadCount = multiprocessing.cpu_count() - 1
+
+    with multiprocessing.Pool(processes=threadCount) as pool:
+        results = pool.starmap(solver, zip(stacks, repeat(b), repeat(f), repeat(l), repeat(r), repeat(N)))
+
+    #print(type(results))
+    minLoss = 1000000000
+    bestStack = 0
+    failureTally = 0
+    failedStacks = []
+
+    results.sort(key=lambda x: x[1])
+    return results[0:10]
+
 if __name__ == "__main__":
     N = 4
-    #turnRatio = 3
-    #maxTurns = 3
+    turnRatio = 3
+    maxTurns = 6
 
-    #b = .02
-    #f = 3000000
-    #l = .2
-    #r = .001
-    #r = [.001, .002, .002, .002, .001]
-    #ans = solveIt(N,turnRatio,maxTurns, b, f, l, r,2)
-    #print(ans)
+    b = .004
+    f = 6780000
+    l = .04
+    r = .0001
+    ans = solveIt(N,turnRatio,maxTurns, b, f, l, r, 2)
+    print(ans)
     # print(f'Optimized {ans[0]}')
     # print(f'Loss (with 1A on high-current winding): {ans[1]:3f} W')
     # if (ans[2] == 0):
@@ -74,8 +92,8 @@ if __name__ == "__main__":
     # else:
     #     print(f'Failed Stacks: {ans[3]}')
 
-    # prim = "(P,[L2,1T],(P,[L4,1T],[L6,1T]))"
-    # sec = "(S,(S,(S,[L1,1T],[L3,1T]),[L5,1T]),[L7,1T])"
+    prim = "(S,[L1,1T],[L3,1T])"
+    sec = "(S,[L2,4T],[L4,4T])"
 
     # b = .004
     # f = 12000000
@@ -83,10 +101,10 @@ if __name__ == "__main__":
     # r = .00025
     # N = 7
 
-    # stack = parseStackup(prim,sec,N)
+    stack = parseStackup(prim,sec,N)
 
-    # ans = solver(stack, b, f, l, r, N)
-    # print(ans)
+    test = solver(stack, b, f, l, r, N)
+    print(test)
 
     # a = turnPairs(8, 4, 4, 1)
     # b = turnPairs(8, 4, 4, 3)
