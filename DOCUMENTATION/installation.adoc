@@ -20,7 +20,6 @@ To see how to install the software for your operating system, jump to your opera
 * <<Linux,Linux>>
 * <<Mac,Mac OS X>>
 * <<Windows,Windows>>
-* <<FreeBSD,FreeBSD>>
 
 == Linux [[linux]]
 
@@ -224,6 +223,3 @@ Lastly, run the shell script 'run.bat'. It should be executable straight out of 
 ....
 
 Flask opens a website instance by default at localhost:5000, so go there in the web browser of your choice. 
-
-== FreeBSD[[FreeBSD]]
-I *WILL* FINISH THIS
