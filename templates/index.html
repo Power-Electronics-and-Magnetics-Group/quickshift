@@ -46,8 +46,9 @@ on">
           QuickSHiFT (<b>Quick</b> <b>S</b></S>imulation of <b>Hi</b>gh <b>F</b>requency <b>T</b>ransformers)
           <small class="text-muted">UT Austin Power Electronics & Magnetics Group</small>
         </h5>
-
-        QuickSHiFT is a <b>open-source</b> tool designed for the rapid simulation of current distribution in high-frequency transformers. In addition to being able to simulate individual designs, QuickSHiFT can automatically generate winding configurations and analyze them at speeds of thousands-per-second, enabling optimization. 
+	<img src="{{ url_for('static', filename='quickshift.svg') }}" alt="QuickShift Logo" style="object-fit: cover; max-width: 400px; max-height: 400px">
+	<br>
+	QuickSHiFT is a <b> free </b> and <b>open-source</b> tool designed for the rapid simulation of current distribution in high-frequency transformers. In addition to being able to simulate individual designs, QuickSHiFT can automatically generate winding configurations and analyze them at speeds of thousands-per-second, enabling optimization. 
         <br>
         <br>
         To describe winding configurations, QuickSHiFT uses a binary tree structure. For a given transformer with two windings and <b>N</b> layers, the final encoded representation consists of two binary trees with a cumulative <b>N</b> leaf nodes (nodes that have no sub-trees). These leaf nodes each represent a layer, and must specify two parameters: the layer number (which layer is it, numbered from top to bottom of the stack), and the number of turns on the layer. All remaining nodes on the tree are either 'Parallel' or 'Series' nodes, which, as their names suggest, represent that their child nodes are connected in parallel or series respectively. Note that their child nodes need not be individual layers, but can also be Parallel or Series nodes themselves. As such, the tool can be used to specify parallel connections of series-connected layers as well as series connections of parallel-connected layers (or even more complex configurations).
@@ -61,12 +62,18 @@ on">
         </ul>
         Parallel connections, series connections, and layer specifications are all nodes themselves, and can be chained together to create arbitrarily complex winding configurations.
         <br>
+	<br>
+	<img src="{{ url_for('static', filename='stackmap.png') }}" alt="stack map" style="display: block; margin-left: auto; margin-right: auto; object-fit: cover; max-width: 700px; max-height:700px; ">
+	<br>
         <br>
         For further information on the analysis method used in QuickSHiFT, please see:<br>
         <i>M. Solomentsev and A. J. Hanson, "Modeling Current Distribution Within Conductors and Between Parallel Conductors in High Frequency Transformers," 2021 IEEE Applied Power Electronics Conference and Exposition (APEC), 2021, pp. 1701-1708, doi: 10.1109/APEC42165.2021.9487416.</i>
         <br>
         <br>
         QuickSHiFT has been developed by the Power Electronics and Magnetics Group at the University of Texas at Austin, with financial support from Enphase Energy.
+
+	<img src="{{ url_for('static', filename='texas.svg') }}" alt="stack map" style="object-fit: cover; max-width: 100px; max-height:100px; ">
+	<img src="{{ url_for('static', filename='enphase.png') }}" alt="stack map" style="object-fit: cover; max-width: 250px; max-height:250px; ">
 
       </div>
     </div>
