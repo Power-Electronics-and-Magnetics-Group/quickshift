@@ -1,4 +1,4 @@
-from main import solveIt
+from main import solveIt, solveIt_list
 from stackups import parseStackup
 from currentSharing import current_sharing_numeric
 from colorprocessing import listDeterminer
@@ -77,12 +77,13 @@ def optimizer():
         turnLength=float(request.form['turnLength'])
         layerDistances=float(request.form['layerDistances'])
         minimumTurns=int(request.form['minimumTurns'])
-        solution = solveIt(nValue,turnsRatio,turnsPerLayer,layerWidth,operatingFrequency,turnLength,layerDistances,minimumTurns)
-        output = solution[1]
-        options = solution[4]
+        quantityList = int(request.form['listTop'])
+        solution = solveIt_list(nValue,turnsRatio,turnsPerLayer,layerWidth,operatingFrequency,turnLength,layerDistances,minimumTurns,quantityList)
+        output = solution[0]
+        options = solution[1]
 
         # for now
-        inStack = solution[0][0]
+        inStack = solution[0][0][0]
         primaryCurrent=(request.form['primaryCurrent'])
         primCurrent=1.00000
         if(primaryCurrent!=""):
@@ -94,8 +95,7 @@ def optimizer():
         for i in hexList:
             hexListA.append(i.zfill(6))
         return render_template('optimizer.html',
-                               output="{:.5E}".format(Decimal(output)),
-                               inputs=inStack,
+                               output=output,
                                currentSolution=solute,
                                pC=primCurrent,
                                nVal=nValue,

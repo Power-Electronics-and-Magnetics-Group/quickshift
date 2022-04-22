@@ -92,6 +92,10 @@
         <label for="primaryCurrent">Primary current (A), float precision: </label>
         <input type="number" min=".00001" step=".00001" class="form-control" name="primaryCurrent" id="primaryCurrent" placeholder="Enter the current on the primary (default is 1):">
       </div>
+      <div class="form-group pt-2">
+        <label for="listTop">Report the <i>N</i> best performing configurations: </label>
+        <input type="number" min="1" class="form-control" name="listTop" id="listTop" value=10>
+      </div>
       <div class="pt-3"></div>
       <button type="submit" class="submit-btn btn btn-primary">Submit</button>
     </form>
@@ -109,15 +113,21 @@
       {% endif %}
 
       {% if output is defined %}
-        <b>Minimum power loss (W):</b> {{output}} <br>
+        <b>Minimum power loss (W):</b> {{output[0][1] |float|round(5)}} W <br>
       {% endif %}
 
-      {% if inputs is defined %}
-        <b> Optimal stackup(s): </b> {{inputs}} <br>
+      {% if output is defined %}
+        <b> Optimal stackup(s): </b> <br>
+          <ol>
+            {% for j in output %}
+              <li>{{j[0]}}; Loss: {{ j[1]|float|round(5) }} W</li>
+            {% endfor %}
+          </ol>
       {% endif %}
+
 	{% if currentSolution is defined %}
       <br>
-      <b> Layer currents: </b> <br>
+      <b> Layer currents (for optimal stackup): </b> <br>
       {% for i in currentSolution %}
         {% if loop.index <= nVal %}
 	  <b> Layer {{loop.index}} </b> =  {{ i|float|round(5) }} A <br>
@@ -142,7 +152,7 @@
       {% for i in range(0,2*nVal-1,2) %}
       {% if loop.index <= nVal %}
 
-      <div id=enclosure" style="text-align:center; width:805px;border:3px solid black;">
+      <div id="enclosure" style="text-align:center; width:805px;border:3px solid black;">
         <div style="padding-top:30px; width:800px;height:20px;background:#{{hL[i]}};border:1px solid black;">
         </div>
         <div class="bg-light" style="padding-top:0px; width:800px;border:1px solid black; height:30px;">

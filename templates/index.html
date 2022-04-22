@@ -48,7 +48,7 @@ on">
         </h5>
 	<img src="{{ url_for('static', filename='quickshift.svg') }}" alt="QuickShift Logo" style="object-fit: cover; max-width: 400px; max-height: 400px">
 	<br>
-	QuickSHiFT is a <b> free </b> and <b>open-source</b> tool designed for the rapid simulation of current distribution in high-frequency transformers. In addition to being able to simulate individual designs, QuickSHiFT can automatically generate winding configurations and analyze them at speeds of thousands-per-second, enabling optimization. 
+	QuickSHiFT is an open-source tool designed for the rapid simulation of current distribution in high-frequency transformers. In addition to being able to simulate individual designs, QuickSHiFT can automatically generate winding configurations and analyze them at speeds of thousands-per-second, enabling optimization. 
         <br>
         <br>
         To describe winding configurations, QuickSHiFT uses a binary tree structure. For a given transformer with two windings and <b>N</b> layers, the final encoded representation consists of two binary trees with a cumulative <b>N</b> leaf nodes (nodes that have no sub-trees). These leaf nodes each represent a layer, and must specify two parameters: the layer number (which layer is it, numbered from top to bottom of the stack), and the number of turns on the layer. All remaining nodes on the tree are either 'Parallel' or 'Series' nodes, which, as their names suggest, represent that their child nodes are connected in parallel or series respectively. Note that their child nodes need not be individual layers, but can also be Parallel or Series nodes themselves. As such, the tool can be used to specify parallel connections of series-connected layers as well as series connections of parallel-connected layers (or even more complex configurations).
@@ -71,9 +71,10 @@ on">
         <br>
         <br>
         QuickSHiFT has been developed by the Power Electronics and Magnetics Group at the University of Texas at Austin, with financial support from Enphase Energy.
+  <br>
 
-	<img src="{{ url_for('static', filename='texas.svg') }}" alt="stack map" style="object-fit: cover; max-width: 100px; max-height:100px; ">
-	<img src="{{ url_for('static', filename='enphase.png') }}" alt="stack map" style="object-fit: cover; max-width: 250px; max-height:250px; ">
+	<img src="{{ url_for('static', filename='texas.svg') }}" alt="HookEm" style="object-fit: cover; max-width: 100px; max-height:100px; ">
+	<img src="{{ url_for('static', filename='enphase.png') }}" alt="Enphase" style="object-fit: cover; max-width: 250px; max-height:250px; ">
 
       </div>
     </div>
