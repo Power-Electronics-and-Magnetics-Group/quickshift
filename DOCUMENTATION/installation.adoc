@@ -10,8 +10,16 @@ This file explains how to download the current-sharing web GUI (along with the b
 To grab the code to work with from the very beginning, you would need to clone or download the Git source code. You can either do this in your terminal (shown below) or download the .ZIP file into a workspace of your choice from the GitHub page for this repository: 
 
 ....
-git clone https://github.com/abhijeet-b/current-sharing.git
+git clone https://github.com/abhijeet-b/quickshift.git
 ....
+
+If you have a Subversion client, you can also do:
+
+
+....
+svn checkout https://github.com/abhijeet-b/quickshift.git
+....
+
 
 To see how to install the software for your operating system, jump to your operating system's section below. 
 
