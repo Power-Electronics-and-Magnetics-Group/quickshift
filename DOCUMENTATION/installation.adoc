@@ -13,7 +13,7 @@ To grab the code to work with from the very beginning, you would need to clone o
 git clone https://github.com/abhijeet-b/quickshift.git
 ....
 
-If you have a Subversion client, you can also do:
+If you have a https://subversion.apache.org/[Subversion] client, you can also do:
 
 
 ....
