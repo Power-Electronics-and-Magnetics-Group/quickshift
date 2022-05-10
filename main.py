@@ -74,17 +74,17 @@ def solveIt_list(N, turnRatio, maxTurns, b, f, l, r, minTurns=1, listQuantity=10
     results.sort(key=lambda x: x[1])
     return [results[0:listQuantity], len(stacks)]
 
-# if __name__ == "__main__":
-    # N = 5
-    # turnRatio = 3
-    # maxTurns = 4
+if __name__ == "__main__":
+    N = 4
+    turnRatio = 5
+    maxTurns = 6
 
-    # b = .005
-    # f = 10000000
-    # l = .05
-    # r = .0001
-    # ans = solveIt_list(N,turnRatio,maxTurns, b, f, l, r, 2)
-    # print(ans[0][0][0])
+    b = .005
+    f = 10000000
+    l = .05
+    r = .0001
+    ans = solveIt_list(N,turnRatio,maxTurns, b, f, l, r, 2)
+    print(ans)
 
     # p1 = "(P,(P,[L2,2T],[L4,2T]),[L6,2T])"
     # p2 = "(S,(P,[L4,1T],[L6,1T]),[L2,1T])"

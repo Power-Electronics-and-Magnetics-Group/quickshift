@@ -83,6 +83,9 @@ def optimizer():
         options = solution[1]
 
         # for now
+        if(options==0):
+            return render_template('optimizer.html',
+                               count=0)
         inStack = solution[0][0][0]
         primaryCurrent=(request.form['primaryCurrent'])
         primCurrent=1.00000
