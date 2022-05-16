@@ -46,13 +46,13 @@ def stackups(N, turnsRatio, maxTurns, minTurns=1):
 
 	#Generate valid turn pairs. 
 	pairs = turnPairs(N, turnsRatio, maxTurns, minTurns)
-	#print(pairs)
+	print(pairs)
 	stackupList = []
 
 	#Iterate over all the turn pairs
 	for pair in pairs:
 		primaryLayers = layerAssignments(N,pair,maxTurns)							#Generate primary layer combinations
-		#print(primaryLayers)
+		print(primaryLayers)
 		for pL in primaryLayers:													#Iterate over them
 			sL = tuple(set(layers).difference(pL))									#Secondary list is the remaining layers
 			primaryConnection = layerConnections(pL, pair[0], maxTurns)				#Generate primary connections
@@ -140,10 +140,7 @@ def layerAssignments(N, turnPair, maxTurns):
 	#Check if assignment is possible
 	if ((minPrimaryLayers + minSecondaryLayers) > N): return []
 
-	#assign range of valid layers to use
-	#If 1:1, reduce duplicates by using symmetry
-	if (turnPair[1]==turnPair[0]): validPrimaryCounts=range(minPrimaryLayers,N//2)
-	else: validPrimaryCounts = range(minPrimaryLayers, N - minSecondaryLayers + 1)	
+	validPrimaryCounts = range(minPrimaryLayers, N - minSecondaryLayers + 1)	
 
 	#Begin assignment
 	primaryLayerAssignments = []

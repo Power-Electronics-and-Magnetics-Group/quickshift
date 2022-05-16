@@ -75,34 +75,15 @@ def solveIt_list(N, turnRatio, maxTurns, b, f, l, r, minTurns=1, listQuantity=10
     return [results[0:listQuantity], len(stacks)]
 
 if __name__ == "__main__":
-    N = 4
-    turnRatio = 5
-    maxTurns = 6
+    # N = 4
+    # turnRatio = 1
+    # maxTurns = 4
 
-    b = .005
-    f = 10000000
-    l = .05
-    r = .0001
-    ans = solveIt_list(N,turnRatio,maxTurns, b, f, l, r, 2)
-    print(ans)
+    # b = .005
+    # f = 10000000
+    # l = .05
+    # r = .0001
+    #ans = solveIt_list(N,turnRatio,maxTurns, b, f, l, r, 1)
+    #print(ans)
 
-    # p1 = "(P,(P,[L2,2T],[L4,2T]),[L6,2T])"
-    # p2 = "(S,(P,[L4,1T],[L6,1T]),[L2,1T])"
-    # s1 = "(S,(S,(S,[L1,1T],[L3,2T]),[L5,2T]),[L7,1T])"
-    # s2 = "(P,(P,(P,[L1,6T],[L3,6T]),[L5,6T]),[L7,6T])"
-
-    # option1 = parseStackup(p1,s1,N)
-    # option2 = parseStackup(p1,s2,N)
-    # option3 = parseStackup(p2,s1,N)
-    # option4 = parseStackup(p2,s2,N)
-
-    # ans1 = solver(option1,b,f,l,r,N)
-    # ans2 = solver(option2,b,f,l,r,N)
-    # ans3 = solver(option3,b,f,l,r,N)
-    # ans4 = solver(option4,b,f,l,r,N)
-
-    # print(ans1)
-    # print(ans2)
-    # print(ans3)
-    # print(ans4)
 
