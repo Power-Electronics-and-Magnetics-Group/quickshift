@@ -152,13 +152,13 @@
       {% for i in range(0,2*nVal-1,2) %}
       {% if loop.index <= nVal %}
 
-      <div id="enclosure" style="text-align:center; width:805px;border:3px solid black;">
-        <div style="padding-top:30px; width:800px;height:20px;background:#{{hL[i]}};border:1px solid black;">
+      <div id="enclosure" style="text-align:center;background:#ebd3d7; height:70px;width:804px;border:3px solid black;">
+        <div style="margin-top:-1px; margin-left: -1px; width:800px;height:20px;background:#{{hL[i]}};border:1px solid black;">
         </div>
-        <div class="bg-light" style="padding-top:0px; width:800px;border:1px solid black; height:30px;">
-          <p style="color:#000000"> <b> Layer {{loop.index}} </b></p>
+        <div class="bg-light" style="padding-bottom:0px; margin-left: -1px; width:800px;border:1px solid black ;height:30px;">
+          <p style="background:#ebd3d7 "> <b> Layer {{loop.index}} </b></p>
         </div> 
-        <div style="padding-top:30px; width:800px;height:20px;background:#{{hL[i+1]}};border:1px solid black;">
+        <div style="margin-top:-5px; width:800px;margin-left: -1px;height:20px;background:#{{hL[i+1]}};border:1px solid black;">
         </div>
       </div>  <br>
 
