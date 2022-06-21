@@ -74,7 +74,7 @@ def solveIt_list(N, turnRatio, maxTurns, b, f, l, r, minTurns=1, listQuantity=10
     results.sort(key=lambda x: x[1])
     return [results[0:listQuantity], len(stacks)]
 
-if __name__ == "__main__":
+#if __name__ == "__main__":
     # N = 4
     # turnRatio = 1
     # maxTurns = 4

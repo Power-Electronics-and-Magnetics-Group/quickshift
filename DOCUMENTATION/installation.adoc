@@ -10,14 +10,14 @@ This file explains how to download the current-sharing web GUI (along with the b
 To grab the code to work with from the very beginning, you would need to clone or download the Git source code. You can either do this in your terminal (shown below) or download the .ZIP file into a workspace of your choice from the GitHub page for this repository: 
 
 ....
-git clone https://github.com/abhijeet-b/quickshift.git
+git clone https://github.com/Power-Electronics-and-Magnetics-Group/quickshift.git
 ....
 
 If you have a https://subversion.apache.org/[Subversion] client, you can also do:
 
 
 ....
-svn checkout https://github.com/abhijeet-b/quickshift.git
+svn checkout https://github.com/Power-Electronics-and-Magnetics-Group/quickshift.git
 ....
 
 
@@ -114,13 +114,7 @@ At this point, you should be able to follow through the <<Linux,Linux>> guide wi
 
 Before proceeding further, make sure to install https://git-scm.com/download/win[Git for Windows]. This allows you to actually clone the repository in the git command line (if you really need to -- plus it speeds up pulling new updates to the code).
 
-Windows has two ways of running Python commands (and thus handling installing) depending on where you installed Python 3 from. Both examples will be covered. 
-
-If you install Python 3 from the Microsoft Store, then you cannot use *py* to run python commands, only *python* or *python3*. However, if you install Python 3 from https://www.python.org/downloads/windows/[Python's official website], then you can install Python and run commands with *py*. *python* and *python3* _should_ work for both installs, but in the worst case scenario you have both installed, the separation between these guides should allow you to use the website install (as opposed to the Microsoft Store one) without creating confusion and conflicts between both versions. 
-
-=== If you installed Python from the Microsoft Store:
-
-You will need to download pip. Click on https://bootstrap.pypa.io/get-pip.py[this link] to download the pip installer and save it. Go into your Command Prompt or PowerShell, change directories into where the file was downloaded (only if you need to) and run: 
+You will also need to download pip. Click on https://bootstrap.pypa.io/get-pip.py[this link] to download the pip installer and save it. Go into your Command Prompt or PowerShell, change directories into where the file was downloaded (only if you need to) and run: 
 
 [source,shell]
 ....
@@ -163,63 +157,6 @@ Inside the virtual environment, install Flask once more and then exit:
 [source,shell]
 ....
 python3 -m pip install Flask
-deactivate
-....
-
-Lastly, run the shell script 'run-mst.bat'. It should be executable straight out of the gate, so you can either double click on it in File Explorer (where the current-sharing folder is located) or launch it in your shell as such:
-
-[source.shell]
-....
-.\run-mst.bat
-....
-
-Flask opens a website instance by default at localhost:5000, so go there in the web browser of your choice. 
-
-=== If you installed Python from Python's official website: 
-
-You will need to download pip. Click on https://bootstrap.pypa.io/get-pip.py[this link] to download the pip installer and save it. Go into your Command Prompt or PowerShell, change directories into where the file was downloaded (only if you need to) and run: 
-
-[source,shell]
-....
-py get-pip.py 
-....
-
-If there are instructions, follow them and pip should be installed. Then, install the following external dependencies that the current-sharing program relies on. 
-
-* Flask
-* numpy
-* scipy
-* sympy
-* pandas
-* more_itertools
-
-To install all of them in one command, copy this command and paste it into your terminal of choice:
-
-[source,shell]
-....
-py -m pip install Flask numpy scipy sympy pandas more_itertools
-....
-
-Next, you'll want to create a virtual environment in your local current-sharing folder to install Flask in. Change directories into where you downloaded/cloned the current-sharing folder and create a virtual environment: 
-
-[source,shell]
-....
-cd current-sharing
-py -m venv venv
-....
-
-Activate the virtual environment using the command 
-
-[source,shell]
-....
-. venv/Scripts/activate
-....
-
-Inside the virtual environment, install Flask once more and then exit: 
-
-[source,shell]
-....
-py -m pip install Flask
 deactivate
 ....
 

@@ -108,7 +108,7 @@
       Once you submit the values listed above, the program will identify the best stackup. Be patient -- this will take some time (and your processing power). <br>
       <br>
       {% if output is defined %}
-        Analyzed <b>{{count}}</b> possible options.<br>
+        <b>{{count}}</b> possible options were analyzed.<br>
         <br>
       {% endif %}
 
@@ -117,6 +117,7 @@
       {% endif %}
 
       {% if output is defined %}
+      <br>
         <b> Optimal stackup(s): </b> <br>
           <ol>
             {% for j in output %}
@@ -126,8 +127,9 @@
       {% endif %}
 
 	{% if currentSolution is defined %}
-      <br>
-      <b> Layer currents (for optimal stackup): </b> <br>
+      <b> Showing the following information for the optimal stackup. </b>
+      <br> <br>
+      <b> Layer currents: </b> <br>
       {% for i in currentSolution %}
         {% if loop.index <= nVal %}
 	  <b> Layer {{loop.index}} </b> =  {{ i|float|round(5) }} A <br>
