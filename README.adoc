@@ -2,7 +2,7 @@
 :stem: latexmath
 = quickSHiFT (Quick Simulation of High-Frequency Transformers)
 
-*quickSHiFT* is a *free*, *libre* and *open-source* tool developed by the Power Electronics and Magnetics Group at the University of Texas at Austin. Its aim is to provide an easy and accurate simulation of current distribution in high-frequency transformers under the Skin effect, and to identify optimal designs for minimal power loss given certain parameters. 
+*quickSHiFT* is a *free*, *open-source* tool developed by the Power Electronics and Magnetics Group at the University of Texas at Austin. Its aim is to provide an easy and accurate simulation of current distribution in high-frequency transformers under the Skin effect, and to identify optimal designs for minimal power loss given certain parameters. 
 
 quickSHiFT's *Python* codebase is lightweight and portable. This project is tested to work on Windows, Mac OS X, and Linux. The only consistent requirement from install to install is Python 3. 
 

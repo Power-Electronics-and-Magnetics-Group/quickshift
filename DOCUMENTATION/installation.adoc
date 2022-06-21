@@ -64,7 +64,7 @@ Next, you'll want to create a virtual environment in your local current-sharing 
 
 [source,shell]
 ....
-cd current-sharing
+cd quickshift
 python3 -m venv venv
 ....
 
@@ -141,7 +141,7 @@ Next, you'll want to create a virtual environment in your local current-sharing 
 
 [source,shell]
 ....
-cd current-sharing
+cd quickshift
 python3 -m venv venv
 ....
 
@@ -160,6 +160,66 @@ python3 -m pip install Flask
 deactivate
 ....
 
+<<<<<<< HEAD
+=======
+Lastly, run the shell script 'run-mst.bat'. It should be executable straight out of the gate, so you can either double click on it in File Explorer (where the current-sharing folder is located) or launch it in your shell as such:
+
+[source.shell]
+....
+.\run-mst.bat
+....
+
+Flask opens a website instance by default at localhost:5000, so go there in the web browser of your choice. 
+
+=== If you installed Python from Python's official website: 
+
+You will need to download pip. Click on https://bootstrap.pypa.io/get-pip.py[this link] to download the pip installer and save it. Go into your Command Prompt or PowerShell, change directories into where the file was downloaded (only if you need to) and run: 
+
+[source,shell]
+....
+py get-pip.py 
+....
+
+If there are instructions, follow them and pip should be installed. Then, install the following external dependencies that the current-sharing program relies on. 
+
+* Flask
+* numpy
+* scipy
+* sympy
+* pandas
+* more_itertools
+
+To install all of them in one command, copy this command and paste it into your terminal of choice:
+
+[source,shell]
+....
+py -m pip install Flask numpy scipy sympy pandas more_itertools
+....
+
+Next, you'll want to create a virtual environment in your local current-sharing folder to install Flask in. Change directories into where you downloaded/cloned the current-sharing folder and create a virtual environment: 
+
+[source,shell]
+....
+cd quickshift
+py -m venv venv
+....
+
+Activate the virtual environment using the command 
+
+[source,shell]
+....
+. venv/Scripts/activate
+....
+
+Inside the virtual environment, install Flask once more and then exit: 
+
+[source,shell]
+....
+py -m pip install Flask
+deactivate
+....
+
+>>>>>>> 3487969b6c5f721ac1a7e4eea9316b47ee70354e
 Lastly, run the shell script 'run.bat'. It should be executable straight out of the gate, so you can either double click on it in File Explorer (where the current-sharing folder is located) or launch it in your shell as such:
 
 [source.shell]

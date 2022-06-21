@@ -35,9 +35,6 @@ def stackups(N, turnsRatio, maxTurns, minTurns=1):
 	#TurnsRatio should be >= 1
 	if (turnsRatio < 1): 
 		turnsRatio = 1/turnsRatio
-		if (not turnsRatio.is_integer()):
-			raise valueError('Invalid turns ratio')
-		else: turnsRatio = int(turnsRatio)
 
 	#Generate [1,...,N]
 	layers = [0] * N
@@ -52,7 +49,7 @@ def stackups(N, turnsRatio, maxTurns, minTurns=1):
 	#Iterate over all the turn pairs
 	for pair in pairs:
 		primaryLayers = layerAssignments(N,pair,maxTurns)							#Generate primary layer combinations
-		print(primaryLayers)
+		# print(primaryLayers)
 		for pL in primaryLayers:													#Iterate over them
 			sL = tuple(set(layers).difference(pL))									#Secondary list is the remaining layers
 			primaryConnection = layerConnections(pL, pair[0], maxTurns)				#Generate primary connections
@@ -66,7 +63,7 @@ def stackups(N, turnsRatio, maxTurns, minTurns=1):
 
 def turnPairs(N, turnsRatio, maxTurns, minTurns):
 	'''
-	Returns valid pairs of turn counts for a N layer transformer, assuming maximum 1 turn per layer.
+	Returns valid pairs of turn counts for a N layer transformer.
 
 	Parameters:
 	-----------
@@ -76,6 +73,8 @@ def turnPairs(N, turnsRatio, maxTurns, minTurns):
 		Desired turns ratio. turnsRatio >= 1
 	maxTurns : int
 		Maximum amount of turns to put on a single layer.
+	minTurns : int
+		Minimum amount of turns on the primary side.
 
 	Returns:
 	--------
@@ -99,6 +98,7 @@ def turnPairs(N, turnsRatio, maxTurns, minTurns):
 		s = p * turnsRatio														#Set S based on turns ratio
 		if ((s + p) > maxTotalTurns): nFlag = 0									#Not valid if s+p>maxTotalTurns. Break out of loop
 		else: 
+			s = round(s,1)														#round value for non integer turns ratios
 			if (isinstance(s,int) or s.is_integer()): turnPairs.append([p,int(s)])	#append to list if valid
 		p = p+1																	#Increment p counter
 
@@ -134,7 +134,7 @@ def layerAssignments(N, turnPair, maxTurns):
 	for i in range(1, N+1):
 		layers[i-1] = i
 
-	#Minimum possible number of layers on each layer
+	#Minimum possible number of layers on each winding
 	minPrimaryLayers = int(math.ceil(float(turnPair[0])/maxTurns))
 	minSecondaryLayers = int(math.ceil(float(turnPair[1])/maxTurns))
 	#Check if assignment is possible
