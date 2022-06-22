@@ -5,9 +5,13 @@ In all discussions to "change directories", this refers directly to the 'cd' com
 
 = Installation
 
-This file explains how to download the current-sharing web GUI (along with the backend processing) and get a development mode instance running. This is fine for local use, but for professional use or to host an instance of this program for others, you will want to get a production mode instance running. 
+== A quick note before proceeding
 
-This is not only certainly possible, but also extremely important if deploying this code consistently on a large scale, such as on a VPS with the intent of handling significant amounts of web traffic. Unfortunately, the steps to do this are beyond the scope of these instructions, as they require additional module installs and tool configurations beyond the scope of merely trying the code. That said, https://flask.palletsprojects.com/en/2.1.x/deploying/[these] https://flask.palletsprojects.com/en/2.1.x/tutorial/deploy/[pages] are excellent resources with steps on how to do this, as well as recommendations for server applications and platforms that may fit your needs.
+This file explains how to download the current-sharing web GUI (along with the backend processing) and get a *development mode* instance running. This is fine for local use, but for professional use or to host an instance of this program for others, you will want to get a *production mode* instance running. 
+
+This is not only certainly possible, but also extremely important if deploying this code consistently on a large scale, such as on a VPS intended on handling significant amounts of traffic. Unfortunately, the steps to do this are beyond the scope of these instructions, as they require additional module installs and tool configurations that revolve around much more than merely getting a working instance on one machine. That said, https://flask.palletsprojects.com/en/2.1.x/deploying/[these] https://flask.palletsprojects.com/en/2.1.x/tutorial/deploy/[pages] are excellent resources with steps on how to do this, as well as recommendations for server applications and platforms that may fit your needs.
+
+== Downloading the code 
 
 To grab the code to work with from the very beginning, you would need to clone or download the Git source code. You can either do this in your terminal (shown below) or download the .ZIP file into a workspace of your choice from the GitHub page for this repository: 
 
