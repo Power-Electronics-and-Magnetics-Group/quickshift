@@ -4,5 +4,4 @@
 set FLASK_APP=front
 set FLASK_ENV=development
 
-:: Note that the below command is tested to work when Python is installed from Python's official website.
-py -m flask run
+python3 -m flask run

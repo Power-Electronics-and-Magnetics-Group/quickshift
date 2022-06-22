@@ -5,7 +5,7 @@ In all discussions to "change directories", this refers directly to the 'cd' com
 
 = Installation
 
-This file explains how to download the current-sharing web GUI (along with the backend processing) and get a development mode instance running. This is fine for local use, but for professional use or to host an instance of this program for others, you will want to get a production mode instance running. *The latter* will be described in full detail later in an update once development is finished.
+This file explains how to download the current-sharing web GUI (along with the backend processing) and get a development mode instance running. This is fine for local use, but for professional use or to host an instance of this program for others, you will want to get a production mode instance running. *The latter* will be described in full detail later in an update once (if?) development is finished.
 
 To grab the code to work with from the very beginning, you would need to clone or download the Git source code. You can either do this in your terminal (shown below) or download the .ZIP file into a workspace of your choice from the GitHub page for this repository: 
 
