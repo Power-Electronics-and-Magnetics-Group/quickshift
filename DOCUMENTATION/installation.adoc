@@ -9,7 +9,7 @@ As mentioned in the readme, Python 3 is the only consistent requirement no matte
 
 *A quick note before proceeding further*
 
-This file explains how to download the current-sharing web GUI (along with the backend processing) and get a *development mode* instance running. This is fine for local use, but for professional use or to host an instance of this program for others, you will want to get a *production mode* instance running. 
+This file explains how to download the quickSHiFT web GUI (along with the backend processing) and get a *development mode* instance running. This is fine for local use, but for professional use or to host an instance of this program for others, you will want to get a *production mode* instance running. 
 
 This is not only certainly possible, but also extremely important if deploying this code consistently on a large scale, such as on a VPS intended on handling significant amounts of traffic. Unfortunately, the steps to do this are beyond the scope of these instructions, as they require additional module installs and tool configurations that revolve around much more than merely getting a working instance on one machine. That said, https://flask.palletsprojects.com/en/2.1.x/deploying/[these] https://flask.palletsprojects.com/en/2.1.x/tutorial/deploy/[pages] are excellent resources with steps on how to do this, as well as recommendations for server applications and platforms that may fit your needs.
 
@@ -68,7 +68,7 @@ To install all of them in one command, copy this command and paste it into your 
 python3 -m pip install Flask numpy scipy sympy pandas more_itertools
 ....
 
-Next, you'll want to create a virtual environment in your local current-sharing folder to install Flask in. Change directories into where you downloaded/cloned the current-sharing folder and create a virtual environment: 
+Next, you'll want to create a virtual environment in your local quickSHiFT folder to install Flask in. Change directories into where you downloaded/cloned the quickSHiFT folder and create a virtual environment: 
 
 [source,shell]
 ....
@@ -102,7 +102,7 @@ chmod +x run.sh
 
 == Mac OS X [[Mac]]
 
-There are relatively few differences between installing the current-sharing program on Linux and on Mac OS X. This is because Mac OS X is based on Unix and allows shell scripts to run in roughly the same way. You can follow the instruction guide above, but the one big difference is how you acquire Python 3 (and thus pip). 
+There are relatively few differences between installing quickSHiFT on Linux and on Mac OS X. This is because Mac OS X is based on Unix and allows shell scripts to run in roughly the same way. You can follow the instruction guide above, but the one big difference is how you acquire Python 3 (and thus pip). 
 
 Python 3 is _not_ built into Mac OS X -- only Python 2 is. Flask requires Python 3, so you will need to install Python 3 separately -- either through https://brew.sh/[Homebrew] or through the https://www.python.org/downloads/macos/[installer on the Python website]. 
 
@@ -129,7 +129,7 @@ You will also need to download pip. Click on https://bootstrap.pypa.io/get-pip.p
 python3 get-pip.py 
 ....
 
-If there are instructions, follow them and pip should be installed. Then, install the following external dependencies that the current-sharing program relies on. 
+If there are instructions, follow them and pip should be installed. Then, install the following external dependencies that the quickSHiFT relies on. 
 
 * Flask
 * numpy
@@ -145,7 +145,7 @@ To install all of them in one command, copy this command and paste it into your 
 python3 -m pip install Flask numpy scipy sympy pandas more_itertools
 ....
 
-Next, you'll want to create a virtual environment in your local current-sharing folder to install Flask in. Change directories into where you downloaded/cloned the current-sharing folder and create a virtual environment: 
+Next, you'll want to create a virtual environment in your local quickSHiFT folder to install Flask in. Change directories into where you downloaded/cloned the quickSHiFT folder and create a virtual environment: 
 
 [source,shell]
 ....
@@ -168,7 +168,7 @@ python3 -m pip install Flask
 deactivate
 ....
 
-Lastly, run the shell script 'run.bat'. It should be executable straight out of the gate, so you can either double click on it in File Explorer (where the current-sharing folder is located) or launch it in your shell as such:
+Lastly, run the shell script 'run.bat'. It should be executable straight out of the gate, so you can either double click on it in File Explorer (where the quickSHiFT folder is located) or launch it in your shell as such:
 
 [source.shell]
 ....
